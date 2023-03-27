@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang=''>
+<head>
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="cssmenu/styles.css">
+   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="cssmenu/script.js"></script>
+   <title>New York Center</title>
+   <script>
+         $(document).ready(function(){
+   $("#cssmenu").hide();
+   });
+
+   function esconder()
+   {
+      $("#cssmenu").hide();
+      $("#m").show();
+   }
+   function activarm()
+   {
+      $("#cssmenu").show();
+      $("#m").hide();
+   }
+   $(document).click(function(e){
+        if(e.target.id!='cssmenu')
+        {
+         
+
+            
+        }
+        });
+
+    $(document).on("click",function(e) {
+
+        var container = $("#cssmenu");
+
+            if (!container.is(e.target) && container.has(e.target).length === 0) { 
+               if ($("#m").is(e.target) && $("#m").has(e.target).length === 0) { 
+            $("#cssmenu").show();
+
+            }else
+            {
+               $("#cssmenu").hide();
+               $("#m").show();
+            }
+            
+
+            }
+   });
+   
+   </script>
+</head>
+<body>
+<img src="menu.png"  style="width: 4%; height: 4.5%; float: left;  cursor: pointer; margin-top: 0.5%; padding-bottom: 5%;" onclick="activarm(); "id="m">
+<div id='cssmenu' style="margin-left: -0.7%; position: fixed; margin-top: -0.5%; display: none; height: 100%; overflow: auto; scrollbar-color:gray CadetBlue; scrollbar-width:thin;">
+<ul>
+   
+
+         <li class='has-sub'><a href='#'>
+         PRODUCCION</a>
+
+            <ul>
+               <li><a href='index.php'>NUEVA</a></li>
+               <li><a href='producido.php'>PRODUCIDO</a></li>
+               <li><a href='buscar4.php'>REPORTE</a></li>
+               <li><a href='imprimire.php'>REIMPRIMIR</a></li>
+            </ul>
+         </li>
+         <li><a href='comparacion.php'>RESUMEN</a></li>
+         <li><a href='registros.php'>FARDOS</a></li>
+         <li class='has-sub'><a href='#'>
+         TRASLADO</a>
+
+            <ul>
+               <li><a href='traslados.php'>NUEVO</a></li>
+               <li><a href='pendiente_t.php'>PENDIENTES</a></li>
+               <li><a href='peso_traslado.php'>TRASLADO PESO</a></li>
+               <li><a href='traslados_articulos.php'>TRASLADO ARTICULOS</a></li>
+               <li><a href='rastrear.php'>RASTREAR</a></li>
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         CONTENEDOR</a>
+
+            <ul>
+               <li><a href='contenedor.php'>NUEVO</a></li>
+               <li><a href='continuar.php'>CONTINUAR CONTENEDOR</a></li>
+               <li><a href='revisarconte.php'>REGISTRADOS</a></li>
+               <li><a href='reporte_conte.php'>REPORTE</a></li>
+               
+            </ul>
+         </li>
+         <li><a href='venta.php'>VENTA</a></li>
+         <li class='has-sub'><a href='#'>
+         INVENTARIO</a>
+
+            <ul>
+               <li><a href='inventario.php'>NUEVO</a></li>
+               <li><a href='r_inventario.php'>REPORTES</a></li>
+               <li><a href='con_inventario.php'>PENDIENTE</a></li>
+               
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         BULTOS</a>
+
+            <ul>
+               <li><a href='mesa.php'>NUEVO</a></li>
+               <li><a href='final_mesa.php'>TRABAJADOS</a></li>
+               
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         MESA</a>
+
+            <ul>
+               <li><a href='trabajos.php'>NUEVA</a></li>
+               <li><a href='r_trabajos.php'>REPORTE</a></li>
+               
+            </ul>
+         </li>
+
+      </ul>
+
+   </li>
+<ul>
+   
+   <li><a href='salir.php'>SALIR</a></li>
+</ul>
+</div>
+<br><br><br>
+</body>
+<html>

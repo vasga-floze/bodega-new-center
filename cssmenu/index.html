@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang=''>
+<head>
+   <meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="cssmenu/styles.css">
+   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="script.js"></script>
+   <title>CSS MenuMaker</title>
+   <script>
+      $(document).ready(function(){
+         $("#cssmenu").hide();
+
+       
+
+      });
+      $(document).on("click",function(e) {
+
+        var container = $("#cssmenu");
+
+            if (!container.is(e.target) && container.has(e.target).length === 0) { 
+               if ($("#m").is(e.target) && $("#m").has(e.target).length === 0) { 
+            $("#cssmenu").show();
+
+            }else
+            {
+               $("#cssmenu").hide(500);
+               $("#m").show();
+            }
+            
+
+            }
+   });
+      function activa()
+      {
+         $("#cssmenu").toggle(700);
+      }
+   </script>
+</head>
+<body>
+<button id="m" onclick="activa();">mostrar</button>
+<div id='cssmenu'>
+<ul>
+   <li><a href='#'>RESUMEN</a></li>
+
+         <li class='has-sub'><a href='#'>
+         PRODUCCION</a>
+
+            <ul>
+               <li><a href='#'>NUEVA</a></li>
+               <li><a href='#'>PRODUCIDO</a></li>
+               <li><a href='#'>REPORTE</a></li>
+               <li><a href='#'>REIMPRIMIR</a></li>
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         TRASLADO</a>
+
+            <ul>
+               <li><a href='#'>NUEVO</a></li>
+               <li><a href='#'>PENDIENTES</a></li>
+               <li><a href='#'>TRASLADO PESO</a></li>
+               <li><a href='#'>TRASLADO ARTICULOS</a></li>
+               <li><a href='#'>RASTREAR</a></li>
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         CONTENEDOR</a>
+
+            <ul>
+               <li><a href='#'>NUEVO</a></li>
+               <li><a href='#'>REGISTRADOS</a></li>
+               <li><a href='#'>REPORTE</a></li>
+               
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         INVENTARIO</a>
+
+            <ul>
+               <li><a href='#'>NUEVO</a></li>
+               <li><a href='#'>REPORTES</a></li>
+               <li><a href='#'>PENDIENTE</a></li>
+               
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         BULTOS</a>
+
+            <ul>
+               <li><a href='#'>NUEVO</a></li>
+               <li><a href='#'>TRABAJADOS</a></li>
+               
+            </ul>
+         </li>
+         <li class='has-sub'><a href='#'>
+         MESA</a>
+
+            <ul>
+               <li><a href='#'>NUEVA</a></li>
+               <li><a href='#'>REPORTE</a></li>
+               
+            </ul>
+         </li>
+
+      </ul>
+
+   </li>
+<ul>
+   <li><a href='#'>VENTA</a></li>
+   <li><a href='#'>SALIR</a></li>
+</ul>
+</div>
+
+</body>
+<html>

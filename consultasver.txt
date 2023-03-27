@@ -1,0 +1,19 @@
+select * from consny.BODEGA where BODEGA like '%SM%' and  nombre not LIKE '%(N)%'
+
+consulta para las bodegas de origen menos la sm03 esa puede ser destino
+
+usuario: staana3
+contraseña:a
+
+sistema are para mientras k este usuario inicia con s en el campo bodega 
+
+select * from dbo.USUARIOBODEGA where BODEGA LIKE 'C%' <-- consulta para verrificar k usuario mostrar las 3 opciones producion-traslado-desglose de lo contrrio 
+solo mostrar desglose
+
+para sacar el numero de documento por paquete
+select CONSECUTIVO,SIGUIENTE_CONSEC from consny.CONSECUTIVO_CI where CONSECUTIVO='PRODUCCION'
+select * from USUARIOBODEGA where PAQUETE ='GJUR'
+
+
+select CONSECUTIVO,SIGUIENTE_CONSEC from consny.CONSECUTIVO_CI where CONSECUTIVO='traslado'
+para sacar el numero del traslado se toma el qu tiene y se edita sumandole 1
