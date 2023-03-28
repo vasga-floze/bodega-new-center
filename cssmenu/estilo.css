@@ -3169,6 +3169,8 @@ textarea.form-control-lg {
   color: #000;
   background-color: #ffc107;
   border-color: #ffc107;
+  margin-top: 20%;
+ 
 }
 .btn-warning:hover {
   color: #000;
@@ -3199,6 +3201,8 @@ textarea.form-control-lg {
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
+  margin-top: 20%;
+  justify-content: center;
 }
 .btn-danger:hover {
   color: #fff;

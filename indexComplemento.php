@@ -24,6 +24,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Static Navigation - SB Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="cssmenu/estilo.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet"
@@ -76,7 +77,7 @@
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Produccion
+                            Complemento
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
@@ -342,86 +343,26 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Produccion</h1>
+                    <h1 class="mt-4">Complemento</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Produccion</li>
+                        <li class="breadcrumb-item active">Complemento</li>
                     </ol>
                     <div class="card mb-4">
                         <div class="card-body">
                             <form>
                                 <div class="row justify-content-start form-floating mb-3">
 
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Unidad</label>
-                                        <input class="form-control mb-3" id="unidades" type="number" placeholder="" />
+                                    <div class="col-2 ">
+                                        <label class="mb-3" for="inputEmail ">Buscar paquete</label>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            Buscar
+                                        </button>
 
                                     </div>
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Libras</label>
-                                        <input class="form-control mb-3" id="libras" type="number" placeholder="" />
-
-                                    </div>
-
-
-
-                                </div>
-                                <div class="row justify-content-start form-floating mb-3">
-
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="exampleInputEmail1"
-                                            class="form-label">Ubicacion</label>
-                                        <select id="ubicacion" name="ubicacion" class="form-select"
-                                            aria-label="Default select example">
-                                            <option selected>Seleccione la ubicacion</option>
-
-                                            <?php
-                                                //$db=connectERP();
-                                                $query =$dbBodega->prepare("SELECT IdUbicacion,Ubicacion  FROM dbo.UBICACION");
-                                                $query->execute();
-                                                $data = $query->fetchAll();
-                                                foreach ($data as $valores):
-                                                    echo '<option value="'.$valores["IdUbicacion"].'">'.$valores["Ubicacion"].'</option>';
-                                                endforeach;
-                                            ?>
-
-                                        </select>
-
-                                    </div>
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Fecha Produccion</label>
-                                        <input id="fechaProduccion"
-                                            value="<?php echo(isset($fechaActual))?$fechaActual:'';?>"
-                                            class="form-control mb-3" id="inputEmail" type="date" placeholder=""
-                                            disabled />
-
-                                    </div>
-
-
-                                </div>
-                                <div class="row justify-content-start form-floating mb-4">
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Empacado por</label>
-                                        <select class="form-select" id="empacado" name="empacado"
-                                            data-placeholder="Seleccionar usuarios empacadores" multiple>
-
-                                            <?php
-                                                    //$db=connectERP();
-                                                    $query =$dbBodega->prepare("SELECT * FROM dbo.USUARIO WHERE Empaca=1 AND Activo=1");
-                                                    $query->execute();
-                                                    $data = $query->fetchAll();
-                                                    foreach ($data as $valores):
-                                                        echo '<option value="'.$valores["Nombre"].'">'.$valores["Nombre"].'</option>';
-                                                    endforeach;
-                                                ?>
-
-                                        </select>
-
-                                    </div>
-
-
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Tipo Empaque</label>
+                                    <div class="col-3 ">
+                                        <label class="mb-3" for="inputEmail ">Listar Paquete</label>
                                         <select id="empaque" name="empaque" class="form-select"
                                             aria-label="Default select example">
                                             <option selected>Seleccione el empaque</option>
@@ -439,122 +380,116 @@
                                         </select>
 
                                     </div>
+                                    <div class="col-6 ">
+                                        <label class="mb-3" for="inputEmail ">Descripcion</label>
+                                        <input class="form-control mb-3" id="descripcion" name="descripcion" type="text"
+                                            placeholder="" disabled />
+                                            <input class="form-control mb-3" id="ropa" name="ropa" type="text"
+                                            placeholder="" value="ROPA" hidden />
+                                        <input class="form-control mb-4" id="codigo" name="codigo" type="text"
+                                            placeholder="" hidden />
+
+
+
+                                    </div>
+                                    <div class="col-2">
+
+                                        <button type="button" id="finalizar" name="finalizar" class=" btn btn-warning ">Finalizar</button>
+                                        <button type="button" class="btn btn-danger ">Salir</button>
+
+                                    </div>
+
+
+
+
+
 
 
 
                                 </div>
 
-                                <div class="row justify-content-start form-floating mb-3">
-
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Digitado Por</label>
-                                        <input id="usuario" value="<?php echo(isset($usuario))?$usuario:'';?> "
-                                            class="form-control mb-3" id="inputEmail" type="text" placeholder=""
-                                            disabled />
-
-                                    </div>
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Producido Por</label>
-                                        <select class="form-select" id="producido"
-                                            data-placeholder="Seleccionar usuarios de produccion" multiple>
-                                            <?php
-                                                //$db=connectERP();
-                                                $query =$dbBodega->prepare("SELECT * FROM dbo.USUARIO WHERE Produce=1 AND Activo=1");
-                                                $query->execute();
-                                                $data = $query->fetchAll();
-                                                foreach ($data as $valores):
-                                                    echo '<option value="'.$valores["Nombre"].'">'.$valores["Nombre"].'</option>';
-                                                endforeach;
-                                            ?>
-                                        </select>
-                                    </div>
 
 
 
-                                </div>
-                                <div class="row justify-content-start form-floating mb-3">
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Bodega</label>
-                                        <select id="bodega" name="bodega" class="form-select"
-                                            aria-label="Default select example">
 
-
-                                            <?php
-                                                //$db=connectERP();
-                                                $query =$dbEximp600->prepare("SELECT BODEGA, NOMBRE FROM " .$respuesta. ".BODEGA WHERE bodega LIKE'%00'");
-                                                $query->execute();
-                                                $data = $query->fetchAll();
-                                                foreach ($data as $valores):
-                                                    echo '<option value="'.$valores["BODEGA"].'">'.$valores["BODEGA"].'-'.$valores["NOMBRE"].'</option>';
-                                                endforeach;
-                                            ?>
-
-                                        </select>
-
-                                    </div>
-                                    <div class="col-6 ">
-                                        <label class="mb-3" for="inputEmail ">Tipo Registro</label>
-                                        <select  id="tipoRegistro" name="tipoRegistro" class="form-select"
-                                            aria-label="Default select example" disabled >
-
-
-                                            <?php
-                                                //$db=connectERP();
-                                                $query =$dbBodega->prepare("SELECT IdTipoRegistro, TipoRegistro FROM dbo.TIPOREGISTRO WHERE IdTipoRegistro = 1");
-                                                $query->execute();
-                                                $data = $query->fetchAll();
-                                                foreach ($data as $valores):
-                                                    echo '<option value="'.$valores["IdTipoRegistro"].'">'.$valores["TipoRegistro"].'</option>';
-                                                endforeach;
-                                            ?>
-
-                                        </select>
-
-                                    </div>
-
-                                    <div class="col-6 mt-4">
-                                        <label class="mb-3" for="inputEmail ">Observaciones</label>
-                                        <textarea class="form-control" id="observaciones" rows="3"></textarea>
-
-                                    </div>
-
-
-                                </div>
 
                             </form>
                         </div>
                     </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" id="Boton" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table id="datatablesSimple">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>TIPO EMPAQUE</th>
+                                                <th>Cargar</th>
 
-                    <div class="row">
-                        <div class="col-6 row justify-content-start form-floating ">
-                            <div class="d-grid gap-2 col-12">
-                                <button type="button" id="ropa" name="ropa"
-                                    class=" btn btn-secondary btn-lg" >Ropa</button>
-                                <button type="button" class=" btn btn-secondary btn-lg">Cinchos</button>
-                                <button type="button" class=" btn btn-secondary btn-lg">Juguetes</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Otros</button>
+                                            </tr>
+                                        </thead>
+                                        <!--- <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Office</th>
+                                        <th>Age</th>
+                                        <th>Start date</th>
+                                        <th>Salary</th>
+                                    </tr>
+                                </tfoot>----->
+                                        <tbody>
+                                            <?php 
+                                    $query =$dbEximp600->prepare(
+                                        "SELECT 
+                                            ARTICULO,
+                                            DESCRIPCION,
+                                            CLASIFICACION_2
+                    
+                                            FROM consny.ARTICULO
+                                            WHERE activo='S'
+                                            AND clasificacion_1<>'DETALLE'
+                                            AND clasificacion_2='ROPA'
+                                            ORDER BY len(articulo),articulo
+                                                                ");
+                                    $query->execute();
+                                    $data = $query->fetchAll();
+
+                                    foreach($data as $item){
+                                    ?>
+                                            </tr>
+                                            <td data-valor='valor2' class='click'><?php echo $item["ARTICULO"]?></td>
+                                            <td data-valor='valor3' class='click'><?php echo $item["DESCRIPCION"]?></td>
+                                            <td><button type='button' class='btn btn-warning' id="miBoton"
+                                                    value='7'>+</button></td>
+                                            </tr>
+
+                                            <?php
+                                    }
+                                    ?>
 
 
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salir</button>
+                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                </div>
                             </div>
-
-
                         </div>
-
-
-                        <div class="col-6 row justify-content-start form-floating ">
-                            <div class="d-grid gap-2 col-12  ">
-                                <button type="button" class="btn btn-secondary btn-lg">Carteras</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Gorras</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Zapatos</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Ganchos</button>
-
-
-                            </div>
-
-
-                        </div>
-
                     </div>
+
+
 
 
 
@@ -576,6 +511,8 @@
         </div>
     </div>
     <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
 

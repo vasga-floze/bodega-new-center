@@ -230,6 +230,7 @@ $('#ropa').click(function(){
     var empaque=document.getElementById('empaque').value;
     var usuario=document.getElementById('usuario').value;
     var bodega=document.getElementById('bodega').value;
+    var tipo=document.getElementById('tipoRegistro').value;
     //var empaque=$('#empaque').val();
     var empacado=$('#empacado').val();
     var producido=$('#producido').val();
@@ -244,7 +245,7 @@ $('#ropa').click(function(){
     var ruta="unidades="+unidades+"&fecha="+fecha+"&libras="+libras+"&ubicacion="+
                 ubicacion+"&usuario="+usuario+"&bodega="+
                 bodega+"&empaque="+empaque+"&empacado="+empacado+"&producido="+producido+
-                "&observaciones="+observaciones;
+                "&observaciones="+observaciones+"&tipoRegistro="+tipo;
 
     /*if(transaccion.trim()==""){
         bandera=false;
@@ -271,7 +272,7 @@ $('#ropa').click(function(){
 
         }*/
 
-        alert(res);
+        console.log(res);
     
         
         
@@ -301,7 +302,113 @@ $('#ropa').click(function(){
       }*/
 });
 
+//funciones tablas
+
+
+
 });
+
+function clickear(){
+    $(document).ready(function(){
+        
+        
+        var descripcion=document.getElementById('descripcion').value;
+        var ropa=document.getElementById('ropa').value;
+        var codigo=document.getElementById('codigo').value;
+        var ruta="descripcion="+descripcion+"&ropa="+ropa+"&codigo="+codigo;
+        //let bandera;
+    
+        /*if(transaccion.trim()==""){
+            bandera=false;
+        }else{
+            bandera=true;
+        }*/
+    
+        $.ajax({
+            url: 'controladorComplemento.php',
+            type: 'POST',
+            data: ruta,
+        })
+        .done(function(res){
+            //let url= "indexUbicacion.php";
+           alert(res);
+        
+            
+            
+        })
+        .fail(function(){
+           
+        })
+        .always(function(){
+            
+        });
+        
+        
+        
+    });
+
+}
+
+$('#finalizar').click(function(){
+    clickear();
+});
+
+
+  
+
+
+
+
+/* Getting the table and the inputs and then adding an event listener to the table. When the table is
+clicked, it will get the data from the table and fill the inputs with the data. */
+const tabla = document.getElementById('datatablesSimple')
+const inputs = document.querySelectorAll('#descripcion')
+const inputs2 = document.querySelectorAll('#codigo')
+//const boton = document.querySelector("#miBoton")
+tabla.addEventListener("click", function(evento){
+	// Aquí todo el código que se ejecuta cuando se da click al botón
+    agregarPaquete(evento);
+    //console.log("asdsdsd");  
+   
+});
+
+function agregarPaquete(e){
+    e.stopPropagation();
+    let data= e.target.parentElement.parentElement.children;
+    fillData(data); 
+    fillData2(data); 
+    $('#exampleModal').modal('hide')  
+}
+
+
+const fillData = (data)=>{
+    for(let index of inputs){
+        //console.log(index);
+        index.value=data[1].textContent
+    }
+}
+const fillData2 = (data)=>{
+    for(let index of inputs2){
+        //console.log(index);
+        index.value=data[0].textContent
+    }
+}
+/*tabla.addEventListener('click',(e)=>{
+    //e.stopPropagation();
+    //let data = e.target.parentElement.parentElement.children;
+
+    //fillData(data);
+    $("#exampleModalLabel").modal("hide");
+    //console.log(e.target.parentElement.parentElement.children[1].textContent)
+})
+
+const fillData = (data)=>{
+    for(let index of inputs){
+        index.value = data[1].textContent
+        
+        //console.log(index)
+    }
+}*/
 
 
 
