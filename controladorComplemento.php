@@ -8,32 +8,20 @@
         $ropa=$_POST['ropa'];
         $codigo=$_POST['codigo'];
         
-        
-        //$variableSession=&valorMaximo();
-        
-       /* try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-       /*$query= (
-            "UPDATE dbo.REGISTRO SET 
-            Articulo=?,Descripcion=?,
-            VALUES 
-            (:codigoBarra,:unidades,:libras)");
+       try{
+       $query= "UPDATE dbo.REGISTRO SET Articulo=?, Descripcion=?, Clasificacion=? WHERE CodigoBarra=?";
         $stmt=$dbBodega->prepare($query);
-        //$variableSession=&valorMaximo();
-        
-
-        
-        $stmt->execute();*/
-        
-
+        $stmt->execute([$codigo,$descripcion,$ropa,$codigoBarra]);
 
         //echo("dia".$dia."mes".$mes."anio".$anio);
        // echo(".$query.");
        //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
-       echo("Registro exitoso".$codigoBarra);
+       echo("Actualizacion exitosa".$codigoBarra);
      
         
-        /*}catch(PDOException $e){
-            echo "Error".$e->getMessage()."<br/>";*/
+        }catch(PDOException $e){
+            echo "Error".$e->getMessage()."<br/>";
+        }
     
     
        

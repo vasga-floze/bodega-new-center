@@ -26,6 +26,9 @@ $( '#ubicacion' ).select2( {
 $( '#empaque' ).select2( {
     theme: 'bootstrap-5'
 } );
+$( '#empaqueDetalle' ).select2( {
+    theme: 'bootstrap-5'
+} );
 $( '#bodega' ).select2( {
     theme: 'bootstrap-5'
 } );
@@ -331,7 +334,7 @@ function clickear(){
         })
         .done(function(res){
             //let url= "indexUbicacion.php";
-           alert(res);
+           console.log(res);
         
             
             
@@ -349,8 +352,15 @@ function clickear(){
 
 }
 
+
+
+
+
+
+
 $('#finalizar').click(function(){
     clickear();
+    mostrarTabla();
 });
 
 
@@ -393,22 +403,97 @@ const fillData2 = (data)=>{
         index.value=data[0].textContent
     }
 }
-/*tabla.addEventListener('click',(e)=>{
-    //e.stopPropagation();
-    //let data = e.target.parentElement.parentElement.children;
 
-    //fillData(data);
-    $("#exampleModalLabel").modal("hide");
-    //console.log(e.target.parentElement.parentElement.children[1].textContent)
+
+
+//FUNCIONES DEL CONTROLADOR DE COMPLEMENTOS SELECT A INPUT
+
+$(document).ready(function(){
+
+    $("#empaque").change(function(){
+        //console.log("leyendo");
+
+        var id =$(this).find(":selected").val();
+        //console.log(id);
+        var data = 'empid='+id;
+        console.log(data);
+
+        $.ajax({
+            url: 'getSelect.php',
+            dataType: "json",
+            data: data,
+            cache: false,
+
+            success : function(empData){
+                if(empData){
+                    empData.map((element)=>{
+                        //console.log(element.ARTICULO);
+                        $("#descripcion").val(element.DESCRIPCION);
+                        $("#codigo").val(element.ARTICULO);
+                    })
+                    
+                    $("#errorMassage").addClass
+                    ('hidden').text("");
+                    $("#recordListing").removeClass
+                    ('hidden');
+
+                    //$('#descripcion').text();
+                }else{
+
+                    $("#recordListing").addClass
+                    ('hidden');
+                    $("#errorMassage").removeClass
+                    ('hidden').text("No record found");
+
+                }
+            }
+        });
+    })
 })
 
-const fillData = (data)=>{
-    for(let index of inputs){
-        index.value = data[1].textContent
-        
-        //console.log(index)
-    }
-}*/
+
+var articulos=document.getElementById('articulos');
+var boton=document.getElementById('agregarDetalle');
+var data=[];
+var cant=0;
+
+boton.addEventListener("click",agregar);
+
+function agregar(){
+    var descripcionDetalle=document.getElementById('descripcionDetalle').value;
+    var cantidadDetalle=document.getElementById('cantidadDetalle').value;
+    var codigoDetalle=document.getElementById('codigoDetalle').value;
+    var precioDetalle=document.getElementById('precioDetalle').value;
+    
+    //LLENA LOS DATOS AL ARREGLO
+    data.push(
+        {
+            "id":cant,
+            "codigo":codigoDetalle,
+            "descripcion":descripcionDetalle,
+            "cantidad":cantidadDetalle,
+            "precio": precioDetalle
+        }
+    );
+    var id_row='row'+cant;
+    var fila=
+    '<tr id='+id_row+'><td>'+codigoDetalle+'</td><td>'
+    +descripcionDetalle+'</td><td>'
+    +cantidadDetalle+'</td><td>'
+    +precioDetalle+
+    '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+cant+')";>Eliminar</a></td></tr>';
+    $("#articulos").append(fila);
+    cant++;
+
+
+
+    
+
+
+
+}
+
+
 
 
 

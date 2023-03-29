@@ -580,6 +580,7 @@ progress {
   text-transform: uppercase;
 }
 
+
 .blockquote {
   margin-bottom: 1rem;
   font-size: 1.25rem;
@@ -1997,13 +1998,18 @@ progress {
 
 .table-bordered > :not(caption) > *, .dataTable-table > :not(caption) > * {
   border-width: 1px 0;
+ 
 }
 .table-bordered > :not(caption) > * > *, .dataTable-table > :not(caption) > * > * {
   border-width: 0 1px;
+ 
+ 
+ 
 }
 
 .table-borderless > :not(caption) > * > * {
   border-bottom-width: 0;
+
 }
 .table-borderless > :not(:first-child) {
   border-top-width: 0;
@@ -2123,7 +2129,16 @@ progress {
 .table-responsive, .dataTable-wrapper .dataTable-container {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
 }
+.my-custom-scrollbar {
+  position: relative;
+  height: 500px;
+  overflow: auto;
+  }
+  .table-wrapper-scroll-y {
+  display: block;
+  }
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {

@@ -348,6 +348,7 @@
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
                         <li class="breadcrumb-item active">Complemento</li>
                     </ol>
+                    <!-----COMPLEMENTO DETALLE PAQUETE ----->
                     <div class="card mb-4">
                         <div class="card-body">
                             <form>
@@ -365,16 +366,31 @@
                                         <label class="mb-3" for="inputEmail ">Listar Paquete</label>
                                         <select id="empaque" name="empaque" class="form-select"
                                             aria-label="Default select example">
-                                            <option selected>Seleccione el empaque</option>
+                                            <option selected>Seleccione el paquete</option>
 
                                             <?php
                                                 //$db=connectERP();
-                                                $query =$dbBodega->prepare("SELECT IdTipoEmpaque,TipoEmpaque FROM dbo.TIPOEMPAQUE");
+                                                $query =$dbEximp600->prepare(
+                                                    "SELECT 
+                                            ARTICULO,
+                                            DESCRIPCION,
+                                            CLASIFICACION_2
+                    
+                                            FROM consny.ARTICULO
+                                            WHERE activo='S'
+                                            AND clasificacion_1<>'DETALLE'
+                                            AND clasificacion_2='ROPA'
+                                            ORDER BY len(articulo),articulo
+                                                                ");
                                                 $query->execute();
                                                 $data = $query->fetchAll();
-                                                foreach ($data as $valores):
-                                                    echo '<option value="'.$valores["IdTipoEmpaque"].'">'.$valores["TipoEmpaque"].'</option>';
-                                                endforeach;
+                                                foreach ($data as $valores){
+                                                    ?>
+                                            <option value="<?php echo $valores["ARTICULO"]; ?>">
+                                                <?php echo $valores["ARTICULO"]?> --
+                                                <?php echo $valores["DESCRIPCION"]?></option>
+                                            <?php
+                                                }
                                             ?>
 
                                         </select>
@@ -384,17 +400,18 @@
                                         <label class="mb-3" for="inputEmail ">Descripcion</label>
                                         <input class="form-control mb-3" id="descripcion" name="descripcion" type="text"
                                             placeholder="" disabled />
-                                            <input class="form-control mb-3" id="ropa" name="ropa" type="text"
+                                        <input class="form-control mb-3" id="ropa" name="ropa" type="text"
                                             placeholder="" value="ROPA" hidden />
                                         <input class="form-control mb-4" id="codigo" name="codigo" type="text"
-                                            placeholder="" hidden />
+                                            placeholder="" />
 
 
 
                                     </div>
                                     <div class="col-2">
 
-                                        <button type="button" id="finalizar" name="finalizar" class=" btn btn-warning ">Finalizar</button>
+                                        <button type="button" id="finalizar" name="finalizar"
+                                            class=" btn btn-warning ">Finalizar</button>
                                         <button type="button" class="btn btn-danger ">Salir</button>
 
                                     </div>
@@ -416,6 +433,137 @@
                             </form>
                         </div>
                     </div>
+
+                    <h1 class="mt-4">Complemento Detalle</h1>
+
+                    <!---COMPLEMENTO DETALLE-------->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form>
+                                <div class="row justify-content-start form-floating mb-3">
+
+                                    <div class="col-2 ">
+                                        <label class="mb-3" for="inputEmail ">Buscar paquete</label>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            Buscar
+                                        </button>
+
+                                    </div>
+                                    <div class="col-3 ">
+                                        <label class="mb-3" for="inputEmail ">Listar Paquete</label>
+                                        <select id="empaqueDetalle" name="empaqueDetalle" class="form-select"
+                                            aria-label="Default select example">
+                                            <option selected>Seleccione el paquete</option>
+
+                                            <?php
+                                                //$db=connectERP();
+                                                $query =$dbEximp600->prepare(
+                                                    "SELECT 
+                                            ARTICULO,
+                                            DESCRIPCION,
+                                            CLASIFICACION_2
+                    
+                                            FROM consny.ARTICULO
+                                            WHERE activo='S'
+                                            AND clasificacion_1<>'DETALLE'
+                                            AND clasificacion_2='ROPA'
+                                            ORDER BY len(articulo),articulo
+                                                                ");
+                                                $query->execute();
+                                                $data = $query->fetchAll();
+                                                foreach ($data as $valores){
+                                                    ?>
+                                            <option value="<?php echo $valores["ARTICULO"]; ?>">
+                                                <?php echo $valores["ARTICULO"]?> --
+                                                <?php echo $valores["DESCRIPCION"]?></option>
+                                            <?php
+                                                }
+                                            ?>
+
+                                        </select>
+
+                                    </div>
+                                    <div class="col-4 ">
+                                        <label class="mb-3" for="inputEmail ">Descripcion</label>
+                                        <input class="form-control mb-3" id="descripcionDetalle"
+                                            name="descripcionDetalle" type="text" placeholder="" />
+
+
+
+
+                                    </div>
+                                    <div class="col-2 ">
+
+                                        <label class="mb-3" for="inputEmail ">Cantidad</label>
+                                        <input class="form-control mb-3" id="cantidadDetalle" name="cantidadDetalle"
+                                            type="number" placeholder="" value="ROPA" />
+
+
+
+
+                                    </div>
+                                    <div class="col-2">
+                                        <label class="mb-3" for="inputEmail ">Codigo</label>
+                                        <input class="form-control mb-3" id="codigoDetalle" name="descripcionDetalle"
+                                            type="text" placeholder="" />
+
+
+
+                                    </div>
+                                    <div class="col-3">
+                                        <label class="mb-3" for="inputEmail ">Precio</label>
+                                        <input class="form-control mb-3" id="precioDetalle" name="precioDetalle"
+                                            type="number" placeholder="" value="ROPA" />
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2">
+
+                                            <button type="button" id="agregarDetalle" name="finalizarDetalle"
+                                                class=" btn btn-warning mt-5 ">Agregar</button>
+                                            <button type="button" id="guardarDetalle"
+                                                class="btn btn-success mt-5 ">Guardar</button>
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+
+
+
+
+
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <!---- TABLA COMPLEMENTO DETALLE ---->
+                    <div class="card mb-4">
+                        <div class="card-body overflow-auto">
+                            <div class="col-12 table-wrapper-scroll-y my-custom-scrollbar">
+                                <table class="table table-bordered  mb-0" id="articulos">
+                                    <tr>
+                                        <td>Codigo</td>
+                                        <td>Nombre</td>
+                                        <td>Cantidad</td>
+                                        <td>Precio</td>
+                                        <td>Acciones</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-10 text-right" id="total"></div>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
