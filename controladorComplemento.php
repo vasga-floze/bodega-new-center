@@ -3,7 +3,29 @@
     $codigoBarra=$_SESSION['cod'];
     
     include('conexiones/conectar.php');
-    if(!empty($_POST['descripcion'])){
+    $nulo=102;
+    if(!empty($_POST['json'])){
+        $datos=json_decode($_POST['json'],true);
+        foreach($datos as $valores){
+
+            try{
+            $articuloDetalle=$valores['codigo'];
+            $cantidad=$valores['cantidad'];
+            $precioUnitario=$valores['precio'];
+            $query =$dbBodega->prepare("INSERT INTO dbo.DETALLEREGISTRO (IdRegistro,ArticuloDetalle,Cantidad,PrecioUnitario) VALUES (?,?,?,?)");
+            $query->execute([$nulo,$articuloDetalle,$cantidad,$precioUnitario]);
+        }catch(PDOException $e){
+            echo "Error".$e->getMessage()."<br/>";
+        }
+            
+        }
+
+        echo("REGISTRO EXITOSO");
+        
+        
+       
+       
+    }else if(!empty($_POST['descripcion'])){
         $descripcion=$_POST['descripcion'];
         $ropa=$_POST['ropa'];
         $codigo=$_POST['codigo'];
@@ -22,24 +44,10 @@
         }catch(PDOException $e){
             echo "Error".$e->getMessage()."<br/>";
         }
-    
-    
        
     }else{
         echo("No viene identificada");
     }
-
-
-
-
-
-    
-
-
-
-
-
-    
 
 
 ?>

@@ -29,11 +29,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
     <!-- Or for RTL support -->
 
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+   
 </head>
 
 <body>
@@ -403,7 +405,7 @@
                                         <input class="form-control mb-3" id="ropa" name="ropa" type="text"
                                             placeholder="" value="ROPA" hidden />
                                         <input class="form-control mb-4" id="codigo" name="codigo" type="text"
-                                            placeholder="" />
+                                            placeholder="" hidden />
 
 
 
@@ -442,16 +444,9 @@
                             <form>
                                 <div class="row justify-content-start form-floating mb-3">
 
-                                    <div class="col-2 ">
-                                        <label class="mb-3" for="inputEmail ">Buscar paquete</label>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                            Buscar
-                                        </button>
-
-                                    </div>
+                                    
                                     <div class="col-3 ">
-                                        <label class="mb-3" for="inputEmail ">Listar Paquete</label>
+                                        <label class="mb-3" for="inputEmail ">Listar paquete detalle</label>
                                         <select id="empaqueDetalle" name="empaqueDetalle" class="form-select"
                                             aria-label="Default select example">
                                             <option selected>Seleccione el paquete</option>
@@ -459,17 +454,13 @@
                                             <?php
                                                 //$db=connectERP();
                                                 $query =$dbEximp600->prepare(
-                                                    "SELECT 
-                                            ARTICULO,
-                                            DESCRIPCION,
-                                            CLASIFICACION_2
-                    
-                                            FROM consny.ARTICULO
-                                            WHERE activo='S'
-                                            AND clasificacion_1<>'DETALLE'
-                                            AND clasificacion_2='ROPA'
-                                            ORDER BY len(articulo),articulo
-                                                                ");
+                                                    "SELECT ARTICULO, DESCRIPCION, PRECIO_REGULAR
+                                                    FROM consny.ARTICULO
+                                                    WHERE (ACTIVO = 'S') 
+                                                    AND (CLASIFICACION_1 = 'DETALLE') 
+                                                    AND (CLASIFICACION_2 = 'ROPA')
+                                                    AND (USA_LOTES = 'S')
+                                                    ORDER BY DESCRIPCION, ARTICULO, PRECIO_REGULAR");
                                                 $query->execute();
                                                 $data = $query->fetchAll();
                                                 foreach ($data as $valores){
@@ -487,7 +478,7 @@
                                     <div class="col-4 ">
                                         <label class="mb-3" for="inputEmail ">Descripcion</label>
                                         <input class="form-control mb-3" id="descripcionDetalle"
-                                            name="descripcionDetalle" type="text" placeholder="" />
+                                            name="descripcionDetalle" type="text" placeholder=""  />
 
 
 
@@ -497,27 +488,19 @@
 
                                         <label class="mb-3" for="inputEmail ">Cantidad</label>
                                         <input class="form-control mb-3" id="cantidadDetalle" name="cantidadDetalle"
-                                            type="number" placeholder="" value="ROPA" />
-
-
-
-
-                                    </div>
-                                    <div class="col-2">
-                                        <label class="mb-3" for="inputEmail ">Codigo</label>
-                                        <input class="form-control mb-3" id="codigoDetalle" name="descripcionDetalle"
-                                            type="text" placeholder="" />
-
-
-
-                                    </div>
-                                    <div class="col-3">
-                                        <label class="mb-3" for="inputEmail ">Precio</label>
+                                            type="number" placeholder="" value="" />
+                                        <input class="form-control mb-3" id="codigoDetalle" name=""
+                                        type="text" placeholder="" hidden/>
                                         <input class="form-control mb-3" id="precioDetalle" name="precioDetalle"
                                             type="number" placeholder="" value="ROPA" />
+                                        <input class="form-control mb-3" id="detalleBandera" name="detalleBandera"
+                                        type="text" placeholder="" value="" />
+
+
 
 
                                     </div>
+                                    
                                     <div class="row">
                                         <div class="col-2">
 
@@ -563,7 +546,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-10 text-right" id="total"></div>
+                    <div class="col-10 text-right" id="total">
+                     
+                    </div>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
@@ -661,6 +646,7 @@
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
+    <script src="plugins/toastr/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
 
