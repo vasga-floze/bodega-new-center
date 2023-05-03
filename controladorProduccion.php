@@ -30,6 +30,12 @@
         $bodega=$_POST['bodega'];
         $tipo=$_POST['tipoRegistro'];
         $observaciones=$_POST['observaciones'];
+        $bandera=$_POST['bandera'];
+        $_SESSION["banderaArticulo"]=$bandera;
+        $_SESSION["unidades"]=$unidades;
+
+
+        if($bandera==="ROPA"){
         //$variableSession=&valorMaximo();
         
         try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
@@ -63,12 +69,267 @@
         
         }catch(PDOException $e){
             echo "Error".$e->getMessage()."<br/>";
-    }
+        }
+    }else if($bandera==="CARTERAS"){
+        //$variableSession=&valorMaximo();
+        
+        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $stmt=$dbBodega->prepare($query);
+            //$variableSession=&valorMaximo();
+            $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
+            $stmt->bindParam("unidades", $unidades, PDO::PARAM_STR);
+            $stmt->bindParam("libras", $libras, PDO::PARAM_STR);
+            $stmt->bindParam("ubicacion", $ubicacion, PDO::PARAM_STR);
+            $stmt->bindParam("fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam("empacado", $empacado, PDO::PARAM_STR);
+            $stmt->bindParam("empaque", $empaque, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
+            $stmt->bindParam("producido", $producido, PDO::PARAM_STR);
+            $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
+            $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
+            $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+    
+            
+            $stmt->execute();
+            
+    
+    
+            //echo("dia".$dia."mes".$mes."anio".$anio);
+           // echo(".$query.");
+           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           echo("Registro exitoso".$bandera);
+         
+            
+            }catch(PDOException $e){
+                echo "Error".$e->getMessage()."<br/>";
+            }
+     
+    }else if($bandera==="CINCHOS"){
+        //$variableSession=&valorMaximo();
+        
+        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $stmt=$dbBodega->prepare($query);
+            //$variableSession=&valorMaximo();
+            $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
+            $stmt->bindParam("unidades", $unidades, PDO::PARAM_STR);
+            $stmt->bindParam("libras", $libras, PDO::PARAM_STR);
+            $stmt->bindParam("ubicacion", $ubicacion, PDO::PARAM_STR);
+            $stmt->bindParam("fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam("empacado", $empacado, PDO::PARAM_STR);
+            $stmt->bindParam("empaque", $empaque, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
+            $stmt->bindParam("producido", $producido, PDO::PARAM_STR);
+            $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
+            $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
+            $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+    
+            
+            $stmt->execute();
+            
+    
+    
+            //echo("dia".$dia."mes".$mes."anio".$anio);
+           // echo(".$query.");
+           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           echo("Registro exitoso");
+         
+            
+            }catch(PDOException $e){
+                echo "Error".$e->getMessage()."<br/>";
+            }
+     
+    
     
        
-    }else{
-        echo("No viene identificada");
+    }else if($bandera==="GORRAS"){
+        //$variableSession=&valorMaximo();
+        
+        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $stmt=$dbBodega->prepare($query);
+            //$variableSession=&valorMaximo();
+            $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
+            $stmt->bindParam("unidades", $unidades, PDO::PARAM_STR);
+            $stmt->bindParam("libras", $libras, PDO::PARAM_STR);
+            $stmt->bindParam("ubicacion", $ubicacion, PDO::PARAM_STR);
+            $stmt->bindParam("fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam("empacado", $empacado, PDO::PARAM_STR);
+            $stmt->bindParam("empaque", $empaque, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
+            $stmt->bindParam("producido", $producido, PDO::PARAM_STR);
+            $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
+            $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
+            $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+    
+            
+            $stmt->execute();
+            
+    
+    
+            //echo("dia".$dia."mes".$mes."anio".$anio);
+           // echo(".$query.");
+           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           echo("Registro exitoso");
+         
+            
+            }catch(PDOException $e){
+                echo "Error".$e->getMessage()."<br/>";
+            }
+     
+    
+    }else if($bandera==="JUGUETES"){
+        //$variableSession=&valorMaximo();
+        
+        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $stmt=$dbBodega->prepare($query);
+            //$variableSession=&valorMaximo();
+            $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
+            $stmt->bindParam("unidades", $unidades, PDO::PARAM_STR);
+            $stmt->bindParam("libras", $libras, PDO::PARAM_STR);
+            $stmt->bindParam("ubicacion", $ubicacion, PDO::PARAM_STR);
+            $stmt->bindParam("fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam("empacado", $empacado, PDO::PARAM_STR);
+            $stmt->bindParam("empaque", $empaque, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
+            $stmt->bindParam("producido", $producido, PDO::PARAM_STR);
+            $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
+            $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
+            $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+    
+            
+            $stmt->execute();
+            
+    
+    
+            //echo("dia".$dia."mes".$mes."anio".$anio);
+           // echo(".$query.");
+           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           echo("Registro exitoso");
+         
+            
+            }catch(PDOException $e){
+                echo "Error".$e->getMessage()."<br/>";
+            }
+    }else if($bandera==="ZAPATOS"){
+        //$variableSession=&valorMaximo();
+        
+        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $stmt=$dbBodega->prepare($query);
+            //$variableSession=&valorMaximo();
+            $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
+            $stmt->bindParam("unidades", $unidades, PDO::PARAM_STR);
+            $stmt->bindParam("libras", $libras, PDO::PARAM_STR);
+            $stmt->bindParam("ubicacion", $ubicacion, PDO::PARAM_STR);
+            $stmt->bindParam("fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam("empacado", $empacado, PDO::PARAM_STR);
+            $stmt->bindParam("empaque", $empaque, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
+            $stmt->bindParam("producido", $producido, PDO::PARAM_STR);
+            $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
+            $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
+            $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+    
+            
+            $stmt->execute();
+            
+    
+    
+            //echo("dia".$dia."mes".$mes."anio".$anio);
+           // echo(".$query.");
+           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           echo("Registro exitoso");
+         
+            
+            }catch(PDOException $e){
+                echo "Error".$e->getMessage()."<br/>";
+            }
+    }else if($bandera==="OTROS"){
+        //$variableSession=&valorMaximo();
+        
+        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $stmt=$dbBodega->prepare($query);
+            //$variableSession=&valorMaximo();
+            $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
+            $stmt->bindParam("unidades", $unidades, PDO::PARAM_STR);
+            $stmt->bindParam("libras", $libras, PDO::PARAM_STR);
+            $stmt->bindParam("ubicacion", $ubicacion, PDO::PARAM_STR);
+            $stmt->bindParam("fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam("empacado", $empacado, PDO::PARAM_STR);
+            $stmt->bindParam("empaque", $empaque, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
+            $stmt->bindParam("producido", $producido, PDO::PARAM_STR);
+            $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
+            $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
+            $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+    
+            
+            $stmt->execute();
+            
+    
+    
+            //echo("dia".$dia."mes".$mes."anio".$anio);
+           // echo(".$query.");
+           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           echo("Registro exitoso");
+         
+            
+            }catch(PDOException $e){
+                echo "Error".$e->getMessage()."<br/>";
+            }
+    }else if($bandera==="GANCHOS"){
+        //$variableSession=&valorMaximo();
+        
+        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $stmt=$dbBodega->prepare($query);
+            //$variableSession=&valorMaximo();
+            $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
+            $stmt->bindParam("unidades", $unidades, PDO::PARAM_STR);
+            $stmt->bindParam("libras", $libras, PDO::PARAM_STR);
+            $stmt->bindParam("ubicacion", $ubicacion, PDO::PARAM_STR);
+            $stmt->bindParam("fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam("empacado", $empacado, PDO::PARAM_STR);
+            $stmt->bindParam("empaque", $empaque, PDO::PARAM_STR);
+            $stmt->bindParam("usuario", $usuario, PDO::PARAM_STR);
+            $stmt->bindParam("producido", $producido, PDO::PARAM_STR);
+            $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
+            $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
+            $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+    
+            
+            $stmt->execute();
+            
+    
+    
+            //echo("dia".$dia."mes".$mes."anio".$anio);
+           // echo(".$query.");
+           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           echo("Registro exitoso");
+         
+            
+            }catch(PDOException $e){
+                echo "Error".$e->getMessage()."<br/>";
+            }
     }
+}else{
+    echo("NINGUNA VARIABLE VIENE IDENTIFICABLE");
+}
+    
+    
+     
+    
 
 
 

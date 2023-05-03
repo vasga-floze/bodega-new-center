@@ -5,15 +5,13 @@
         header('Location: index.php');
     }else{
         $usuario=$_SESSION['usuario'];
-        $respuesta=$_SESSION['valores'];
+        $respuesta=$_SESSION['compania'];
         $fechaActual = date('Y-m-d');
         include('conexiones/conectar.php');
         //session_destroy();
     }
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +26,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
     <!-- Or for RTL support -->
 
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -354,12 +353,12 @@
 
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Unidad</label>
-                                        <input class="form-control mb-3" id="unidades" type="number" placeholder="" />
+                                        <input class="form-control mb-3" id="unidades" type="number" placeholder="Digite las unidades en numeros" />
 
                                     </div>
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Libras</label>
-                                        <input class="form-control mb-3" id="libras" type="number" placeholder="" />
+                                        <input class="form-control mb-3" id="libras" type="number" placeholder="Digite el numero de libras" />
 
                                     </div>
 
@@ -372,8 +371,8 @@
                                         <label class="mb-3" for="exampleInputEmail1"
                                             class="form-label">Ubicacion</label>
                                         <select id="ubicacion" name="ubicacion" class="form-select"
-                                            aria-label="Default select example">
-                                            <option selected>Seleccione la ubicacion</option>
+                                            aria-label="Default select example" data-placeholder="Seleccione la ubicacion">
+                                            <option selected></option>
 
                                             <?php
                                                 //$db=connectERP();
@@ -423,8 +422,8 @@
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Tipo Empaque</label>
                                         <select id="empaque" name="empaque" class="form-select"
-                                            aria-label="Default select example">
-                                            <option selected>Seleccione el empaque</option>
+                                            aria-label="Default select example" data-placeholder="Seleccione el tipo de empaque">
+                                            <option selected></option>
 
                                             <?php
                                                 //$db=connectERP();
@@ -455,7 +454,7 @@
                                     </div>
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Producido Por</label>
-                                        <select class="form-select" id="producido"
+                                        <select class="form-select" id="producido" name="producido"
                                             data-placeholder="Seleccionar usuarios de produccion" multiple>
                                             <?php
                                                 //$db=connectERP();
@@ -476,7 +475,7 @@
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Bodega</label>
                                         <select id="bodega" name="bodega" class="form-select"
-                                            aria-label="Default select example">
+                                            aria-label="Default select example" disabled>
 
 
                                             <?php
@@ -495,7 +494,7 @@
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Tipo Registro</label>
                                         <select  id="tipoRegistro" name="tipoRegistro" class="form-select"
-                                            aria-label="Default select example" disabled >
+                                            aria-label="Default select example" disabled>
 
 
                                             <?php
@@ -515,7 +514,7 @@
                                     <div class="col-6 mt-4">
                                         <label class="mb-3" for="inputEmail ">Observaciones</label>
                                         <textarea class="form-control" id="observaciones" rows="3"></textarea>
-
+                                        <input class="form-control mb-3" id="banderaArticulo" type="text" placeholder="Digite las unidades en numeros" hidden />       
                                     </div>
 
 
@@ -530,9 +529,9 @@
                             <div class="d-grid gap-2 col-12">
                                 <button type="button" id="ropa" name="ropa"
                                     class=" btn btn-secondary btn-lg" >Ropa</button>
-                                <button type="button" class=" btn btn-secondary btn-lg">Cinchos</button>
-                                <button type="button" class=" btn btn-secondary btn-lg">Juguetes</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Otros</button>
+                                <button type="button" id="cincho" class=" btn btn-secondary btn-lg">Cinchos</button>
+                                <button type="button" id="juguete" class=" btn btn-secondary btn-lg">Juguetes</button>
+                                <button type="button" id="otro" class="btn btn-secondary btn-lg">Otros</button>
 
 
                             </div>
@@ -543,10 +542,10 @@
 
                         <div class="col-6 row justify-content-start form-floating ">
                             <div class="d-grid gap-2 col-12  ">
-                                <button type="button" class="btn btn-secondary btn-lg">Carteras</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Gorras</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Zapatos</button>
-                                <button type="button" class="btn btn-secondary btn-lg">Ganchos</button>
+                                <button type="button" id="cartera" name="cartera" class="btn btn-secondary btn-lg">Carteras</button>
+                                <button type="button" id="gorra" class="btn btn-secondary btn-lg">Gorras</button>
+                                <button type="button" id="zapato" class="btn btn-secondary btn-lg">Zapatos</button>
+                                <button type="button" id="gancho" class="btn btn-secondary btn-lg">Ganchos</button>
 
 
                             </div>
@@ -575,9 +574,11 @@
             </footer>
         </div>
     </div>
+    <div id="modal-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 100; display: none;"></div>
     <script src="js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="plugins/toastr/toastr.min.js"></script>
+   
 
 </body>
 

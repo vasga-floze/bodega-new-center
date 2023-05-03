@@ -3,12 +3,25 @@
     if(!isset($_SESSION['usuario'])){
         //header("Location: indexProduccion.php");
         header('Location: index.php');
+    }else if(!isset($_SESSION['banderaArticulo'])){
+        header('Location: indexProduccion.php');
     }else{
         $usuario=$_SESSION['usuario'];
-        $respuesta=$_SESSION['valores'];
+        $respuesta=$_SESSION['compania'];
+        $bandera=$_SESSION['banderaArticulo'];
+        $datos = $_SESSION['datos'];
+        $unidades=$_SESSION['unidades'];
+        $suma = 0;
+        foreach($datos as $data){
+            $cantidad=$data['cantidad'];
+            $suma += $cantidad; 
+        }
+        echo("La suma de la cantidad ".$suma);
+        echo("La suma de la cantidad ".$unidades);
         $fechaActual = date('Y-m-d');
         include('conexiones/conectar.php');
         //session_destroy();
+
     }
 
 ?>
@@ -65,6 +78,7 @@
                 </li>
             </ul>---->
     </nav>
+    
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -358,7 +372,7 @@
 
                                     <div class="col-2 ">
                                         <label class="mb-3" for="inputEmail ">Buscar paquete</label>
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        <button type="button" id="buscarModal" name="buscarModal" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">
                                             Buscar
                                         </button>
@@ -381,7 +395,7 @@
                                             FROM consny.ARTICULO
                                             WHERE activo='S'
                                             AND clasificacion_1<>'DETALLE'
-                                            AND clasificacion_2='ROPA'
+                                            AND clasificacion_2='$bandera'
                                             ORDER BY len(articulo),articulo
                                                                 ");
                                                 $query->execute();
@@ -402,36 +416,21 @@
                                         <label class="mb-3" for="inputEmail ">Descripcion</label>
                                         <input class="form-control mb-3" id="descripcion" name="descripcion" type="text"
                                             placeholder="" disabled />
-                                        <input class="form-control mb-3" id="ropa" name="ropa" type="text"
-                                            placeholder="" value="ROPA" hidden />
+                                       
                                         <input class="form-control mb-4" id="codigo" name="codigo" type="text"
                                             placeholder="" hidden />
+                                        <input class="form-control mb-4" id="unidadesSession" name="unidadesSession" type="text"
+                                        placeholder=""value=<?php echo($unidades) ?> hidden />
 
 
 
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-4">
 
                                         <button type="button" id="finalizar" name="finalizar"
-                                            class=" btn btn-warning ">Finalizar</button>
-                                        <button type="button" class="btn btn-danger ">Salir</button>
-
+                                            class="btn btn-warning mt-5 ">Finalizar</button>
                                     </div>
-
-
-
-
-
-
-
-
                                 </div>
-
-
-
-
-
-
                             </form>
                         </div>
                     </div>
@@ -441,15 +440,15 @@
                     <!---COMPLEMENTO DETALLE-------->
                     <div class="card mb-4">
                         <div class="card-body">
-                            <form>
+                            <form id="formularioFinalizar">
                                 <div class="row justify-content-start form-floating mb-3">
 
                                     
                                     <div class="col-3 ">
-                                        <label class="mb-3" for="inputEmail ">Listar paquete detalle</label>
-                                        <select id="empaqueDetalle" name="empaqueDetalle" class="form-select"
-                                            aria-label="Default select example">
-                                            <option selected>Seleccione el paquete</option>
+                                        <label class="mb-3" for="inputEmail ">Listar articulo detalle</label>
+                                        <select id="empaqueDetalle" name="empaqueDetalle" class="form-select"  >
+                                        <option selected></option>
+                                          
 
                                             <?php
                                                 //$db=connectERP();
@@ -458,7 +457,7 @@
                                                     FROM consny.ARTICULO
                                                     WHERE (ACTIVO = 'S') 
                                                     AND (CLASIFICACION_1 = 'DETALLE') 
-                                                    AND (CLASIFICACION_2 = 'ROPA')
+                                                    AND (CLASIFICACION_2 = '$bandera')
                                                     AND (USA_LOTES = 'S')
                                                     ORDER BY DESCRIPCION, ARTICULO, PRECIO_REGULAR");
                                                 $query->execute();
@@ -492,9 +491,9 @@
                                         <input class="form-control mb-3" id="codigoDetalle" name=""
                                         type="text" placeholder="" hidden/>
                                         <input class="form-control mb-3" id="precioDetalle" name="precioDetalle"
-                                            type="number" placeholder="" value="ROPA" />
+                                            type="number" placeholder="" value="ROPA" hidden />
                                         <input class="form-control mb-3" id="detalleBandera" name="detalleBandera"
-                                        type="text" placeholder="" value="" />
+                                        type="text" placeholder="" value="" hidden /> 
 
 
 
@@ -502,14 +501,22 @@
                                     </div>
                                     
                                     <div class="row">
-                                        <div class="col-2">
+                                        <div class="col-4">
 
                                             <button type="button" id="agregarDetalle" name="finalizarDetalle"
                                                 class=" btn btn-warning mt-5 ">Agregar</button>
                                             <button type="button" id="guardarDetalle"
                                                 class="btn btn-success mt-5 ">Guardar</button>
-
+                                           
                                         </div>
+                                        <div class="col-4 mt-5">
+                                            <div class="form-check form-switch ">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="imprimir">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Imprimir viñeta prenda</label>
+                                            </div>
+                                        </div>
+                                       
+                                        
                                     </div>
 
 
@@ -590,7 +597,7 @@
                                             FROM consny.ARTICULO
                                             WHERE activo='S'
                                             AND clasificacion_1<>'DETALLE'
-                                            AND clasificacion_2='ROPA'
+                                            AND clasificacion_2='$bandera'
                                             ORDER BY len(articulo),articulo
                                                                 ");
                                     $query->execute();
@@ -618,16 +625,12 @@
                                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salir</button>
                                     <button type="button" class="btn btn-primary">Guardar</button>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
                 </div>
+               
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -641,12 +644,16 @@
                     </div>
                 </div>
             </footer>
+            <div id="modal-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 100; display: none;"></div>
+        </div>
         </div>
     </div>
+    
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
     <script src="plugins/toastr/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
 

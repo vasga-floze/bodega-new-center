@@ -1,6 +1,7 @@
 <?php
-
+ session_start();
 include('conexiones/conectar.php');
+$bandera=$_SESSION['banderaArticulo'];
 
 if($_REQUEST['empid']){
             $query =$dbEximp600->prepare(
@@ -13,7 +14,7 @@ if($_REQUEST['empid']){
         WHERE activo='S' AND ARTICULO ='".$_REQUEST['empid']."'
         
         AND clasificacion_1<>'DETALLE'
-        AND clasificacion_2='ROPA'
+        AND clasificacion_2='$bandera'
         ORDER BY len(articulo),articulo
                             ");
 
