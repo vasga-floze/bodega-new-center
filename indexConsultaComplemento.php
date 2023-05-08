@@ -25,9 +25,21 @@
     <title>Static Navigation - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="cssmenu/estilo.css" rel="stylesheet" />
-    <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <!-- Or for RTL support -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>  
+   
+    
+
+
+    
 
 </head>
 
@@ -320,25 +332,71 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Ubicaciones</h1>
+                    <h1 class="mt-4">Consulta Produccion</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Ubicaciones</li>
+                        <li class="breadcrumb-item active">Consulta Produccion</li>
                     </ol>
                     <div class="row">
 
                         <div class="col-xl-3 col-md-4">
                             <!-- Enlace para abrir el modal -->
-                            <button class="btn btn-success btn-lg mb-4" data-bs-toggle="modal"
-                                data-bs-target="#modalForm">
-                                Crear Nuevo
-                            </button>
+                            <label for="">Fecha</label>
+                            <input type = "text" class="form-control" id = "fecha">
+
                             
                             <!-- Modal -->
 
 
                         </div>
-                        
+                        <div class="col-xl-3 col-md-4">
+                            <!-- Enlace para abrir el modal -->
+                            <label for="">Usuario</label>
+                            <select id="usuario" class="form-select" aria-label="Default select example">
+                            <?php
+                                                //$db=connectERP();
+                                $query =$dbBodega->prepare("SELECT 'TODOS' USUARIO UNION ALL
+                                SELECT USUARIO FROM USUARIO WHERE Digita=1
+                                ");
+                                $query->execute();
+                                $data = $query->fetchAll();
+                                foreach ($data as $valores):
+                                    echo '<option value="'.$valores["USUARIO"].'">'.$valores["USUARIO"].'</option>';
+                                endforeach;
+                            ?>
+                            </select>
+                     
+                            <!-- Modal -->
+
+
+                        </div>
+                        <div class="col-xl-3 col-md-4">
+                            <!-- Enlace para abrir el modal -->
+                            <label for="">Estado</label>
+                            <select id="estado" class="form-select" aria-label="Default select example">
+                                
+                            <?php
+                                                //$db=connectERP();
+                                $query =$dbBodega->prepare("SELECT  'TODOS' ESTADO UNION ALL
+                                SELECT distinct ESTADO  FROM REGISTRO GROUP BY Estado
+                                ");
+                                $query->execute();
+                                $data = $query->fetchAll();
+                                foreach ($data as $valores):
+                                    echo '<option value="'.$valores["ESTADO"].'">'.$valores["ESTADO"].'</option>';
+                                endforeach;
+                            ?>
+                            </select>
+                                                        
+                            <!-- Modal -->
+
+
+                        </div>
+                        <div class="col-xl-3 col-md-4 mt-4">
+                            <button type="button" id="generar" class="btn btn-success">Generar</button>
+                        </div>
+                     
+                  
                         <div class="col-xl-3 col-md-6">
                             <div class="modal fade" tabindex="-1" id="modalForm" aria-labelledby="exampleModalLabel"
                                 aria-hidden="true">
@@ -377,46 +435,15 @@
                     </div>
 
 
-                    <div class="card mb-4">
+                    <div class="card mb-4 mt-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
-                            Tabla Ubicaciones
+                            Tabla consulta produccion
                         </div>
                         <div class="card-body">
-                            <table id="datatablesSimple">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>UBICACION</th>
-
-                                    </tr>
-                                </thead>
-                                <!--- <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
-                                    </tr>
-                                </tfoot>----->
-                                <tbody>
-                                    <?php 
-                                    $query =$dbBodega->prepare("SELECT idUbicacion,Ubicacion FROM dbo.UBICACION");
-                                    $query->execute();
-                                    $data = $query->fetchAll();
-
-                                    foreach($data as $item){
-                                        echo "<tr>";
-                                        echo "<td>".$item["idUbicacion"]."</td>";
-                                        echo "<td>".$item["Ubicacion"]."</td>";
-                                    }
-                                    ?>
-
-
-                                </tbody>
-                            </table>
+                        <table id="myTable" class="display" style="width:100%">
+                            
+                        </table>
                         </div>
                     </div>
 
@@ -439,13 +466,20 @@
             </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
-    <script src="plugins/toastr/toastr.min.js"></script>
-    <script src="popper/popper.min.js"></script>
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>    
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>    
+  
+
+    <script src="js/scriptsConsultaComplemento.js"></script>
+  
 </body>
 
 </html>

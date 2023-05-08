@@ -910,7 +910,7 @@ function guardar(){
         Swal.fire({
             title: 'Desea continuar',
             text: "La cantidad total que se digito en produccion " +cantidadSession+ " no coincide con la can"+
-                    "tidad total que aparece en el detalle" + cantidadTotal,
+                    "tidad total que aparece en el detalle " + sum,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -1000,9 +1000,48 @@ buttonFinalizar.addEventListener('click',function(){
                     positionClass: "toast-top-right"
                 }
     }else{
-    overlay.style.display = 'block';
+
+    //overlay.style.display = 'block';
+    Swal.fire({
+        title: 'Estas seguro de seguir',
+        text: "Si precionas en continuar podras imprimir las etiquetas al detalle " + 
+                "si precionas en cancelar se imprimira la etiqueta de fardo y no se imprimiran las etiquetas detalle",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        allowOutsideClick:false,
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, continuar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            clickear();
+            const newTab2 = window.open('barraComplemento.php', '_blank');
+            $(newTab2).on('load', function(){
+                // Posicionarse en la pestaña abierta
+                newTab2.focus();
+            });
+            setTimeout(function(){
+                window.location.replace('indexProduccion.php');
+            }, 2000);
+            
+          
+        }else{
+            if(input.value.trim().length ===0){
+                toastr["error"]
+                ("Debes seleccionar un articulo en la descripcion y guardar la operacion", 
+                "Ocurrio un error"),
+                {
+                    positionClass: "toast-top-right"
+                }
+            }else{
+            overlay.style.display = 'none';
+            habilitarComponentes();
+            clickear();
+            }
+        }
+      })
     
-    toastr.warning(
+    /*toastr.warning(
         "<br /><br /><button type='button' id='positivo' class='btn btn-light'>Si </button>&nbsp;<button type='button' id='negativo' class='btn btn-light'>No</button>",
         'Si finalizas la operacion no podras llenar el articulo detalle<br>Deseas finalizar la operacion',
     {
@@ -1048,7 +1087,7 @@ buttonFinalizar.addEventListener('click',function(){
           });
         }
     
-  });
+  });*/
 }
 
 

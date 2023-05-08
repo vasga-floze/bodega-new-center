@@ -9,15 +9,20 @@
         $usuario=$_SESSION['usuario'];
         $respuesta=$_SESSION['compania'];
         $bandera=$_SESSION['banderaArticulo'];
-        $datos = $_SESSION['datos'];
+       
         $unidades=$_SESSION['unidades'];
         $suma = 0;
-        foreach($datos as $data){
-            $cantidad=$data['cantidad'];
-            $suma += $cantidad; 
+        if(isset($_SESSION['datos'])){
+            $datos=$_SESSION['datos'];
+            foreach($datos as $data){
+                $cantidad=$data['cantidad'];
+                $suma += $cantidad; 
+            }
         }
-        echo("La suma de la cantidad ".$suma);
-        echo("La suma de la cantidad ".$unidades);
+        
+        
+        //echo("La suma de la cantidad ".$suma);
+        //echo("La suma de la cantidad ".$unidades);
         $fechaActual = date('Y-m-d');
         include('conexiones/conectar.php');
         //session_destroy();

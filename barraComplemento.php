@@ -71,38 +71,32 @@ foreach ($data as $valores){
     $pdf->SetFont('NovaMono','',20);
     $pdf->Code128(15,58,$valores['CodigoBarra'],50,25);
     $x = $pdf->GetX();
- 
     $pdf->Cell(60,60,'', 1,0);
     $pdf->SetFont('NovaMono','',40);
     $pdf->Cell(130,60,$valores["Articulo"], 1,0,'C');
     $pdf->Ln(60);
-    $pdf->SetFont('Times','B',20);
-    $pdf->Cell(190,20,$valores['Observaciones'], 1,0, 'C');
-
+    $pdf->SetFont('Times','B',10);
+    $pdf->MultiCell(190, 10, $valores['Observaciones'], 1, 'C', false);
     $x = $pdf->GetX();
-    $pdf->Ln(30);
+    $pdf->Ln(40);
 
 
       //SEGUNDA ETIQUETA
     
 
     $pdf->SetFont('NovaMono','',20);
-
-
     $pdf->Cell(60,30,$valores['CodigoBarra'], 1,0, 'C');
     $x = $pdf->GetX();
     $pdf->SetFont('Times','B',15);
     $pdf->Multicell(130,7.5,"\n".$fechaActual."\n".$valores['Descripcion']."\nUbicacion: ".$valores['Ubicacion'], 1,0);
-    $pdf->Code128(15,180,$valores['CodigoBarra'],50,25);
-    
+    $pdf->Code128(15,200,$valores['CodigoBarra'],50,25);
     $x = $pdf->GetX();
     $pdf->Cell(60,60,'', 1,0);
     $pdf->SetFont('NovaMono','',40);
     $pdf->Cell(130,60,$valores["Articulo"], 1,0,'C');
     $pdf->Ln(60);
-    $pdf->SetFont('Times','B',20);
-    $pdf->Cell(190,20,$valores['Observaciones'], 1,0, 'C');
-    
+    $pdf->SetFont('Times','B',10);
+    $pdf->MultiCell(190, 10, $valores['Observaciones'], 1, 'C', false);
     
     
 }

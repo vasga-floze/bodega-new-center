@@ -8,6 +8,22 @@
         $respuesta=$_SESSION['compania'];
         $fechaActual = date('Y-m-d');
         include('conexiones/conectar.php');
+        $articuloGet=$_GET["articulo"];
+        $libras=$_GET["libras"];
+        $CodigoBarra=$_GET["codigoBarra"];
+        $query =$dbEximp600->prepare("SELECT ARTICULO, DESCRIPCION, CLASIFICACION_2 FROM consny.ARTICULO WHERE ARTICULO='$articuloGet'");
+        $query->execute();
+        $data = $query->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($data as $valores) {
+
+            $articulo=$valores['ARTICULO'];
+            $descripcion=$valores['DESCRIPCION'];
+            $clasificacion=$valores['CLASIFICACION_2'];
+          
+            # code...
+        }
+
+        //echo($articulo);
         //session_destroy();
     }
 
@@ -25,9 +41,21 @@
     <title>Static Navigation - SB Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="cssmenu/estilo.css" rel="stylesheet" />
-    <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+    <!-- Or for RTL support -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>  
+   
+    
+
+
+    
 
 </head>
 
@@ -320,107 +348,79 @@
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Ubicaciones</h1>
+                    <h1 class="mt-4">Editar articulos produccion</h1>
                     <ol class="breadcrumb mb-4">
                         <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Ubicaciones</li>
+                        <li class="breadcrumb-item active">Consulta Produccion</li>
                     </ol>
                     <div class="row">
 
                         <div class="col-xl-3 col-md-4">
                             <!-- Enlace para abrir el modal -->
-                            <button class="btn btn-success btn-lg mb-4" data-bs-toggle="modal"
-                                data-bs-target="#modalForm">
-                                Crear Nuevo
-                            </button>
-                            
-                            <!-- Modal -->
-
-
+                            <label for="">Articulo</label>
+                            <input id="articulo" type = "text" value="<?php echo($articulo) ?>" class="form-control" id = "">
                         </div>
+                        <div class="col-xl-3 col-md-4">
+                            <!-- Enlace para abrir el modal -->
+                            <label for="">Descripcion</label>
+                            <input id="descripcion" disabled type = "text" value="<?php echo($descripcion)?>" class="form-control" id = "">
+                        </div>
+                        <div class="col-xl-3 col-md-4">
+                            <!-- Enlace para abrir el modal -->
+                            <label for="">Clasificacion</label>
+                            <input id="clasificacion" disabled type = "text" value="<?php echo($clasificacion)?>" class="form-control" id = "">
+                                                        
+                        </div>
+                        <div class="col-xl-3 col-md-4">
+                            <!-- Enlace para abrir el modal -->
+                            <label for="">Libras</label>
+                            <input id="libras" type = "text" value="<?php echo($libras)?>" class="form-control" id = "">
+                                                        
+                        </div>
+                        <div class="col-xl-3 col-md-4">
+                            <!-- Enlace para abrir el modal -->
+                            <label for="">CodigoBarra</label>
+                            <input id="codigoBarra" disabled type = "text" value="<?php echo($CodigoBarra)?>" class="form-control" id = "">
+                                                        
+                        </div>
+                       
                         
-                        <div class="col-xl-3 col-md-6">
-                            <div class="modal fade" tabindex="-1" id="modalForm" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Agregar Ubicacion</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="POST" id="formulario">
-                                                <div class="mb-3">
-                                                    <label class="mb-3" for="exampleInputEmail1"
-                                                        class="form-label">Agregar Ubicacion</label>
-                                                    <input type="text" class="form-control" id="ubicacion"
-                                                        name="usuario" aria-describedby="emailHelp">
+                    </div>
+                    <div class="row">
 
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
-                                                        data-bs-dismiss="modal">Salir</button>
-                                                    <button type="button" id="enviar"
-                                                        class="btn btn-success">Guardar</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-
+                    
+                    <div class="col-2">
+                        <div class="d-flex justify-content-start mt-5">
+                        <button type="button" id="editar" class="btn btn-primary btn-lg">Editar</button>
+                                
                         </div>
 
                     </div>
-
-
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <i class="fas fa-table me-1"></i>
-                            Tabla Ubicaciones
+                    <div class="col-2">
+                        <div class="d-flex justify-content-start mt-5">
+                        <button type="button" class="btn btn-info btn-lg">Cancelar</button>
+                                
                         </div>
-                        <div class="card-body">
-                            <table id="datatablesSimple">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>UBICACION</th>
 
-                                    </tr>
-                                </thead>
-                                <!--- <tfoot>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Position</th>
-                                        <th>Office</th>
-                                        <th>Age</th>
-                                        <th>Start date</th>
-                                        <th>Salary</th>
-                                    </tr>
-                                </tfoot>----->
-                                <tbody>
-                                    <?php 
-                                    $query =$dbBodega->prepare("SELECT idUbicacion,Ubicacion FROM dbo.UBICACION");
-                                    $query->execute();
-                                    $data = $query->fetchAll();
-
-                                    foreach($data as $item){
-                                        echo "<tr>";
-                                        echo "<td>".$item["idUbicacion"]."</td>";
-                                        echo "<td>".$item["Ubicacion"]."</td>";
-                                    }
-                                    ?>
-
-
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-
+                    
+             
+                        
+                    </div>
                 </div>
+                    
+                        
+                    
+
+                   
+                    
+                    
+
+          
+                 
+                        
+        
+
                 <!-- Modal -->
 
             </main>
@@ -439,13 +439,20 @@
             </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
-    <script src="plugins/toastr/toastr.min.js"></script>
-    <script src="popper/popper.min.js"></script>
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>    
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
+  
+
+    <script src="js/scriptsConsultaComplemento.js"></script>
+  
 </body>
 
 </html>
