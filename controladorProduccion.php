@@ -14,6 +14,7 @@
     $variableSession=&valorMaximo();
     $codigoBarra =("".$letraMayuscula.""."P".$dia."".$mes."".$variableSession."".$anio);
     $_SESSION["cod"]=$codigoBarra;
+    $estado="PROCESO";
     
     //$resultado = $dividendo / $divisor;
     error_reporting(E_ALL & ~E_NOTICE);
@@ -39,7 +40,7 @@
         //$variableSession=&valorMaximo();
         
         try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-        $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+        $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,Estado,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:estado,:tipoRegistro,:variableSession)");
         $stmt=$dbBodega->prepare($query);
         //$variableSession=&valorMaximo();
         $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -54,17 +55,24 @@
         $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
         $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
         $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+        $stmt->bindParam("estado", $estado, PDO::PARAM_STR);
         $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
 
         
-        $stmt->execute();
+        if($stmt->execute()){
+            echo("Registro exitoso");
+        }else{
+            $errorInfo=$stmt->errorInfo();
+            echo "Error en la insercion: {$errorInfo[2]} (Code: {$errorInfo[0]})";
+
+        }
         
 
 
         //echo("dia".$dia."mes".$mes."anio".$anio);
        // echo(".$query.");
        //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
-       echo("Registro exitoso");
+       
      
         
         }catch(PDOException $e){

@@ -2,10 +2,11 @@
  session_start();
 include('conexiones/conectar.php');
 $bandera=$_SESSION['banderaArticulo'];
+$respuesta=$_SESSION['compania'];
 if($_REQUEST['empid']){
             $query =$dbEximp600->prepare(
                 "SELECT ARTICULO, DESCRIPCION, PRECIO_REGULAR
-                FROM consny.ARTICULO
+                FROM ".$respuesta.".ARTICULO
                 WHERE (ACTIVO = 'S') 
                 AND (ARTICULO ='".$_REQUEST['empid']."')
                 AND (CLASIFICACION_1 = 'DETALLE') 

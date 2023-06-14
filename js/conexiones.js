@@ -42,7 +42,7 @@ $('#btnIngresar').click(function(){
                 timer: 1500
               }).then(()=>{
                 setTimeout(()=>{
-                    window.location.replace("indexProduccion.php");
+                    window.location.replace("indexDashboard.php");
                 },100);
               })
         }else{

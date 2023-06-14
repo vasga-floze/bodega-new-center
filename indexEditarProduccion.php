@@ -11,7 +11,7 @@
         $articuloGet=$_GET["articulo"];
         $libras=$_GET["libras"];
         $CodigoBarra=$_GET["codigoBarra"];
-        $query =$dbEximp600->prepare("SELECT ARTICULO, DESCRIPCION, CLASIFICACION_2 FROM consny.ARTICULO WHERE ARTICULO='$articuloGet'");
+        $query =$dbEximp600->prepare("SELECT ARTICULO, DESCRIPCION, CLASIFICACION_2 FROM ".$respuesta.".ARTICULO WHERE ARTICULO='$articuloGet'");
         $query->execute();
         $data = $query->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($data as $valores) {
@@ -398,7 +398,7 @@
                     </div>
                     <div class="col-2">
                         <div class="d-flex justify-content-start mt-5">
-                        <button type="button" class="btn btn-info btn-lg">Cancelar</button>
+                        <a class="btn btn-info btn-lg" href="indexConsultaComplemento.php"  role="button">Cancelar</a>
                                 
                         </div>
 

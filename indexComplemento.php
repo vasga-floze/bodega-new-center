@@ -9,7 +9,6 @@
         $usuario=$_SESSION['usuario'];
         $respuesta=$_SESSION['compania'];
         $bandera=$_SESSION['banderaArticulo'];
-       
         $unidades=$_SESSION['unidades'];
         $suma = 0;
         if(isset($_SESSION['datos'])){
@@ -397,7 +396,7 @@
                                             DESCRIPCION,
                                             CLASIFICACION_2
                     
-                                            FROM consny.ARTICULO
+                                            FROM ".$respuesta.".ARTICULO
                                             WHERE activo='S'
                                             AND clasificacion_1<>'DETALLE'
                                             AND clasificacion_2='$bandera'
@@ -425,7 +424,7 @@
                                         <input class="form-control mb-4" id="codigo" name="codigo" type="text"
                                             placeholder="" hidden />
                                         <input class="form-control mb-4" id="unidadesSession" name="unidadesSession" type="text"
-                                        placeholder=""value=<?php echo($unidades) ?> hidden />
+                                        placeholder=""value=<?php echo($unidades) ?>  />
 
 
 
@@ -459,7 +458,7 @@
                                                 //$db=connectERP();
                                                 $query =$dbEximp600->prepare(
                                                     "SELECT ARTICULO, DESCRIPCION, PRECIO_REGULAR
-                                                    FROM consny.ARTICULO
+                                                    FROM ".$respuesta.".ARTICULO
                                                     WHERE (ACTIVO = 'S') 
                                                     AND (CLASIFICACION_1 = 'DETALLE') 
                                                     AND (CLASIFICACION_2 = '$bandera')
@@ -518,6 +517,10 @@
                                             <div class="form-check form-switch ">
                                                 <input class="form-check-input" type="checkbox" role="switch" id="imprimir">
                                                 <label class="form-check-label" for="flexSwitchCheckDefault">Imprimir viñeta prenda</label>
+                                            </div>
+                                            <div class="form-check form-switch ">
+                                                <input class="form-check-input" type="checkbox" role="switch" id="imprimirAdhesivo">
+                                                <label class="form-check-label" for="flexSwitchCheckDefault">Imprimir viñeta adhesiva</label>
                                             </div>
                                         </div>
                                        
@@ -599,7 +602,7 @@
                                             DESCRIPCION,
                                             CLASIFICACION_2
                     
-                                            FROM consny.ARTICULO
+                                            FROM ".$respuesta.".ARTICULO
                                             WHERE activo='S'
                                             AND clasificacion_1<>'DETALLE'
                                             AND clasificacion_2='$bandera'

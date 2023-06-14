@@ -257,10 +257,12 @@ $('#ropa').click(function() {
             })
             .done(function(res){
 
-                if(res){
+                if(res==="Registro exitoso"){
                     $(window).attr('location','indexComplemento.php');
 
                     //console.log(res);
+                }else{
+                    console.log("REGISTRO INVALIDO");
                 }
             })
             .fail(function(){
@@ -723,7 +725,8 @@ $('#guardarDetalle').prop('disabled', true);
 $('#empaque').prop('disabled', false);
 
 /**
- * If the user clicks on the button with the id of 'agregarDetalle', then the function
+ * If the user clicks on the button with the id of 'agregarDetalle', 
+ * then the function
  * habilitarComponentes() will be called.
  */
 function habilitarComponentes(){
@@ -861,9 +864,6 @@ function agregar(){
 
 function guardar(){
     var json=JSON.stringify(data);
-    
-   
-
     const sum = data.reduce((previous, current) => {
         return Number(previous) + Number(current.cantidad); // sumar el valor de una propiedad
       }, 0);
@@ -881,10 +881,14 @@ function guardar(){
             console.log(res);
             $(document).ready(function(){
                 // Abrir una nueva pestaña con la página que se desea redireccionar
+
+               
                 if($('#imprimir').prop('checked')){
                 //const newTab1 = window.open('example.php', '_blank');
                 window.open('barraComplemento.php', '_blank');
                 window.open('example.php','_blank');
+                window.open('pdfAdhesivo.php', '_blank');
+                //window.open('pdfAdhesivo.php');
             // Esperar a que la página se cargue completamente
                 
                 setTimeout(function(){
@@ -925,11 +929,17 @@ function guardar(){
                     success:function(res){
                     console.log(res);
                     $(document).ready(function(){
+                        
                         // Abrir una nueva pestaña con la página que se desea redireccionar
                         if($('#imprimir').prop('checked')){
                         //const newTab1 = window.open('example.php', '_blank');
                         window.open('barraComplemento.php', '_blank');
                         window.open('example.php','_blank');
+
+                        if($('#imprimirAdhesivo').prop('checked')){
+                            window.open('pdfAdhesivo.php', '_blank');
+                        }
+                        
                     // Esperar a que la página se cargue completamente
                         
                         setTimeout(function(){

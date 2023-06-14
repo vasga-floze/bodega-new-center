@@ -22,7 +22,7 @@ SET @ESTADO=NULL
 IF @USUARIO='NULL'
 SET @USUARIO=NULL
 
-SELECT Articulo, Descripcion, Clasificacion, CodigoBarra, Libras, Unidades, UsuarioCreacion, Estado,FechaCreacion
+SELECT Articulo,BodegaCreacion, Descripcion, Clasificacion, CodigoBarra, Libras, Unidades, UsuarioCreacion, Estado,FechaCreacion
 FROM REGISTRO
 WHERE (FechaCreacion = @FECHA) AND (Estado BETWEEN ISNULL(@ESTADO, N'A') AND ISNULL(@ESTADO, N'ZZZZZZZZZZZZZZZZZ')) 
 AND (UsuarioCreacion BETWEEN ISNULL(@USUARIO, N'A') AND ISNULL(@USUARIO, N'ZZZZZZZZZZZZZZZZZ'))

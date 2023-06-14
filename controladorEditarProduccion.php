@@ -1,14 +1,16 @@
 <?php
+    session_start();
     include('conexiones/conectar.php');
     $articulo=$_POST["articulo"];
     $descripcion=$_POST["descripcion"];
     $clasificacion=$_POST["clasificacion"];
+    $respuesta=$_SESSION['compania'];
     $libras=$_POST["libras"];
     $codigoBarra=$_POST['codigoBarra'];
     $bandera='';
     
 
-    $query =$dbEximp600->prepare("SELECT ARTICULO, DESCRIPCION, CLASIFICACION_2 from consny.ARTICULO where ARTICULO='$articulo'");
+    $query =$dbEximp600->prepare("SELECT ARTICULO, DESCRIPCION, CLASIFICACION_2 from ".$respuesta.".ARTICULO where ARTICULO='$articulo'");
     $query->execute();
     $data = $query->fetchAll();
 

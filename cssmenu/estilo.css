@@ -7465,6 +7465,19 @@ textarea.form-control-lg {
   padding: 1rem !important;
 }
 
+
+/*CIRCULAR IMAGEN LOGIN*/
+
+.circulo{
+  width: 200px;
+  height: 200px;
+  background-image: url(../logo.png);
+  background-size: cover;
+  border-radius:200%;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
 .p-4 {
   padding: 1.5rem !important;
 }

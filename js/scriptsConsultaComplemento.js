@@ -1,4 +1,29 @@
+$(document).ready(function(){
+    var estado = document.getElementById("estado");
+    var usuario = document.getElementById("usuario");
+    if(usuario.value !=='TODOS' || estado.value !=='TODOS'){
+        $("#finalizar").prop("disabled",false);
+    }else{
+        $("#finalizar").prop("disabled",true);
+    }
+    $("#estado").change(function(){
+        if(usuario.value !=='TODOS' && estado.value !=='TODOS'){
+            $("#finalizar").prop("disabled",false);
+        }else{
+            $("#finalizar").prop("disabled",true);
+        }
 
+    })
+    $("#usuario").change(function(){
+        if(usuario.value !=='TODOS' && estado.value !=='TODOS'){
+            $("#finalizar").prop("disabled",false);
+        }else{
+            $("#finalizar").prop("disabled",true);
+        }
+
+    })
+   
+})
 $( '#estado' ).select2( {
     theme: 'bootstrap-5'
 } );
@@ -28,6 +53,7 @@ $(function() {
 
 
 
+
  $("#generar").on("click",function(){
    
 
@@ -40,7 +66,7 @@ $(function() {
     console.log(ruta);
 
     $.getJSON(ruta,function(data){
-        console.log(data);
+            console.log(data);
 
         
             const tabla=$('#myTable').DataTable({
@@ -148,6 +174,45 @@ $(function() {
                 //window.location.href=url;
 
             });
+            $('#finalizar').on('click',function(){
+                // Creamos array con los meses del año
+                //console.log(data);
+                
+                let paquete=document.getElementById('paquete').value;
+                let documentoConsecutivo=document.getElementById('documentoConsecutivo').value;
+                let documentoInventario=document.getElementById('documentoInventario').value;
+                let usuario=document.getElementById('usuarioSession').value;
+                let produccion='PRODUCCION';
+                let seleccionado='N';
+                let fechaCreacion=data.map(function(element){
+                    return element.FechaCreacion;
+                })
+               
+                let elementos=data.filter(function(element){
+                    return element.Estado==='PROCESO';
+                }).map(function(element){
+                    return element;
+                });
+
+                let elementosJSON= JSON.stringify(elementos);
+                //console.log(fechaCreacion[0]);
+                
+                //let fechaDocumento=dataRow.FechaCreacion;
+                let url="paquete="+paquete+"&documentoInventario="+documentoInventario+"&produccion="+produccion+"&seleccionado="+seleccionado+"&fechaCreacion="+fechaCreacion[0]+"&usuario="+usuario+"&elementos="+encodeURIComponent(elementosJSON)+"&documentoConsecutivo="+documentoConsecutivo;
+                $.ajax({
+                    url: 'controladorFinalizarProduccion.php',
+                    type: 'POST',
+                    data: url,
+                })
+                .done(function(res){
+                    console.log(res);
+                })
+                .fail(function(jqXHR, textStatus, errorThrown){
+                    console.log("Error: " + errorThrown);
+                })
+                .always(function(){ 
+                });
+            });
     });
  });
 
@@ -186,17 +251,12 @@ $(function() {
                 text: 'El registro no puede ser editado porque no coincide la clasificacion porque '+
                       'la clasificacion del articulo editado no coinciden con la base de datos',
                 
-              })
-              
+              })     
         }
-        
-        
     })
     .fail(function(){
-       
     })
     .always(function(){
-        
-    });
-   
+ 
+    });   
 });
