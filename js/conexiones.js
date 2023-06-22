@@ -32,17 +32,23 @@ $('#btnIngresar').click(function(){
         type:'POST',
         data:ruta
     }).done(function(res){
-        console.log(res);
+
+       console.log(res);
+        //let data=JSON.parse(res);
         if(res==1){
+
             Swal.fire({
                 //position: 'top-end',
                 icon: 'success',
                 title: 'Registro exitoso',
+                text: res,
                 showConfirmButton: false,
                 timer: 1500
               }).then(()=>{
                 setTimeout(()=>{
-                    window.location.replace("indexDashboard.php");
+                    //window.location.replace("indexDashboard.php");
+                    window.location.href="indexDashboard.php";
+                    console.log("Index dashboard");
                 },100);
               })
         }else{

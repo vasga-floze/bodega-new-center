@@ -4,8 +4,9 @@ include('conexiones/conectar.php');
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
 $traslado='TRASLADO';
-$bodegaOrigen=$_POST['bodegaOrigen'];
-$bodegaDestino=$_POST['bodegaDestino'];
+
+$bodegaOrigenPOST=$_POST['bodegaOrigen'];
+$bodegaDestinoPOST=$_POST['bodegaDestino'];
 $fechaOrigen=$_POST['fechaOrigen'];
 $N='N';
 $N2='N';
@@ -22,7 +23,7 @@ $noteExitsFlags="0";
 //echo($respuesta."".$usuario."".$traslado."".$bodegaOrigen."".$bodegaDestino."".$fechaOrigen."".$N."".$N2);
 $cero=0;
 $response=array();
-$trasladoBodega='TRASLADO DE BODEGA '.$bodegaOrigen.' A '.$bodegaDestino;
+$trasladoBodega='TRASLADO DE BODEGA '.$bodegaOrigenPOST.' A '.$bodegaDestinoPOST;
 
 $queryConsecutivo=$dbEximp600->prepare("SELECT CONSECUTIVO, SIGUIENTE_CONSEC FROM ".$respuesta.".CONSECUTIVO_CI WHERE CONSECUTIVO='TRASLADO'");
 
@@ -193,17 +194,18 @@ if($actualizarTransaccion->execute([$documento_consecutivo,$fechaHoraTemporal]))
 
 
 $queryRegistro= "UPDATE REGISTRO  SET BodegaActual=? WHERE CodigoBarra IN(SELECT CodigoBarra
-                FROM [BODEGA].[dbo].[TRANSACCION]
-                where Documento_Inv=? and Naturaleza='S')
+                FROM TRANSACCION
+                where Documento_Inv=? and Naturaleza='E')
                 ";
 $actualizarRegistro=$dbBodega->prepare($queryRegistro);
-if($actualizarRegistro->execute([$bodegaDestino,$documento_consecutivo])){
+if($actualizarRegistro->execute([$bodegaDestinoPOST,$documento_consecutivo])){
 
     $response["message"]="Registro exitoso";
     $response["documentoConsecutivo"]=$documento_consecutivo;
     $response["descripcion"]=$descripcion;
     $response["CodigoBarra"]=$codigoBarra;
-    $response["Bodega origen"]=$bodegaOrigen;
+    $response["Bodega origen"]=$bodegaOrigenPOST;
+    $response["Bodega destino"]=$bodegaDestinoPOST;
     $response["articulo"]=$articulo;  
     //echo("Registro exitoso");
 }else{

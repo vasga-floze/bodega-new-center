@@ -23,15 +23,15 @@
     <meta name="author" content="" />
     <title>Static Navigation - SB Admin</title>
     <link href="cssmenu/estilo.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-    <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
+    <link rel="stylesheet" href="cssmenu/select2.min.css" />
+    <!---<link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />---->
+    <!--<link rel="stylesheet" href="plugins/toastr/toastr.min.css"> -->
     <!-- Or for RTL support -->
 
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    
     <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+   
 </head>
 
 <body>
@@ -279,7 +279,7 @@
     </div>
     <div id="modal-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 100; display: none;"></div>
     <script src="js/scripts.js"></script>                                      
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="plugins/toastr/toastr.min.js"></script>
    
 

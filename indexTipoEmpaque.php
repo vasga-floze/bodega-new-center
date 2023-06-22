@@ -24,10 +24,10 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Static Navigation - SB Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="cssmenu/datatableStyle.css">
     <link href="cssmenu/estilo.css" rel="stylesheet" />
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  
     <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
 
 </head>
@@ -160,7 +160,7 @@
             </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    <script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>      
     </script>
     <script src="plugins/toastr/toastr.min.js"></script>
     <script src="popper/popper.min.js"></script>

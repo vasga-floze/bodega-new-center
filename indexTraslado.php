@@ -40,12 +40,13 @@
                 REGISTRO.Articulo, REGISTRO.Descripcion, TRANSACCION.CodigoBarra, REGISTRO.Libras
     FROM            TRANSACCION INNER JOIN
                 REGISTRO ON TRANSACCION.CodigoBarra = REGISTRO.CodigoBarra INNER JOIN
-                EXIMP600.'".$respuesta."'.BODEGA AS ex ON TRANSACCION.Bodega = ex.BODEGA
+                EXIMP600.".$respuesta.".BODEGA AS ex ON TRANSACCION.Bodega = ex.BODEGA
     WHERE        (TRANSACCION.Documento_Inv = '$documento_inv')
     GROUP BY TRANSACCION.Fecha, TRANSACCION.CodigoBarra, REGISTRO.Articulo, REGISTRO.Descripcion, REGISTRO.Libras
     ");
     $query->execute();
     $data = $query->fetchAll();
+    var_dump($data);
     $bodegaOrigen='';
     $bodegaDestino='';
     $bodegaOrigenNombre='';
@@ -61,6 +62,7 @@
 
         # code...
     }
+    echo($documento_inv);
         }
         if(isset($_GET['pendiente'])){
             $pendiente=$_GET['pendiente'];
@@ -229,7 +231,7 @@
 
                                         <?php else: ?>
                                         <input type="text" class="form-control" id="bodegaInputDestino"
-                                            value="<?php echo($bodegaDestinocodigo)?>" disabled>
+                                            value="<?php echo($bodegaDestinocodigo)?>" >
                                         <?php endif;?>
                                         <input type="text" class="form-control" id="bodegaLocal"
                                             value="<?php echo($bodegaDestinocodigo)?>">

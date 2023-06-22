@@ -2326,6 +2326,7 @@ progress {
   background-color: #dde0e3;
 }
 
+
 .form-control-plaintext {
   display: block;
   width: 100%;
@@ -10599,7 +10600,7 @@ textarea.form-control-lg {
   .ps-xl-1 {
     padding-left: 0.25rem !important;
   }
-
+  
   .ps-xl-2 {
     padding-left: 0.5rem !important;
   }

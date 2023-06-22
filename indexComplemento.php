@@ -41,17 +41,20 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Static Navigation - SB Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <link href="cssmenu/datatableStyle.css" rel="stylesheet" />
     <link href="cssmenu/estilo.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />-->
+   <link rel="stylesheet" href="cssmenu/select2.min.css" />
+   <link rel="stylesheet" href="cssmenu/select2-bootstrap-5-theme.min.css">
+   <link href="cssmenu/toastr.css" rel="stylesheet"/>
+    <!--<link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />-->
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
     <!-- Or for RTL support -->
 
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+  
     <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <script src="js/select2.full.min.js"></script>
    
 </head>
 
@@ -660,9 +663,9 @@
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
-    <script src="plugins/toastr/toastr.min.js"></script>
+    <script src="js/toastr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    <script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     </script>
 
 </body>
