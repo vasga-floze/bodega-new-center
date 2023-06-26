@@ -694,21 +694,38 @@ $("#finalizar").click(function(){
    }else{
        fechaOrigen=document.getElementById("fechaInputDestino").value;
    }
-    /*console.log(fechaHoraTemporal);
+    console.log(fechaHoraTemporal);
     console.log(bodegaOrigen);
     console.log(bodegaDestino);
-    console.log(fechaOrigen);*/
-    let dataUrl="bodegaOrigen="+bodegaOrigen+"&bodegaDestino="+bodegaDestino+"&fechaOrigen="+fechaOrigen+"&json="+json+"&fechaHoraTemporal="+fechaHoraTemporal;
+    console.log(fechaOrigen);
+
+    let objetoDatos={
+        fechaHoraTemporal:fechaHoraTemporal,
+        bodegaOrigen: bodegaOrigen,
+        bodegaDestino: bodegaDestino,
+        fechaOrigen: fechaOrigen,
+        json:json
+    }
+
+
+    
+   // let dataUrl="bodegaOrigen="+bodegaOrigen+
+                //"&bodegaDestino="+bodegaDestino+"&fechaOrigen="+fechaOrigen+"&fechaHoraTemporal="+fechaHoraTemporal;
+    //console.log(dataUrl);
+    //enviarJson(json);
+    //console.log("Entro");
 
     $.ajax({
 
         url:"controladorFinalizarTraslado.php",
         type:'POST',
-        data:dataUrl,
+        data:objetoDatos,
         success:function(response){
+            console.log(response);
             let data=JSON.parse(response);
             let documento=data.documentoConsecutivo;
-            if(data.message="Registro exitoso"){
+            if(data.message === "Registro exitoso"){
+                console.log(data);
                 window.location.href="pdfTraslado.php?documento="+documento;
             }
            //console.log(response);
@@ -722,24 +739,6 @@ $("#finalizar").click(function(){
 
 
 
-const enviarObjetoDatos=()=>{
-
-    let json=JSON.stringify(data);
-    $.ajax({
-
-        type: "POST",
-        url: "controladorFinalizarTraslado.php",
-        data: "json="+json,
-
-        success:function(response){
-            console.log(response);
-        },
-
-        error:function(xhr,status,error){
-            console.log(error);
-        }
-    })
-}
 
 
 

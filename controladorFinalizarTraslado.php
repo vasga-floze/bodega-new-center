@@ -64,10 +64,7 @@ $consecutivo_elemento=obtener_consecutivo($documento_consecutivo);
 $_SESSION['documentoInventarioPdf']=$documento_consecutivo;
 
 
-$query= (
-    
-    "INSERT INTO 
-        '$respuesta'.DOCUMENTO_INV (
+$query= ("INSERT INTO ".$respuesta.".DOCUMENTO_INV (
             PAQUETE_INVENTARIO,
             DOCUMENTO_INV,
             CONSECUTIVO,
@@ -100,31 +97,25 @@ $stmt->bindParam(":N",$N);
 $stmt->bindParam(":usuario",$usuario);
 $stmt->bindParam(":N2",$N2);
 $stmt->bindParam(":cero",$cero);
-if($stmt->execute()){
-
-    $response["message"]="registro exitoso";
-
-    //echo("Registro exitoso");
-}else{
+if(!$stmt->execute()){
     $error = $stmt->errorInfo();
     $response["message"]="Registro salio mal". $error[2];
+    echo(json_encode($response));
+    return;
 }
+
+
 $contador=1;
-$datos=isset($_POST['json'])?$_POST['json']:'';
-$datosDecodificados=json_decode($datos,true);
-foreach ($datosDecodificados as $key => $value) {
-    $descripcion = isset($value['descripcion']) ? $value['descripcion'] : '';
-    $codigoBarra = isset($value['CodigoBarra']) ? $value['CodigoBarra'] : '';
-    $articulo = isset($value['Articulo']) ? $value['Articulo'] : '';
-    $bodegaOrigen = isset($value['BODEGA ORIGEN']) ? $value['BODEGA ORIGEN'] : '';
-    $bodegaDestino = isset($value['BODEGA DESTINO']) ? $value['BODEGA DESTINO'] : '';
 
-
-
-
-    //$codigoBarra= isset($value)
-    //echo $bodegaDestino;
-    # code...
+$json = $_POST['json'];
+//$datos=isset($_POST['data'])?$_POST['data']:'';
+$datosDecodificados=json_decode($json,true);
+foreach ($datosDecodificados as $key) {
+    $bodegaDestino=isset($key["bodegaDestino"])?$key["bodegaDestino"]:$key["BODEGA DESTINO"];
+    $bodegaOrigen=isset($key["bodegaOrigen"])?$key["bodegaOrigen"]:$key["BODEGA ORIGEN"];
+    $codigoBarra=isset($key["codigoBarra"])?$key["codigoBarra"]:$key["CodigoBarra"];
+    $descripcion=isset($key["descripcion"])?$key["descripcion"]:$key["Descripcion"];
+    $articulo=isset($key["articulo"])?$key["articulo"]:$key["Articulo"];
 
     
     $query =$dbEximp600->prepare("INSERT INTO 

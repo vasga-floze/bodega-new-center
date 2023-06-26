@@ -460,13 +460,12 @@
                                             <?php
                                                 //$db=connectERP();
                                                 $query =$dbEximp600->prepare(
-                                                    "SELECT ARTICULO, DESCRIPCION, PRECIO_REGULAR
-                                                    FROM ".$respuesta.".ARTICULO
-                                                    WHERE (ACTIVO = 'S') 
-                                                    AND (CLASIFICACION_1 = 'DETALLE') 
-                                                    AND (CLASIFICACION_2 = '$bandera')
-                                                    AND (USA_LOTES = 'S')
-                                                    ORDER BY DESCRIPCION, ARTICULO, PRECIO_REGULAR");
+                                                    "SELECT        ".$respuesta.".ARTICULO.ARTICULO, ".$respuesta.".ARTICULO.DESCRIPCION, ".$respuesta.".ARTICULO_PRECIO.PRECIO
+                                                    FROM            ".$respuesta.".ARTICULO INNER JOIN
+                                                                             ".$respuesta.".ARTICULO_PRECIO ON ".$respuesta.".ARTICULO.ARTICULO = ".$respuesta.".ARTICULO_PRECIO.ARTICULO
+                                                    WHERE        (".$respuesta.".ARTICULO.ACTIVO = 'S') AND (".$respuesta.".ARTICULO.UNIDAD_ALMACEN = '59') AND (".$respuesta.".ARTICULO.CLASIFICACION_2 = '$bandera') AND (".$respuesta.".ARTICULO.USA_LOTES = 'S') AND 
+                                                                             (".$respuesta.".ARTICULO_PRECIO.NIVEL_PRECIO = 'REGULAR')
+                                                    ORDER BY ".$respuesta.".ARTICULO.DESCRIPCION, ".$respuesta.".ARTICULO.ARTICULO");
                                                 $query->execute();
                                                 $data = $query->fetchAll();
                                                 foreach ($data as $valores){
@@ -498,7 +497,7 @@
                                         <input class="form-control mb-3" id="codigoDetalle" name=""
                                         type="text" placeholder="" hidden/>
                                         <input class="form-control mb-3" id="precioDetalle" name="precioDetalle"
-                                            type="number" placeholder="" value="ROPA" hidden />
+                                            type="number" placeholder="" value="ROPA"  />
                                         <input class="form-control mb-3" id="detalleBandera" name="detalleBandera"
                                         type="text" placeholder="" value="" hidden /> 
 

@@ -31,7 +31,7 @@
     
    
        
-        $query= ("INSERT INTO ".$respuesta.".DOCUMENTO_INV (PAQUETE_INVENTARIO,DOCUMENTO_INV, CONSECUTIVO, REFERENCIA,FECHA_DOCUMENTO, SELECCIONADO, USUARIO, MENSAJE_SISTEMA, USUARIO_APRO,  APROBADO, NoteExistsFlag) VALUES (:paquete,:documentoInventario,:produccion,:referencia,:fecha,:n,:usuario,:mensajeSistema,:nullMensaje,:n0,:aprobado)");
+        $query= ("INSERT INTO ".$respuesta.".DOCUMENTO_INV (PAQUETE_INVENTARIO,DOCUMENTO_INV, CONSECUTIVO, REFERENCIA,FECHA_DOCUMENTO, SELECCIONADO, USUARIO, MENSAJE_SISTEMA,   APROBADO, NoteExistsFlag) VALUES (:paquete,:documentoInventario,:produccion,:referencia,:fecha,:n,:usuario,:mensajeSistema,:n0,:aprobado)");
         $stmt=$dbEximp600->prepare($query);
         $stmt->bindParam(":paquete",$paquete);
         $stmt->bindParam(":documentoInventario",$documentoInventario);
@@ -41,7 +41,7 @@
         $stmt->bindParam(":n",$n);
         $stmt->bindParam(":usuario",$usuario);
         $stmt->bindParam(":mensajeSistema",$mensajeSistema);
-        $stmt->bindParam(":nullMensaje",$nullMensaje);
+        //$stmt->bindParam(":nullMensaje",$nullMensaje);
         $stmt->bindParam(":n0",$n0);
         $stmt->bindParam(":aprobado",$aprobado);
         if(!$stmt->execute()){

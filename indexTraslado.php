@@ -152,7 +152,7 @@
                                             <option selected></option>
                                             <?php
                                                         //$db=connectERP();
-                                                        $query =$dbEximp600->prepare("SELECT bodega,nombre FROM ".$respuesta.".BODEGA WHERE nombre not like '%(N)%'");
+                                                        $query =$dbEximp600->prepare("SELECT bodega,nombre FROM ".$respuesta.".BODEGA WHERE nombre not like '%(N)%' order by bodega");
                                                         $query->execute();
                                                         $data = $query->fetchAll();
                                                         foreach ($data as $valores):

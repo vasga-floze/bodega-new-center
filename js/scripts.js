@@ -689,7 +689,7 @@ $(document).ready(function(){
                         console.log(element);
                         $("#descripcionDetalle").val(element.DESCRIPCION);
                         $("#codigoDetalle").val(element.ARTICULO);
-                        $("#precioDetalle").val(parseFloat(element.PRECIO_REGULAR).toFixed(2));
+                        $("#precioDetalle").val(parseFloat(element.PRECIO).toFixed(2));
                     })
                     
                     $("#errorMassage").addClass
@@ -872,6 +872,8 @@ function guardar(){
     
     
     let cantidadSession=document.getElementById('unidadesSession').value;
+    console.log(json);
+    
     if(sum == cantidadSession ){
         $.ajax({
             type: "POST",
@@ -884,7 +886,7 @@ function guardar(){
 
                
                 if($('#imprimir').prop('checked')){
-                //const newTab1 = window.open('example.php', '_blank');
+               
                 window.open('barraComplemento.php', '_blank');
                 window.open('example.php','_blank');
                 window.open('pdfAdhesivo.php', '_blank');

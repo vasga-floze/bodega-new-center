@@ -30,7 +30,7 @@ $("#desglosar").click(function(){
                 icon: 'success',
                 title: message,
                 showConfirmButton: false,
-                timer: 1500
+                //timer: 1500
               })
         },
 

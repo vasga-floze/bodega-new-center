@@ -347,7 +347,14 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
     }
 
 
-    //REGISTRAR EL DETALLE DE ARTICULOS QUE COMPONE EL FARDO
+    
+
+    /**
+     * *REGISTRA EL DETALLE DE ARTICULOS QUE COMPONE EL FARDO
+     * TODO: ESTA QUERY INSERTA EL DETALLEDESGLOSE EN LA TABLA
+     * TODO: DETALLEDESGLOSE
+     * !En dado caso que falle no dejara pasar al otro query
+     */
 
     $queryInsertarDetalleDesglose=$dbBodega->prepare(
         "INSERT 
@@ -389,6 +396,11 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
 
 
         //SELECCIONA EL DOCUMENTO INVENTARIO DE TIPO CONSUMO
+
+        /**
+         * *SELECCIONA EL DOCUMENTO INVENTARIO
+         * 
+         */
 
         $querySeleccionarDocConsumo=$dbEximp600->prepare(
                                                         "SELECT 
@@ -576,62 +588,8 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
             }
             $documentoConsecutivoING=obtener_consecutivoIng($consecutivoIng);
 
-            $queryPiezaFardoEncabezado=$dbEximp600->prepare("INSERT INTO
-                                                             ".$respuesta.".DOCUMENTO_INV
-                                                            (
-                                                             PAQUETE_INVENTARIO,
-                                                             DOCUMENTO_INV,
-                                                             CONSECUTIVO,
-                                                             REFERENCIA,
-                                                             FECHA_HOR_CREACION,
-                                                             FECHA_DOCUMENTO,
-                                                             SELECCIONADO,
-                                                             USUARIO,
-                                                             MENSAJE_SISTEMA,
-                                                             APROBADO,
-                                                             NoteExistsFlag
-                                                            )
-
-                                                             VALUES(
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?,
-                                                                ?
-
-
-                                                             )
-                                                            ");
-            if (!$queryPiezaFardoEncabezado->execute([
-                                                    $paqueteInventario,
-                                                    $documentoConsecutivoING,
-                                                    'ING',
-                                                    $referencia,
-                                                    $fechaActual,
-                                                    $fechaActual,
-                                                    'N',
-                                                    $usuario,
-                                                    'NULL',
-                                                    'N',
-                                                    $NoteExistsFlag
-                                                    
-
-                                                    ])) {
-            $errorInfo = $queryPiezaFardoEncabezado->errorInfo();
-            $response["message"]="Tienda no esta en linea querypiezafardo".$errorInfo[2];
-            $response["success"]="false";
-            //echo "CABALLOOOOOO " .$errorInfo[2];
-            echo(json_encode($response));
-            return;
-                # code...
-            }
-            $contador=1;
+           
+           
 
 
 
@@ -641,10 +599,130 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
 
             */
 
+            foreach ($datosDetalle as $value) {
+                $queryInsertarCodigoBarraLote=$dbEximp600->prepare("INSERT INTO ".$respuesta.".LOTE
+                                                                    (
+                                                                        LOTE,
+                                                                        ARTICULO,
+                                                                        LOTE_DEL_PROVEEDOR,
+                                                                        FECHA_ENTRADA,
+                                                                        FECHA_VENCIMIENTO,
+                                                                        FECHA_CUARENTENA,
+                                                                        CANTIDAD_INGRESADA,
+                                                                        ESTADO,
+                                                                        TIPO_INGRESO,
+                                                                        ULTIMO_INGRESO,
+                                                                        NoteExistsFlag
+                                                                    ) VALUES (
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?
+                                                                    )");
+                if(!$queryInsertarCodigoBarraLote->execute([
+                                                        $codigoBarra,
+                                                        $articulo,
+                                                        'ND',
+                                                        $fechaActual,
+                                                        $fechaCompletaProxima,
+                                                        $fechaVencimiento,
+                                                        0,
+                                                        'V',
+                                                        'P',
+                                                        0,
+                                                        0
+                                                          ])){
+                $errorInfo=$queryInsertarCodigoBarraLote->errorInfo();
+                $response["message"]="Tienda no esta en linea insertar codigo barra lote".$errorInfo[2];
+                $response["success"]="false";
+                echo json_encode($response);
+                return;
+
+                
+                
+                }
+            }
+
+
+
+
+            /**
+             * *ENCABEZADO DOCUMENTO INV
+             */
+
+
+            $queryPiezaFardoEncabezado=$dbEximp600->prepare("INSERT INTO ".$respuesta.".DOCUMENTO_INV
+                                    (
+                                        PAQUETE_INVENTARIO,
+                                        DOCUMENTO_INV,
+                                        CONSECUTIVO,
+                                        REFERENCIA,
+                                        FECHA_HOR_CREACION,
+                                        FECHA_DOCUMENTO,
+                                        SELECCIONADO,
+                                        USUARIO,
+                                        MENSAJE_SISTEMA,
+                                        APROBADO,
+                                        NoteExistsFlag
+                                    )
+
+                                    VALUES(
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?,
+                                    ?
+
+
+                                    )
+                                        ");
+                            if (!$queryPiezaFardoEncabezado->execute([
+                                                                        $paqueteInventario,
+                                                                        $consecutivoIng,
+                                                                        'ING',
+                                                                        $referencia,
+                                                                        $fechaActual,
+                                                                        $fechaActual,
+                                                                        'N',
+                                                                        $usuario,
+                                                                        'NULL',
+                                                                        'N',
+                                                                        $NoteExistsFlag
+                                                                        
+
+                                                                    ])) {
+                                    $errorInfo = $queryPiezaFardoEncabezado->errorInfo();
+                                    $response["message"]="Tienda no esta en linea querypiezafardo".$errorInfo[2];
+                                    $response["success"]="false";
+                                    //echo "CABALLOOOOOO " .$errorInfo[2];
+                                    echo(json_encode($response));
+                                    return;
+                                    # code...
+                                    }
+
+
+
 
             
+            
 
-
+            /**
+             * *lINEA DOCUMENTO INVENTARIO
+             */
+            $contador=1;
             foreach ($datosDetalle as $value) {
                     $queryTransaccionPiezaFardo=$dbEximp600->prepare(" INSERT INTO ".$respuesta.".LINEA_DOC_INV
                                                                     (
@@ -692,7 +770,7 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
                         
                 if(!$queryTransaccionPiezaFardo->execute([
                                                         $paqueteInventario,
-                                                        $documentoConsecutivoING,
+                                                        $consecutivoIng,
                                                         $contador,
                                                         '~OO~',
                                                         $articulo,
@@ -707,36 +785,12 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
                                                         1,
                                                         1,
                                                         0
-                                                        ])){
-                                                           
-                                            
-                                            $params = [
-                                                $paqueteInventario,
-                                                $documentoConsecutivoING,
-                                                $contador,
-                                                '~OO~',
-                                                $articulo,
-                                                $bodega,
-                                                $codigoBarra,
-                                                'O',
-                                                'D',
-                                                'L',
-                                                $cantidad,
-                                                1,
-                                                1,
-                                                1,
-                                                1,
-                                                0
-                                            ];
-                                            
-                                            
-                                            
-                                            
+                                                        ])){             
                     $errorInfo = $queryTransaccionPiezaFardo->errorInfo();
-                    $response["message"]="Tienda no esta en linea inventario fallo en query pieza fardo".$errorInfo[2]."QUERY ".$queryWithParams;
+                    $response["message"]="Tienda no esta en linea inventario fallo en query pieza fardo".$errorInfo[2];
                     $response["success"]="false";
                     //echo "CABALLOOOOOO " .$errorInfo[2];
-                    echo(json_encode(var_dump($params)));
+                    echo(json_encode($response));
                     return;
                     
 
@@ -745,9 +799,42 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
                 
                 $contador++;
             }
+
+
+
+            //ACTUALIZAR AL ULTIMO DOCUMENTO ING
+
+            $queryUpdateActualizarUltimoDocumento=$dbEximp600->prepare("UPDATE ".$respuesta.".CONSECUTIVO_CI SET SIGUIENTE_CONSEC=:documentoConsecutivo WHERE CONSECUTIVO='ING'");
+            $queryUpdateActualizarUltimoDocumento->bindParam(":documentoConsecutivo",$documentoConsecutivoING);
+           
+            if(!$queryUpdateActualizarUltimoDocumento->execute()){
+
+                $errorInfo= $queryUpdateActualizarUltimoDocumento->errorInfo();
+                $response["message"]="Tienda actualizar ultimo documento".$errorInfo[2];
+                $response["success"]="false";
+                echo(json_encode($response));
+                return;
+            }
+
+            //ACTUALIZAR EL ULTIMO DOCUMENTO CONSUMO
+            $queryUpdateActualizarUltimoDocummentoConsumo=$dbEximp600->prepare(
+                                                                        "UPDATE ".$respuesta.".CONSECUTIVO_CI
+                                                                            SET SIGUIENTE_CONSEC=".$documento_consecutivo."
+                                                                        WHERE CONSECUTIVO='CONSUMO'
+                                                                        ");
+            if (!$queryUpdateActualizarUltimoDocummentoConsumo) {
+                $errorInfo=$queryUpdateActualizarUltimoDocummentoConsumo->errorInfo();
+                $response["message"]="Tienda no esta en linea fallo en actualizar ultimo documento consumo".$errorInfo[2];
+                $response["success"]="false";
+                echo json_encode($response);
+                return;
+            }
+
+
+            
             
 
-        $response["message"]="Los datos se insertaron existosamente";
+        $response["message"]="Los datos se insertaron existosamente  DOCUMENTO CONSECUTIVO " .$documento_consecutivo. "DOCUMENTO CONSECUTIVO ING " .$documentoConsecutivoING;
         $response["success"]="true";
         echo(json_encode($response));
 
