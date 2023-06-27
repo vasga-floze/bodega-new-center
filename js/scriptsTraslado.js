@@ -280,6 +280,17 @@ const agregar=()=>{
 
         }
     );
+
+
+
+    if(bodegaOrigen === bodegaDestino){
+        Swal.fire({
+            icon: 'error',
+            title: 'Ocurrio error',
+            text: 'No se puede elegir las mismas bodegas'
+        })
+        return;
+    }
     
     insertar(data,function(error,response){
         if(error){
@@ -575,31 +586,6 @@ window.onload=function() {
 
 }
 
-/*const traerBodegaDestinoInput=()=>{
-  
-   
-    $.ajax({
-        url: 'controladorEditarTraslado.php',
-        type: 'POST',
-        data: url,
-        success: function (response) {
-            console.log(response);
-            // console.log('Envío de contador exitoso. Respuesta:', response);
-            
-            //let url='contadorPaginas.php';
-            //window.open(url,'_blank');
-        },
-        error: function (xhr, status, error) {
-            //console.log('Error al enviar el contador', error);
-        
-   
-        }
-    })
-
-}
-*/
-
-
 
 $("#cancelar").click(function(){
    let fechaHoraTemporal=document.getElementById('fechaHoraTemporal').value;
@@ -694,10 +680,12 @@ $("#finalizar").click(function(){
    }else{
        fechaOrigen=document.getElementById("fechaInputDestino").value;
    }
-    console.log(fechaHoraTemporal);
-    console.log(bodegaOrigen);
-    console.log(bodegaDestino);
-    console.log(fechaOrigen);
+
+   if(bodegaOrigen === bodegaDestino){
+        console.log("No se pueden elegir las mismas bodegas");
+        return;
+   }
+
 
     let objetoDatos={
         fechaHoraTemporal:fechaHoraTemporal,
@@ -706,15 +694,7 @@ $("#finalizar").click(function(){
         fechaOrigen: fechaOrigen,
         json:json
     }
-
-
     
-   // let dataUrl="bodegaOrigen="+bodegaOrigen+
-                //"&bodegaDestino="+bodegaDestino+"&fechaOrigen="+fechaOrigen+"&fechaHoraTemporal="+fechaHoraTemporal;
-    //console.log(dataUrl);
-    //enviarJson(json);
-    //console.log("Entro");
-
     $.ajax({
 
         url:"controladorFinalizarTraslado.php",
@@ -725,7 +705,7 @@ $("#finalizar").click(function(){
             let data=JSON.parse(response);
             let documento=data.documentoConsecutivo;
             if(data.message === "Registro exitoso"){
-                console.log(data);
+                //console.log(data);
                 window.location.href="pdfTraslado.php?documento="+documento;
             }
            //console.log(response);

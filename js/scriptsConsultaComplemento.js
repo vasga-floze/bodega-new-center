@@ -206,6 +206,27 @@ $(function() {
                 })
                 .done(function(res){
                     console.log(res);
+                    //console.log(res);
+                    /*if(!res==="Se pudo ejecutar"){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ocurrio un error',
+                            text: 'No se ha podido ejecutar'
+                        })
+                    }else{
+                        Swal.fire({
+                           icon: 'success',
+                           title: 'Articulos finalizados correctamente',
+                           showConfirmButton:false,
+                           timer : 1500
+                    });
+                    }
+
+                    setTimeout(function() {
+                        window.location.href='indexConsultaComplemento.php';
+                    }, 1500);*/
+
+                    
                 })
                 .fail(function(jqXHR, textStatus, errorThrown){
                     console.log("Error: " + errorThrown);
