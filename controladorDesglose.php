@@ -249,7 +249,7 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
      $datosDetalle=$queryValidacionListadoDetalle->fetchAll();
      $numeroDatosDetalle=count($datosDetalle);
 
-     if(!$datosDetalle>0){
+    if(!$datosDetalle>0){
         $response["message"]="Lo datos detalles no existen";
         $response["success"]="false";
         echo(json_encode($response));
@@ -273,7 +273,7 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
      */
 
 
-     try { 
+    try { 
         $conexionServerHamachi = new PDO("sqlsrv:Server=".$hamachi.";Database=".$base."", "sa", "$0ftland");
         $response["message"]="Conexion exitosa al servidor SQL".$articulo;
         for ($i=0; $i <$numeroDatosDetalle ; $i++) { 
@@ -356,23 +356,21 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
      * !En dado caso que falle no dejara pasar al otro query
      */
 
-    $queryInsertarDetalleDesglose=$dbBodega->prepare(
-        "INSERT 
-            INTO DETALLEDESGLOSE
+   $queryInsertarDetalleDesglose=$dbBodega->prepare("INSERT 
+        INTO DETALLEDESGLOSE
             (
                 IdRegistro,
                 ArticuloDetalle,
                 Cantidad,
                 PrecioUnitario
-              
             ) 
-            
-            VALUES((SELECT idregistro FROM REGISTRO WHERE codigobarra='$codigoBarra'), ?,?,?)");
-        if(!$queryInsertarDetalleDesglose->execute([
-                                                    $articulo,
-                                                    $cantidad,
-                                                    $precioUnitario,
-                                                    ])){
+            select IdRegistro,
+                ArticuloDetalle,
+                Cantidad,
+                PrecioUnitario from DETALLEREGISTRO where IdRegistro =(
+			select IdRegistro from REGISTRO where codigobarra='$codigoBarra')
+        ");
+        if(!$queryInsertarDetalleDesglose->execute()){
 
 
         $errorInfo = $queryInsertarDetalleDesglose->errorInfo();
@@ -600,6 +598,9 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
             */
 
             foreach ($datosDetalle as $value) {
+
+                $articuloLote=$value["ArticuloDetalle"];
+                $codigoBarraLote=$value["CodigoBarra"];
                 $queryInsertarCodigoBarraLote=$dbEximp600->prepare("INSERT INTO ".$respuesta.".LOTE
                                                                     (
                                                                         LOTE,
@@ -627,8 +628,8 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
                                                                         ?
                                                                     )");
                 if(!$queryInsertarCodigoBarraLote->execute([
-                                                        $codigoBarra,
-                                                        $articulo,
+                                                        $codigoBarraLote,
+                                                        $articuloLote,
                                                         'ND',
                                                         $fechaActual,
                                                         $fechaCompletaProxima,
@@ -640,7 +641,7 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
                                                         0
                                                           ])){
                 $errorInfo=$queryInsertarCodigoBarraLote->errorInfo();
-                $response["message"]="Tienda no esta en linea insertar codigo barra lote".$errorInfo[2];
+                $response["message"]="Error en insertar lote".$errorInfo[2];
                 $response["success"]="false";
                 echo json_encode($response);
                 return;
@@ -724,6 +725,8 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
              */
             $contador=1;
             foreach ($datosDetalle as $value) {
+                     $articuloLote=$value["ArticuloDetalle"];
+                     $cantidadDocInv=$value["Cantidad"];
                     $queryTransaccionPiezaFardo=$dbEximp600->prepare(" INSERT INTO ".$respuesta.".LINEA_DOC_INV
                                                                     (
                                                                         PAQUETE_INVENTARIO,
@@ -773,13 +776,13 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
                                                         $consecutivoIng,
                                                         $contador,
                                                         '~OO~',
-                                                        $articulo,
+                                                        $articuloLote,
                                                         $bodega,
                                                         $codigoBarra,
                                                         'O',
                                                         'D',
                                                         'L',
-                                                        $cantidad,
+                                                        $cantidadDocInv,
                                                         1,
                                                         1,
                                                         1,
@@ -787,7 +790,7 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
                                                         0
                                                         ])){             
                     $errorInfo = $queryTransaccionPiezaFardo->errorInfo();
-                    $response["message"]="Tienda no esta en linea inventario fallo en query pieza fardo".$errorInfo[2];
+                    $response["message"]=var_dump($datosDetalle);
                     $response["success"]="false";
                     //echo "CABALLOOOOOO " .$errorInfo[2];
                     echo(json_encode($response));
@@ -831,11 +834,28 @@ $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*)
             }
 
 
+            //BASE DE TIENDA
+            /**
+             **CREAR LOTE DEL CODIGO DE BARRA
+             */
+
+             
+
+
+
+
+
+
+
+            
+            $response["message"]="Los datos se desglosaron existosamente";
+            $response["success"]="true";
+            echo(json_encode($response));
+
+
             
             
 
-        $response["message"]="Los datos se insertaron existosamente  DOCUMENTO CONSECUTIVO " .$documento_consecutivo. "DOCUMENTO CONSECUTIVO ING " .$documentoConsecutivoING;
-        $response["success"]="true";
-        echo(json_encode($response));
+        
 
         ?>

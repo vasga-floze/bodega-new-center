@@ -22,7 +22,8 @@ function Footer()
 }
 $pdf = new PDF('P','mm','A4');
 $pdf->AliasNbPages();
-$variable = (isset($_GET['documento']))?$_GET['documento']:'';
+$variable = $_GET['documento'] ;
+$respuesta=$_SESSION['compania'];
 $pdf->AddFont('RobotoMono-Regular','','RobotoMono-VariableFont_wght.php');
 $query =$dbBodega->prepare("DECLARE @DOCUMENTO_INV NVARCHAR(25)='$variable'
 SELECT MAX(CASE naturaleza WHEN 'S' THEN TRANSACCION.BODEGA END) AS ORIGEN, 
@@ -33,9 +34,9 @@ SELECT MAX(CASE naturaleza WHEN 'S' THEN TRANSACCION.BODEGA END) AS ORIGEN,
        TRANSACCION.Documento_Inv, TRANSACCION.Fecha
 FROM TRANSACCION
 INNER JOIN REGISTRO ON TRANSACCION.CodigoBarra = REGISTRO.CodigoBarra
-INNER JOIN eximp600.consny.bodega b1 ON b1.bodega = 
+INNER JOIN eximp600.".$respuesta.".bodega b1 ON b1.bodega = 
     (SELECT MAX(BODEGA) FROM TRANSACCION WHERE naturaleza = 'S' AND TRANSACCION.Documento_Inv = @DOCUMENTO_INV)
-INNER JOIN eximp600.consny.bodega b2 ON b2.bodega = 
+INNER JOIN eximp600.".$respuesta.".bodega b2 ON b2.bodega = 
     (SELECT MAX(BODEGA) FROM TRANSACCION WHERE naturaleza = 'E' AND TRANSACCION.Documento_Inv = @DOCUMENTO_INV)
 WHERE TRANSACCION.Documento_Inv = @DOCUMENTO_INV
 GROUP BY TRANSACCION.CodigoBarra, REGISTRO.Articulo, REGISTRO.Descripcion, TRANSACCION.Documento_Inv, TRANSACCION.Fecha, b1.nombre, b2.nombre
@@ -134,9 +135,9 @@ SELECT MAX(CASE naturaleza WHEN 'S' THEN TRANSACCION.BODEGA END) AS ORIGEN,
        TRANSACCION.Documento_Inv, TRANSACCION.Fecha
 FROM TRANSACCION
 INNER JOIN REGISTRO ON TRANSACCION.CodigoBarra = REGISTRO.CodigoBarra
-INNER JOIN eximp600.consny.bodega b1 ON b1.bodega = 
+INNER JOIN eximp600.".$respuesta.".bodega b1 ON b1.bodega = 
     (SELECT MAX(BODEGA) FROM TRANSACCION WHERE naturaleza = 'S' AND TRANSACCION.Documento_Inv = @DOCUMENTO_INV)
-INNER JOIN eximp600.consny.bodega b2 ON b2.bodega = 
+INNER JOIN eximp600.".$respuesta.".bodega b2 ON b2.bodega = 
     (SELECT MAX(BODEGA) FROM TRANSACCION WHERE naturaleza = 'E' AND TRANSACCION.Documento_Inv = @DOCUMENTO_INV)
 WHERE TRANSACCION.Documento_Inv = @DOCUMENTO_INV
 GROUP BY TRANSACCION.CodigoBarra, REGISTRO.Articulo, REGISTRO.Descripcion, TRANSACCION.Documento_Inv, TRANSACCION.Fecha, b1.nombre, b2.nombre
