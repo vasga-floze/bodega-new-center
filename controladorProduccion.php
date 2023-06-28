@@ -82,7 +82,13 @@
         //$variableSession=&valorMaximo();
         
         try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $query= ("INSERT INTO dbo.REGISTRO (
+                                                CodigoBarra,
+                                                Unidades,
+                                                Libras,
+                                                IdUbicacion,
+                                                FechaCreacion,
+                                                EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
