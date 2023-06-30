@@ -25,6 +25,7 @@ $("#desglosar").click(function(){
                   })
                 return;
             }
+            //console.log(message);
             Swal.fire({
              
                 icon: 'success',

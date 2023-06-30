@@ -53,6 +53,11 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Estadisticas
                     </a>
+                    <div class="sb-sidenav-menu-heading">USUARIO</div>
+                    <a class="nav-link" href="indexUsuario.php">
+                        <div class="sb-nav-link-icon"><i class="fab fa-dropbox"></i></div>
+                        Nuevo
+                    </a>
                     <div class="sb-sidenav-menu-heading">PRODUCCION</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
                         aria-expanded="false" aria-controls="collapseLayouts">

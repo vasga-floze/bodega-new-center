@@ -13,6 +13,7 @@ $bandera=true;
 
 if(conectarLogin($usuario,$password)){
     $_SESSION['usuario']=$usuario;
+    $_SESSION['password']=$password;
     echo($bandera);
     //header("location:pruebaLogin.php");
     return;

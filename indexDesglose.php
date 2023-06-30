@@ -8,6 +8,8 @@
         $respuesta=$_SESSION['compania'];
         $fechaActual = date('Y-m-d');
         include('conexiones/conectar.php');
+
+        echo($_SESSION['BODEGA']);
         //session_destroy();
     }
 

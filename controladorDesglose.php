@@ -5,6 +5,7 @@ $codigoBarra=$_POST["codigoDesglose"];
 $valorDesglose=$_POST["valorDesglose"];
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
+$password=$_SESSION['password'];
 $nullMensaje="NULL";
 $lote_del_proveedor='ND';
 $IdTipoTransaccion="6";
@@ -71,13 +72,14 @@ return;
 
 
 foreach ($response as $key) {
-$bodega=$key["BODEGA"];
-$hamachi=$key["HAMACHI"];
-$base=$key["BASE"];
-$bodega=$key["BODEGA"];
-$paqueteInventario=$key["PAQUETE"];
+    $bodega=$key["BODEGA"];
+    $hamachi=$key["HAMACHI"];
+    $base=$key["BASE"];
+    $bodega=$key["BODEGA"];
+    $paqueteInventario=$key["PAQUETE"];
 # code...
 }
+$_SESSION['BASE']=$base;
 /**
  ** 1 VALIDACION VERIFICA QUE EL CODDIGO DE BARRA EXISTE
 * TODO: VALIDA SI EL CODIGO DE BARRA EXISTE EN LA BASE DE LA TIENDA
@@ -92,14 +94,14 @@ $paqueteInventario=$key["PAQUETE"];
 $queryValidacionCodigo=$dbBodega->prepare("SELECT count(*) 
                         FROM REGISTRO
                     WHERE CodigoBarra='$codigoBarra' 
-                    AND BodegaActual='$bodega'AND Activo=1");
+                    AND BodegaActual='$bodega'AND Activo=1 and estado='FINALIZADO'");
 $queryValidacionCodigo->execute();
 $totalCodigo=$queryValidacionCodigo->fetchColumn();
 
 
 
-if($totalCodigo === 0){
-    $response["message"]="El codigo no existe en la tienda actual ";
+if($totalCodigo == 0){
+    $response["message"]="El codigo no existe en la tienda actual, no esta activo o no esta finalizado";
     $response["success"]="false";
     echo(json_encode($response));
     return;
@@ -711,7 +713,7 @@ foreach ($datosDetalle as $value) {
                                             0
                                                 ])){
     $errorInfo=$queryInsertarCodigoBarraLote->errorInfo();
-    $response["message"]="Error en insertar lote".$errorInfo[2];
+    $response["message"]="Error en insertar lote".$totalCodigo;
     $response["success"]="false";
     echo json_encode($response);
     return;
@@ -907,30 +909,217 @@ $queryUpdateActualizarUltimoDocummentoConsumo=$dbEximp600->prepare(
 
 if (!$queryUpdateActualizarUltimoDocummentoConsumo) {
     $errorInfo=$queryUpdateActualizarUltimoDocummentoConsumo->errorInfo();
-    $response["message"]="Tienda no esta en linea fallo en actualizar ultimo documento consumo".$errorInfo[2];
+    $response["message"]="Tienda no esta en linea fallo en actualizar ultimo 
+                            documento consumo".$errorInfo[2];
     $response["success"]="false";
     echo json_encode($response);
     return;
 }
 
 
-            //BASE DE TIENDA
-            /**
-             **CREAR LOTE DEL CODIGO DE BARRA
-             */
-
-             
+//BASE DE TIENDA
+/**
+ **CREAR LOTE DEL CODIGO DE BARRA
+*/
 
 
 
+try {
+    $dbBaseTienda = new PDO("sqlsrv:server=".$hamachi.";database=".$base,$usuario,$password);
 
 
+    foreach ($datosDetalle as $key) {
+        $articuloLote=$key["ArticuloDetalle"];
+        $cantidadDocInv=$key["Cantidad"];
+        $queryCrearLoteCodBarra=$dbBaseTienda->prepare("INSERT INTO 
+                ".$respuesta.".LOTE
+                (
+                    LOTE,
+                    ARTICULO,
+                    LOTE_DEL_PROVEEDOR,
+                    FECHA_ENTRADA,
+                    FECHA_VENCIMIENTO,
+                    FECHA_CUARENTENA,
+                    CANTIDAD_INGRESADA,
+                    ESTADO,
+                    TIPO_INGRESO,
+                    ULTIMO_INGRESO,
+                    NoteExistsFlag
+                )VALUES(
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    ?
 
+                )");
+        if(!$queryCrearLoteCodBarra->execute([
+            $codigoBarraLote,
+            $articuloLote,
+            'ND',
+            $fechaActual,
+            $fechaCompletaProxima,
+            $fechaVencimiento,
+            $cantidadDocInv,
+            'V',
+            'P',
+            0,
+            0
 
-            
-            $response["message"]="Los datos se desglosaron existosamente";
-            $response["success"]="true";
+            ])){
+                $errorInfo = $queryCrearLoteCodBarra->errorInfo();
+                $response["message"]="Error al insertar el codigo de barra
+                                        Lote tienda".$errorInfo[2];
+                $response["success"]="false";
+                //echo "CABALLOOOOOO " .$errorInfo[2];
+                echo(json_encode($response));
+                return;
+                
+            }
+
+        $queryCrearUnidadesDisponibles=$dbBaseTienda->prepare(
+                                                    "INSERT
+                                                    INTO ".$respuesta.
+                                                    ".EXISTENCIA_LOTE
+                                                    (
+                                                        BODEGA,
+                                                        ARTICULO,
+                                                        LOCALIZACION,
+                                                        LOTE,
+                                                        CANT_DISPONIBLE,
+                                                        CANT_RESERVADA,
+                                                        CANT_NO_APROBADA,
+                                                        CANT_VENCIDA,
+                                                        CANT_REMITIDA,
+                                                        COSTO_UNT_ESTANDAR_DOL,
+                                                        NoteExistsFlag
+
+                                                    )VALUES(
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?,
+                                                        ?
+
+                                                    )");
+        if(!$queryCrearUnidadesDisponibles->execute([
+                                                    $bodega,
+                                                    $articuloLote,
+                                                    'ND',
+                                                    $codigoBarraLote,
+                                                    $cantidadDocInv,
+                                                    0,
+                                                    0,
+                                                    0,
+                                                    0,
+                                                    1,
+                                                    1,
+                                                    1,
+                                                    1,
+                                                    0
+                                                    ])){
+            $errorInfo = $queryCrearUnidadesDisponibles->errorInfo();
+            $response["message"]="Error al insertar unidades 
+                                    disponibles".$errorInfo[2];
+            $response["success"]="false";
+            //echo "CABALLOOOOOO " .$errorInfo[2];
             echo(json_encode($response));
+            return;
+            }
+
+            $queryActualizarUnidades=$dbBaseTienda->prepare(
+                                            "UPDATE ".$respuesta.
+                                            ".EXISTENCIA_BODEGA
+                                                
+                                            SET 
+                                            CANT_DISPONIBLE=CANT_DISPONIBLE+?
+                                            WHERE BODEGA=? AND ARTICULO=? 
+
+                                                    ");
+            if (!$queryActualizarUnidades->execute([
+                                                $cantidadDocInv,
+                                                $bodega,
+                                                $articuloLote
+                                                ])) {
+                
+                $errorInfo = $queryActualizarUnidades->errorInfo();
+                $response["message"]="Error al actualizar
+                                        Unidades".$errorInfo[2];
+                $response["success"]="false";
+                //echo "CABALLOOOOOO " .$errorInfo[2];
+                echo(json_encode($response));
+                return;
+            }
+
+    }
+
+    $queryActualizarEstadoFardo=$dbBodega->prepare(
+                                            "UPDATE TRANSACCION
+                                               SET Estado='F',Documento_Inv=?
+                                            WHERE
+                                                CodigoBarra=? 
+                                            ");
+    if (!$queryActualizarEstadoFardo->execute([
+                                        $siguienteConsec,
+                                        $codigoBarra
+                                        ])) {
+        $errorInfo = $queryActualizarEstadoFardo->errorInfo();
+        $response["message"]="Error al actualizar
+                                estado fardo".$errorInfo[2];
+        $response["success"]="false";
+        //echo "CABALLOOOOOO " .$errorInfo[2];
+        echo(json_encode($response));
+        return;
+    }
+
+    $queryActualizarEstadoFardoRegistro=$dbBodega->prepare(
+                                                "UPDATE REGISTRO
+                                                    SET ACTIVO=?,
+                                                DOCUMENTO_INV=?
+                                                WHERE CodigoBarra=?
+                                                "
+                                                );
+    if (!$queryActualizarEstadoFardoRegistro->execute([
+                                                    0,
+                                                    $siguienteConsec,
+                                                    $codigoBarra
+
+                                                        ])) { 
+
+        $errorInfo = $queryActualizarEstadoFardo->errorInfo();
+        $response["message"]="Error al actualizar
+                                estado fardo".$errorInfo[2];
+        $response["success"]="false";
+        //echo "CABALLOOOOOO " .$errorInfo[2];
+        echo(json_encode($response));
+        return;
+    }
+
+
+
+        
+    
+   
+    $response["message"]="Se ha desglosado exitosamente";
+    $response["success"]="true";
+    echo(json_encode($response));
+} catch (PDOException $th) {
+    $response["message"]="Error al conectar la base de datos".$th->getMessage();
+    $response["success"]="false";
+    echo(json_encode($response));
+}
 
 
             

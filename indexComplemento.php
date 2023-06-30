@@ -266,7 +266,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-10 text-right" id="total">
+                   
+                    <div class="badge bg-primary  col-10 text-right " style="width:20rem; font-size:20px" id="total">
                      
                     </div>
                     <!-- Modal -->

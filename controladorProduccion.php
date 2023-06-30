@@ -12,7 +12,9 @@
     $letraAleatoria = chr(rand(ord($DesdeLetra), ord($HastaLetra)));
     $letraMayuscula = strtoupper($letraAleatoria);
     $variableSession=&valorMaximo();
-    $codigoBarra =("".$letraMayuscula.""."P".$dia."".$mes."".$variableSession."".$anio);
+    $codigoBarra =(
+            "".$letraMayuscula.""."P".$dia."".$mes."".$variableSession."".$anio
+                );
     $_SESSION["cod"]=$codigoBarra;
     $estado="PROCESO";
     
@@ -37,10 +39,42 @@
 
 
         if($bandera==="ROPA"){
-        //$variableSession=&valorMaximo();
         
-        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-        $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,Estado,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:estado,:tipoRegistro,:variableSession)");
+        
+        try{
+        $query= ("INSERT INTO dbo.REGISTRO (
+                                              CodigoBarra,
+                                              Unidades,
+                                              Libras,
+                                              IdUbicacion,
+                                              FechaCreacion,
+                                              EmpacadoPor,
+                                              IdTipoEmpaque,
+                                              UsuarioCreacion,
+                                              ProducidoPor,
+                                              BodegaCreacion,
+                                              Observaciones,
+                                              Estado,
+                                              IdTipoRegistro,
+                                              Sesion
+                                            ) 
+                                            VALUES 
+                                            (
+                                                :codigoBarra,
+                                                :unidades,
+                                                :libras,
+                                                :ubicacion,
+                                                :fecha,
+                                                :empacado,
+                                                :empaque,
+                                                :usuario,
+                                                :producido,
+                                                :bodega,
+                                                :observaciones,
+                                                :estado,
+                                                :tipoRegistro,
+                                                :variableSession
+                                            )");
         $stmt=$dbBodega->prepare($query);
         //$variableSession=&valorMaximo();
         $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -69,26 +103,46 @@
         
 
 
-        //echo("dia".$dia."mes".$mes."anio".$anio);
-       // echo(".$query.");
-       //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
-       
      
         
         }catch(PDOException $e){
             echo "Error".$e->getMessage()."<br/>";
         }
     }else if($bandera==="CARTERAS"){
-        //$variableSession=&valorMaximo();
+       
         
-        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
+        try{
             $query= ("INSERT INTO dbo.REGISTRO (
                                                 CodigoBarra,
                                                 Unidades,
                                                 Libras,
                                                 IdUbicacion,
                                                 FechaCreacion,
-                                                EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+                                                EmpacadoPor,
+                                                IdTipoEmpaque,
+                                                UsuarioCreacion,
+                                                ProducidoPor,
+                                                BodegaCreacion,
+                                                Observaciones,
+                                                Estado,
+                                                IdTipoRegistro,
+                                                Sesion) 
+                                                VALUES (
+                                                :codigoBarra,
+                                                :unidades,
+                                                :libras,
+                                                :ubicacion,
+                                                :fecha,
+                                                :empacado,
+                                                :empaque,
+                                                :usuario,
+                                                :producido,
+                                                :bodega,
+                                                :observaciones,
+                                                :estado,
+                                                :tipoRegistro,
+                                                :variableSession
+                                            )");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -103,6 +157,7 @@
             $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
             $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
             $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("estado", $estado, PDO::PARAM_STR);
             $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
     
             
@@ -110,9 +165,7 @@
             
     
     
-            //echo("dia".$dia."mes".$mes."anio".$anio);
-           // echo(".$query.");
-           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           
            echo("Registro exitoso".$bandera);
          
             
@@ -124,7 +177,37 @@
         //$variableSession=&valorMaximo();
         
         try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+            $query= ("INSERT INTO dbo.REGISTRO (
+                                                    CodigoBarra,
+                                                    Unidades,
+                                                    Libras,
+                                                    IdUbicacion,
+                                                    FechaCreacion,
+                                                    EmpacadoPor,
+                                                    IdTipoEmpaque,
+                                                    UsuarioCreacion,
+                                                    ProducidoPor,
+                                                    BodegaCreacion,
+                                                    Observaciones,
+                                                    Estado,
+                                                    IdTipoRegistro,
+                                                    Sesion
+                                                ) VALUES 
+                                                (:codigoBarra,
+                                                :unidades,
+                                                :libras,
+                                                :ubicacion,
+                                                :fecha,
+                                                :empacado,
+                                                :empaque,
+                                                :usuario,
+                                                :producido,
+                                                :bodega,
+                                                :observaciones,
+                                                :estado,
+                                                :tipoRegistro,
+                                                :variableSession)
+                                                ");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -139,16 +222,13 @@
             $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
             $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
             $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("estado", $estado,PDO::PARAM_STR);
             $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
     
             
             $stmt->execute();
             
     
-    
-            //echo("dia".$dia."mes".$mes."anio".$anio);
-           // echo(".$query.");
-           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
            echo("Registro exitoso");
          
             
@@ -160,10 +240,40 @@
     
        
     }else if($bandera==="GORRAS"){
-        //$variableSession=&valorMaximo();
+       
         
-        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+        try{
+            $query= ("INSERT INTO dbo.REGISTRO (
+                                                    CodigoBarra,
+                                                    Unidades,
+                                                    Libras,
+                                                    IdUbicacion,
+                                                    FechaCreacion,
+                                                    EmpacadoPor,
+                                                    IdTipoEmpaque,
+                                                    UsuarioCreacion,
+                                                    ProducidoPor,
+                                                    BodegaCreacion,
+                                                    Observaciones,
+                                                    Estado,
+                                                    IdTipoRegistro,
+                                                    Sesion
+                                                ) VALUES (
+                                                    :codigoBarra,
+                                                    :unidades,
+                                                    :libras,
+                                                    :ubicacion,
+                                                    :fecha,
+                                                    :empacado,
+                                                    :empaque,
+                                                    :usuario,
+                                                    :producido,
+                                                    :bodega,
+                                                    :observaciones,
+                                                    :estado,
+                                                    :tipoRegistro,
+                                                    :variableSession
+                                                )");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -178,6 +288,7 @@
             $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
             $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
             $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("estado", $estado,PDO::PARAM_STR);
             $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
     
             
@@ -185,9 +296,7 @@
             
     
     
-            //echo("dia".$dia."mes".$mes."anio".$anio);
-           // echo(".$query.");
-           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+          
            echo("Registro exitoso");
          
             
@@ -197,10 +306,40 @@
      
     
     }else if($bandera==="JUGUETES"){
-        //$variableSession=&valorMaximo();
         
-        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+        
+        try{
+            $query= ("INSERT INTO dbo.REGISTRO (
+                                                    CodigoBarra,
+                                                    Unidades,
+                                                    Libras,
+                                                    IdUbicacion,
+                                                    FechaCreacion,
+                                                    EmpacadoPor,
+                                                    IdTipoEmpaque,
+                                                    UsuarioCreacion,
+                                                    ProducidoPor,
+                                                    BodegaCreacion,
+                                                    Observaciones,
+                                                    Estado,
+                                                    IdTipoRegistro,
+                                                    Sesion
+                                                ) VALUES (
+                                                    :codigoBarra,
+                                                    :unidades,
+                                                    :libras,
+                                                    :ubicacion,
+                                                    :fecha,
+                                                    :empacado,
+                                                    :empaque,
+                                                    :usuario,
+                                                    :producido,
+                                                    :bodega,
+                                                    :observaciones,
+                                                    :estado,
+                                                    :tipoRegistro,
+                                                    :variableSession
+                                                )");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -215,16 +354,14 @@
             $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
             $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
             $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("estado", $estado, PDO::PARAM_STR);
             $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
     
             
             $stmt->execute();
             
+                                                                                
     
-    
-            //echo("dia".$dia."mes".$mes."anio".$anio);
-           // echo(".$query.");
-           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
            echo("Registro exitoso");
          
             
@@ -232,10 +369,40 @@
                 echo "Error".$e->getMessage()."<br/>";
             }
     }else if($bandera==="ZAPATOS"){
-        //$variableSession=&valorMaximo();
+      
         
-        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+        try{
+            $query= ("INSERT INTO dbo.REGISTRO (
+                                                 CodigoBarra,
+                                                 Unidades,
+                                                 Libras,
+                                                 IdUbicacion,
+                                                 FechaCreacion,
+                                                 EmpacadoPor,
+                                                 IdTipoEmpaque,
+                                                 UsuarioCreacion,
+                                                 ProducidoPor,
+                                                 BodegaCreacion,
+                                                 Observaciones,
+                                                 Estado,
+                                                 IdTipoRegistro,
+                                                 Sesion
+                                            ) VALUES (
+                                                :codigoBarra,
+                                                :unidades,
+                                                :libras,
+                                                :ubicacion,
+                                                :fecha,
+                                                :empacado,
+                                                :empaque,
+                                                :usuario,
+                                                :producido,
+                                                :bodega,
+                                                :observaciones,
+                                                :estado,
+                                                :tipoRegistro,
+                                                :variableSession
+                                            )");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -250,6 +417,8 @@
             $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
             $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
             $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+
+            $stmt->bindParam("estado",$estado, PDO::PARAM_STR);
             $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
     
             
@@ -257,9 +426,7 @@
             
     
     
-            //echo("dia".$dia."mes".$mes."anio".$anio);
-           // echo(".$query.");
-           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
+           
            echo("Registro exitoso");
          
             
@@ -267,10 +434,41 @@
                 echo "Error".$e->getMessage()."<br/>";
             }
     }else if($bandera==="OTROS"){
-        //$variableSession=&valorMaximo();
+      
         
-        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+        try{
+            $query= ("INSERT INTO dbo.REGISTRO (
+                                                    CodigoBarra,
+                                                    Unidades,
+                                                    Libras,
+                                                    IdUbicacion,
+                                                    FechaCreacion,
+                                                    EmpacadoPor,
+                                                    IdTipoEmpaque,
+                                                    UsuarioCreacion,
+                                                    ProducidoPor,
+                                                    BodegaCreacion,
+                                                    Observaciones,
+                                                    Estado,
+                                                    IdTipoRegistro,
+                                                    Sesion
+                                                ) 
+                                                    VALUES (
+                                                        :codigoBarra,
+                                                        :unidades,
+                                                        :libras,
+                                                        :ubicacion,
+                                                        :fecha,
+                                                        :empacado,
+                                                        :empaque,
+                                                        :usuario,
+                                                        :producido,
+                                                        :bodega,
+                                                        :observaciones,
+                                                        :estado,
+                                                        :tipoRegistro,
+                                                        :variableSession
+                                                    )");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -285,6 +483,7 @@
             $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
             $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
             $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
+            $stmt->bindParam("estado", $estado, PDO::PARAM_STR);
             $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
     
             
@@ -292,9 +491,6 @@
             
     
     
-            //echo("dia".$dia."mes".$mes."anio".$anio);
-           // echo(".$query.");
-           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
            echo("Registro exitoso");
          
             
@@ -302,10 +498,40 @@
                 echo "Error".$e->getMessage()."<br/>";
             }
     }else if($bandera==="GANCHOS"){
-        //$variableSession=&valorMaximo();
+      
         
-        try{//echo("unidades".$unidades."libras".$libras."ubicacion".$ubicacion."fecha".$fecha."empacado".$empacado."usuario".$usuario."producido".$producido."bodega".$bodega."Observaciones".$observaciones);
-            $query= ("INSERT INTO dbo.REGISTRO (CodigoBarra,Unidades,Libras,IdUbicacion,FechaCreacion,EmpacadoPor,IdTipoEmpaque,UsuarioCreacion,ProducidoPor,BodegaCreacion,Observaciones,IdTipoRegistro,Sesion) VALUES (:codigoBarra,:unidades,:libras,:ubicacion,:fecha,:empacado,:empaque,:usuario,:producido,:bodega,:observaciones,:tipoRegistro,:variableSession)");
+        try{
+            $query= ("INSERT INTO dbo.REGISTRO (
+                                                    CodigoBarra,
+                                                    Unidades,
+                                                    Libras,
+                                                    IdUbicacion,
+                                                    FechaCreacion,
+                                                    EmpacadoPor,
+                                                    IdTipoEmpaque,
+                                                    UsuarioCreacion,
+                                                    ProducidoPor,
+                                                    BodegaCreacion,
+                                                    Observaciones,
+                                                    Estado,
+                                                    IdTipoRegistro,
+                                                    Sesion
+                                                ) VALUES (
+                                                    :codigoBarra,
+                                                    :unidades,
+                                                    :libras,
+                                                    :ubicacion,
+                                                    :fecha,
+                                                    :empacado,
+                                                    :empaque,
+                                                    :usuario,
+                                                    :producido,
+                                                    :bodega,
+                                                    :observaciones,
+                                                    :estado,
+                                                    :tipoRegistro,
+                                                    :variableSession
+                                                )");
             $stmt=$dbBodega->prepare($query);
             //$variableSession=&valorMaximo();
             $stmt->bindParam("codigoBarra", $codigoBarra, PDO::PARAM_STR);
@@ -320,16 +546,14 @@
             $stmt->bindParam("bodega", $bodega, PDO::PARAM_STR);
             $stmt->bindParam("tipoRegistro", $tipo, PDO::PARAM_STR);
             $stmt->bindParam("observaciones", $observaciones, PDO::PARAM_STR);
-            $stmt->bindParam("variableSession", $variableSession, PDO::PARAM_STR);
+            $stmt->bindParam("estado",$estado, PDO::PARAM_STR);
+            $stmt->bindParam("variableSession",$variableSession, PDO::PARAM_STR);
     
             
             $stmt->execute();
             
     
     
-            //echo("dia".$dia."mes".$mes."anio".$anio);
-           // echo(".$query.");
-           //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
            echo("Registro exitoso");
          
             
@@ -343,11 +567,6 @@
     
     
      
-    
-
-
-
-
 
     /**
      * Retorna un valor maximo de la base de datos Bodega
@@ -358,7 +577,13 @@
     function &valorMaximo(){
         include('conexiones/conectar.php');
         $fechaActual = date('Y-m-d');
-        $query =$dbBodega->query("SELECT isnull (max(sesion), 1) AS maximo FROM dbo.REGISTRO WHERE FechaCreacion='".$fechaActual."'AND IdTipoRegistro=1 ");
+        $query =$dbBodega->query("SELECT 
+                                    isnull (max(sesion), 1) AS maximo 
+                                    FROM dbo.REGISTRO 
+                                    WHERE FechaCreacion=
+                                    '".$fechaActual."'AND IdTipoRegistro=1 "
+                                );
+
         $sesion=$query->fetch(PDO::FETCH_ASSOC);
         $devuelve=$sesion['maximo'];
         $devuelve=$devuelve+1;

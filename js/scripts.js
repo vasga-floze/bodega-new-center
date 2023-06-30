@@ -246,10 +246,18 @@ $('#ropa').click(function() {
     if (botonRopaPresionado) {
         const inputs= guardarInputs();
         let bandera="ROPA";
-        var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-        inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-        inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-        "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+        var ruta="unidades="+inputs.unidades
+                +"&fecha="+inputs.fecha
+                +"&libras="+inputs.libras
+                +"&ubicacion="+inputs.ubicacion
+                +"&usuario="+inputs.usuario
+                +"&bodega="+inputs.bodega
+                +"&empaque="+inputs.empaque
+                +"&empacado="+inputs.empacado
+                +"&producido="+inputs.producido
+                +"&observaciones="+inputs.observaciones
+                +"&tipoRegistro="+inputs.tipo
+                +"&bandera="+bandera;
             $.ajax({
                 url: 'controladorProduccion.php',
                 type: 'POST',
@@ -281,10 +289,18 @@ $('#cartera').click(function(){
     const inputs= guardarInputs();
 
         let bandera="CARTERAS";
-        var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-        inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-        inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-        "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+        var ruta="unidades="+inputs.unidades
+                +"&fecha="+inputs.fecha
+                +"&libras="+inputs.libras
+                +"&ubicacion="+inputs.ubicacion
+                +"&usuario="+inputs.usuario
+                +"&bodega="+inputs.bodega
+                +"&empaque="+inputs.empaque
+                +"&empacado="+inputs.empacado
+                +"&producido="+inputs.producido
+                +"&observaciones="+inputs.observaciones
+                +"&tipoRegistro="+inputs.tipo
+                +"&bandera="+bandera;
             $.ajax({
                 url: 'controladorProduccion.php',
                 type: 'POST',
@@ -309,10 +325,18 @@ $('#cincho').click(function(){
     if(botonCinchoPresionado){
        const inputs= guardarInputs();
            let bandera="CINCHOS";
-           var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-           inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-           inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-           "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+           var ruta="unidades="+inputs.unidades
+           +"&fecha="+inputs.fecha
+           +"&libras="+inputs.libras
+           +"&ubicacion="+inputs.ubicacion
+           +"&usuario="+inputs.usuario
+           +"&bodega="+inputs.bodega
+           +"&empaque="+inputs.empaque
+           +"&empacado="+inputs.empacado
+           +"&producido="+inputs.producido
+           +"&observaciones="+inputs.observaciones
+           +"&tipoRegistro="+inputs.tipo
+           +"&bandera="+bandera;
                $.ajax({
                    url: 'controladorProduccion.php',
                    type: 'POST',
@@ -337,10 +361,18 @@ $('#cincho').click(function(){
     if(botonGorraPresionado){
        const inputs= guardarInputs();
            let bandera="GORRAS";
-           var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-           inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-           inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-           "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+           var ruta="unidades="+inputs.unidades+
+           "&fecha="+inputs.fecha+
+           "&libras="+inputs.libras+
+           "&ubicacion="+inputs.ubicacion+
+           "&usuario="+inputs.usuario+
+           "&bodega="+inputs.bodega+
+           "&empaque="+inputs.empaque+
+           "&empacado="+inputs.empacado+
+           "&producido="+inputs.producido+
+           "&observaciones="+inputs.observaciones+
+           "&tipoRegistro="+inputs.tipo+
+           "&bandera="+bandera;
                $.ajax({
                    url: 'controladorProduccion.php',
                    type: 'POST',
@@ -365,10 +397,18 @@ $('#cincho').click(function(){
     if(botonJuguetePresionado){
        const inputs= guardarInputs();
            let bandera="JUGUETES";
-           var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-           inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-           inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-           "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+           var ruta="unidades="+inputs.unidades+
+           "&fecha="+inputs.fecha+
+           "&libras="+inputs.libras+
+           "&ubicacion="+inputs.ubicacion+
+           "&usuario="+inputs.usuario+
+           "&bodega="+inputs.bodega+
+           "&empaque="+inputs.empaque+
+           "&empacado="+inputs.empacado+
+           "&producido="+inputs.producido+
+           "&observaciones="+inputs.observaciones+
+           "&tipoRegistro="+inputs.tipo+
+           "&bandera="+bandera;
                $.ajax({
                    url: 'controladorProduccion.php',
                    type: 'POST',
@@ -394,10 +434,18 @@ $('#cincho').click(function(){
        const inputs= guardarInputs();
    
         let bandera="ZAPATOS";
-        var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-        inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-        inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-        "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+        var ruta="unidades="+inputs.unidades+
+        "&fecha="+inputs.fecha+
+        "&libras="+inputs.libras+
+        "&ubicacion="+inputs.ubicacion+
+        "&usuario="+inputs.usuario+
+        "&bodega="+inputs.bodega+
+        "&empaque="+inputs.empaque+
+        "&empacado="+inputs.empacado+
+        "&producido="+inputs.producido+
+        "&observaciones="+inputs.observaciones+
+        "&tipoRegistro="+inputs.tipo+
+        "&bandera="+bandera;
             $.ajax({
                 url: 'controladorProduccion.php',
                 type: 'POST',
@@ -424,10 +472,18 @@ $('#cincho').click(function(){
    
           
            let bandera="OTROS";
-           var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-           inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-           inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-           "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+           var ruta="unidades="+inputs.unidades
+           +"&fecha="+inputs.fecha
+           +"&libras="+inputs.libras
+           +"&ubicacion="+inputs.ubicacion
+           +"&usuario="+inputs.usuario
+           +"&bodega="+inputs.bodega
+           +"&empaque="+inputs.empaque
+           +"&empacado="+inputs.empacado
+           +"&producido="+inputs.producido
+           +"&observaciones="+inputs.observaciones
+           +"&tipoRegistro="+inputs.tipo
+           +"&bandera="+bandera;
                $.ajax({
                    url: 'controladorProduccion.php',
                    type: 'POST',
@@ -452,10 +508,18 @@ $('#cincho').click(function(){
     if(botonGanchoPresionado){
        const inputs= guardarInputs();
         let bandera="GANCHOS";
-        var ruta="unidades="+inputs.unidades+"&fecha="+inputs.fecha+"&libras="+inputs.libras+"&ubicacion="+
-        inputs.ubicacion+"&usuario="+inputs.usuario+"&bodega="+
-        inputs.bodega+"&empaque="+inputs.empaque+"&empacado="+inputs.empacado+"&producido="+inputs.producido+
-        "&observaciones="+inputs.observaciones+"&tipoRegistro="+inputs.tipo+"&bandera="+bandera;
+        var ruta="unidades="+inputs.unidades+
+        "&fecha="+inputs.fecha+
+        "&libras="+inputs.libras+
+        "&ubicacion="+inputs.ubicacion+
+        "&usuario="+inputs.usuario+
+        "&bodega="+inputs.bodega+
+        "&empaque="+inputs.empaque+
+        "&empacado="+inputs.empacado+
+        "&producido="+inputs.producido+
+        "&observaciones="+inputs.observaciones+
+        "&tipoRegistro="+inputs.tipo+
+        "&bandera="+bandera;
             $.ajax({
                 url: 'controladorProduccion.php',
                 type: 'POST',
@@ -464,9 +528,9 @@ $('#cincho').click(function(){
             .done(function(res){
 
                 if(res){
-                    //$(window).attr('location','indexComplemento.php');
+                    $(window).attr('location','indexComplemento.php');
 
-                    console.log(res);
+                    //console.log(res);
                 }
             })
             .fail(function(){
@@ -823,28 +887,63 @@ function agregar(){
     }else if(cantidadDetalle.length==0){
         toastr["error"]("Tienes que digitar la cantidad");
     }else{
+
+    let existe=false;
     
-    //LLENA LOS DATOS AL ARREGLO
-    data.push(
-        {
-            "id":cant,
-            "codigo":codigoDetalle,
-            "descripcion":descripcionDetalle,
-            "cantidad":cantidadDetalle,
-            "precio": precioDetalle,
-            "detalleBandera":detalleBandera,
-            "cantidadTotal":cantidadTotal
+    /**
+     * *RECORRE EL OBJETO DATA 
+     * TODO: SI ENCUENTRA EL CODIGO EN LA TABLA
+     * TODO: LE SUMA LA CANTIDAD DIGITADA POR EL USUARIO
+     * TODO: Y ACTUALIZA LA COLUMNA CANTIDAD DE LA TABLA
+     * ?data es un objeto mutable
+     */
+    for (let i = 0; i < data.length; i++) {
+        const element = data[i];
+        if(element.codigo===codigoDetalle){
+            element.cantidad=parseInt(element.cantidad)+parseInt(cantidadDetalle);
+            existe=true;
+            console.log(element);
+            let fila =document.getElementById('row'+element.id);
+            let celdaCantidadTotal=fila.getElementsByTagName('td')[2];
+            celdaCantidadTotal.textContent=element.cantidad;
+            //sumarCantidadAcomulado();
+            break;
         }
-    );
-    var id_row='row'+cant;
-    var fila=
-    '<tr id='+id_row+'><td>'+codigoDetalle+'</td><td>'
-    +descripcionDetalle+'</td><td>'
-    +cantidadDetalle+'</td><td>'
-    +precioDetalle+
-    '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+cant+')";>Eliminar</a></td></tr>';
-    $("#articulos").append(fila);
-    cant++;
+        
+    }
+    
+    /**
+     * *SI EXISTE EL CODIGO AGREGA LA FILA
+     */
+
+
+    if (!existe) {
+         //LLENA LOS DATOS AL ARREGLO
+        data.push(
+            {
+                "id":cant,
+                "codigo":codigoDetalle,
+                "descripcion":descripcionDetalle,
+                "cantidad":cantidadDetalle,
+                "precio": precioDetalle,
+                "detalleBandera":detalleBandera,
+                "cantidadTotal":cantidadTotal
+            }
+        );
+        var id_row='row'+cant;
+        var fila=
+        '<tr id='+id_row+'><td>'+codigoDetalle+'</td><td>'
+        +descripcionDetalle+'</td><td>'
+        +cantidadDetalle+'</td><td>'
+        +precioDetalle+
+        '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+cant+')";>Eliminar</a></td></tr>';
+        $("#articulos").append(fila);
+        console.log(data);
+        cant++;
+
+        
+    }
+   
     $("#descripcionDetalle").val('');
     
 
@@ -915,7 +1014,8 @@ function guardar(){
     }else{
         Swal.fire({
             title: 'Desea continuar',
-            text: "La cantidad total que se digito en produccion " +cantidadSession+ " no coincide con la can"+
+            text: "La cantidad total que se digito en produccion " 
+                    +cantidadSession+ " no coincide con la can"+
                     "tidad total que aparece en el detalle " + sum,
             icon: 'warning',
             showCancelButton: true,
@@ -972,14 +1072,13 @@ function guardar(){
 }
 
 function sumarCantidad(){ 
-  
     const sum = data.reduce((previous, current) => {
         return Number(previous) + Number(current.cantidad); // sumar el valor de una propiedad
       }, 0);
-
-    //console.log(sum);
-    document.getElementById('total').innerHTML="Total cantidad articulos "+sum;
+      let totalElement=document.getElementById('total');
+      totalElement.innerHTML="Total cantidad articulos :"+sum+"</strong>";
 }
+
 
 
 function eliminar(row){
@@ -1115,7 +1214,9 @@ function clickear(){
         //var ropa=document.getElementById('ropa').value;
         var codigo=document.getElementById('codigo').value;
         var detalleBandera=document.getElementById('detalleBandera').value;
-        var ruta="descripcion="+descripcion+"&codigo="+codigo+"&detalleBandera="+detalleBandera;
+        var ruta="descripcion="+descripcion+
+                "&codigo="+codigo+
+                "&detalleBandera="+detalleBandera;
         console.log(ruta);
         if(descripcion.length==0){
             toastr["error"]("Tienes que seleccionar un paquete o buscar un paquete","Ocurrio un error");
