@@ -50,7 +50,7 @@
 
                         <div class="col-xl-3 col-md-4">
                             <!-- Enlace para abrir el modal -->
-                            <button class="btn btn-success btn-lg mb-4" data-bs-toggle="modal"
+                            <button id="crearNuevo" class="btn btn-success btn-lg mb-4" data-bs-toggle="modal"
                                 data-bs-target="#modalForm">
                                 Crear Nuevo
                             </button>
@@ -74,6 +74,12 @@
                                             <form method="POST" id="formulario">
                                                 <div class="mb-3">
                                                     <label class="mb-3" for="exampleInputEmail1"
+                                                        class="form-label">Id</label>
+                                                    <input type="text" class="form-control" id="id" disabled>
+
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label class="mb-3" for="exampleInputEmail1"
                                                         class="form-label">Usuario</label>
                                                     <input type="text" class="form-control" id="usuario">
 
@@ -84,27 +90,43 @@
                                                     <input type="text" class="form-control" id="nombre">
 
                                                 </div>
+
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" role="switch"
+                                                        id="activo" value="digita">
+                                                    <label class="form-check-label"
+                                                        for="flexSwitchCheckDefault">Activo</label>
+                                                </div>
+
+
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="digita" value="digita">
-                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Digita</label>
+                                                    <label class="form-check-label"
+                                                        for="flexSwitchCheckDefault">Digita</label>
                                                 </div>
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="produce">
-                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Produce</label>
+                                                    <label class="form-check-label"
+                                                        for="flexSwitchCheckDefault">Produce</label>
                                                 </div>
                                                 <div class="form-check form-switch">
                                                     <input class="form-check-input" type="checkbox" role="switch"
                                                         id="empaca">
-                                                    <label class="form-check-label" for="flexSwitchCheckDefault">Empaca</label>
+                                                    <label class="form-check-label"
+                                                        for="flexSwitchCheckDefault">Empaca</label>
                                                 </div>
+
+
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-danger"
                                                         data-bs-dismiss="modal">Salir</button>
                                                     <button type="button" id="enviar"
                                                         class="btn btn-success">Guardar</button>
+                                                    <button type="button" id="editar"
+                                                        class="btn btn-success">Editar</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -130,6 +152,11 @@
                                         <th>ID</th>
                                         <th>Usuario</th>
                                         <th>Nombre</th>
+                                        <th>Digita</th>
+                                        <th>Produce</th>
+                                        <th>Empaca</th>
+                                        <th>Activo</th>
+                                        <th>Acciones</th>
 
 
                                     </tr>
@@ -146,7 +173,7 @@
                                 </tfoot>----->
                                 <tbody>
                                     <?php 
-                                    $query =$dbBodega->prepare("SELECT idUsuario,Usuario,Nombre FROM dbo.USUARIO");
+                                    $query =$dbBodega->prepare("SELECT idUsuario,Usuario,Nombre,Digita,Produce,Empaca,Activo FROM dbo.USUARIO");
                                     $query->execute();
                                     $data = $query->fetchAll();
 
@@ -155,6 +182,12 @@
                                         echo "<td>".$item["idUsuario"]."</td>";
                                         echo "<td>".$item["Usuario"]."</td>";
                                         echo "<td>".$item["Nombre"]."</td>";
+                                        echo "<td>".$item["Digita"]."</td>";
+                                        echo "<td>".$item["Produce"]."</td>";
+                                        echo "<td>".$item["Empaca"]."</td>";
+                                        echo "<td>".$item["Activo"]."</td>";
+                                        echo "<td><a class='btn btn-primary editar'>Editar</a></td>";
+                                       
                                     }
                                     ?>
 
@@ -183,6 +216,7 @@
             </footer>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
     <script src="plugins/toastr/toastr.min.js"></script>

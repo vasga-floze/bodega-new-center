@@ -80,6 +80,7 @@ foreach ($response as $key) {
 # code...
 }
 $_SESSION['BASE']=$base;
+$_SESSION['PAQUETE']=$paqueteInventario;
 /**
  ** 1 VALIDACION VERIFICA QUE EL CODDIGO DE BARRA EXISTE
 * TODO: VALIDA SI EL CODIGO DE BARRA EXISTE EN LA BASE DE LA TIENDA

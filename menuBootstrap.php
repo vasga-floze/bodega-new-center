@@ -77,6 +77,8 @@
 
                         </nav>
                     </div>
+                    
+
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2"
                         aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fas fa-right-left"></i></div>
@@ -104,6 +106,19 @@
 
                         </nav>
                     </div>
+                    <div class="sb-sidenav-menu-heading">INGRESO</div>
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse"
+                        aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fab fa-dropbox"></i></div>
+                        Contenedor
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="indexContenedor.php">Nuevo</a>
+                        </nav>
+                    </div>
                     <div class="sb-sidenav-menu-heading">DESGLOSE</div>
                     <a class="nav-link" href="indexDesglose.php">
                         <div class="sb-nav-link-icon"><i class="fab fa-dropbox"></i></div>
@@ -114,8 +129,8 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-right-from-bracket"></i></div>
                         Salir
                     </a>
-                   
-                    
+
+
 
                 </div>
             </div>
