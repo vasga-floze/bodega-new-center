@@ -108,6 +108,9 @@ $contador=0;
                                             SUBSUBTIPO,
                                             CANTIDAD,
                                             COSTO_TOTAL_LOCAL,
+                                            COSTO_TOTAL_DOLAR,
+                                            PRECIO_TOTAL_LOCAL,
+                                            PRECIO_TOTAL_DOLAR,
                                             NoteExistsFlag
                                         )VALUES(
                                             ?,
@@ -121,19 +124,25 @@ $contador=0;
                                             ?,
                                             ?,
                                             ?,
+                                            ?,
+                                            ?,
+                                            ?,
                                             ?
                                         )");
-     if(!$queryLineaDoc->excute([
+     if(!$queryLineaDoc->execute([
                                 $paquete,
                                 $siguienteConsecutivo,
                                 $contador,
                                 '~OO~',
                                 $articulo,
                                 $bodega,
-                                'ODL',
-                                'ODL',
-                                'ODL',
+                                'O',
+                                'O',
+                                'O',
                                 $cantidad,
+                                1,
+                                1,
+                                1,
                                 1,
                                 0
                                 ])){
@@ -146,9 +155,59 @@ $contador=0;
     $contador++;
 }
 
+/**
+ * *ACTUALIZAR EL ESTADO DE LOS CODIGOS DE BARRAS CREADOS
+ * 
+ */
 
-$response["articulo"]=$articulo;
+
+
+
+ $queryActualizarEstado=$dbBodega->prepare("UPDATE REGISTRO
+                                            SET Estado=?,Activo=1 
+                                            WHERE Estado='PROCESO' AND
+                                             DOCUMENTO_INV=? AND
+                                             FechaCreacion=? ");
+if (!$queryActualizarEstado->execute(['FINALIZADO',
+                                      $contenedor,
+                                      $fecha])) {
+
+
+    $errorInfo=$queryActualizarEstado->errorInfo();
+    $response["mensaje"]="No se puede actualizar el estado".$errorInfo[2];
+    return;
+}
+
+
+$queryEditarTransaccion=$dbBodega->prepare("UPDATE TRANSACCION SET Estado='F',
+                                            Documento_Inv=? WHERE Estado='P'
+                                            AND NumeroDocumento=?");
+if (!$queryEditarTransaccion->execute([$documentoConsecutivoING,
+                                       $contenedor])) {
+
+    $errorInfo=$queryActualizarEstado->errorInfo();
+    $response["mensaje"]="No se puede actualizar el estado
+                            transaccion".$errorInfo[2];
+    return;
+}
+
+$queryEditarConsecutivo=$dbEximp600->prepare("UPDATE ".$respuesta.".CONSECUTIVO_CI
+                                                SET SIGUIENTE_CONSEC=? 
+                                            WHERE CONSECUTIVO='COMPRA'");
+
+
+if (!$queryEditarConsecutivo->execute([$documentoConsecutivoING])) {
+    $errorInfo=$queryEditarConsecutivo->errorInfo();
+    $response["mensaje"]="No se puede editar el consecutivo".$errorInfo[2];
+    return;
+}
+
+
+
+$response["documento"]=$documentoConsecutivoING;
 $response["pesado"]=$paquete;
+$response["contenedor"]=$contenedor;
+$response["fecha"]=$fecha;
 
 echo(json_encode($response));
 ?>

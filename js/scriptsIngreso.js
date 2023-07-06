@@ -4,6 +4,21 @@ $(document).ready(function(){
     $('#peso').prop('disabled', true).prop('readonly', true);
     $('#articulo').prop('disabled', true).prop('readonly', true);
     $('#generar').prop('disabled', true);
+    let numeroDocumento=document.getElementById('fechaDocumento');
+    if(numeroDocumento){
+        imprimirTabla();
+        
+       /* let numero=numeroDocumento.value;
+        if(!numero.length === 0){
+            imprimirTabla();
+    
+        }*/
+
+    }
+
+   
+
+   
 })
 
 
@@ -112,17 +127,35 @@ $('#siguiente').click(function(){
 
 let cant=0;
 let arregloData=[]
+let numeroFecha;
+let numeroDocumento;
+
+
+
+
 $('#generar').click(function(){
     let descripcion=document.getElementById('descripcion').value;
     let clasificacion=document.getElementById('clasificacion').value;
     let articulo=document.getElementById('articulo').value;
     let libra=document.getElementById('peso').value;
     //let bodega=document.getElementById('bodega').value;
-    let fecha=document.getElementById('fecha').value;
+   
+    if( document.getElementById('numeroDocumento')){
+         numeroDocumento=document.getElementById('numeroDocumento').value;
+    }else{
+        numeroDocumento='';
+    }
+    let fecha=document.getElementById('fecha')
+    if(fecha){
+        numeroFecha=document.getElementById('fecha').value;
+    }else{
+        numeroFecha=document.getElementById('fechaDocumento').value;
+    }
+
     let cantidad=document.getElementById('cantidad').value;
     let data="descripcion="+descripcion+"&clasificacion="+clasificacion+
-               "&articulo="+articulo+"&libra="+libra+"&fecha="+fecha+
-               "&cantidad="+cantidad;
+               "&articulo="+articulo+"&libra="+libra+"&fecha="+numeroFecha+
+               "&cantidad="+cantidad+"&numeroDocumento="+numeroDocumento;
 
 
     $.ajax({
@@ -178,6 +211,70 @@ $('#finalizar').click(function(){
 function eliminar(art) {
     console.log();
     
+}
+
+
+const imprimirTabla=()=>{
+    $('#cantidad').prop('disabled', false).prop('readonly', false);
+    $('#peso').prop('disabled', false).prop('readonly', false);
+    $('#articulo').prop('disabled', false).prop('readonly', false);
+    $('#generar').prop('disabled', false);
+    $('#fechaDocumento').prop('disabled', true).prop('readonly', true);
+    $('#numeroDocumento').prop('disabled', true);
+    $('#bodegaDocumento').prop('disabled', true);
+
+    let contador=1;
+    let contadorTotal;
+    let numeroDocumento=document.getElementById('numeroDocumento').value;
+
+    let fechaDocumento=document.getElementById('fechaDocumento').value;
+
+    let data="numero="+numeroDocumento+"&fecha="+fechaDocumento;
+
+
+    $.ajax({
+        url:'getListadoContenedor.php',
+        type:'POST',
+        data:data,
+
+        success:function(response){
+            console.log(response);
+            let dataResponse=JSON.parse(response);
+           
+            dataResponse.map((element)=>{
+
+                $('#bodegaDocumento').val(element.BodegaActual)
+                console.log(element.Articulo);
+                contadorTotal=element.cantidad*element.libras;
+                arregloData.push({
+                    articulo:element.Articulo,
+                    peso: element.libras,
+                    nombre:element.Descripcion,
+                    cantidad:element.cantidad,
+                    totalPeso:contadorTotal
+                })
+                var id_row='row'+contador;
+                var row = '<tr id='+id_row+'>';
+                //row += "<td>"+ contador + "</td>"; 
+                row += "<td>" + element.Articulo + "</td>";
+                row += "<td>" + element.Descripcion + "</td>";
+                row += "<td>" + element.cantidad + "</td>";
+                row += "<td>" + element.libras + "</td>";
+                row += "<td>" + contadorTotal + "</td>";
+                row+=  '<td><a href="#" class="btn btn-primary" onclick="eliminarFila(\''+data.CodigoBarra+'\','+contador+')";>Eliminar</a></td>'
+                row += "</tr>";
+               
+                $("#myTable").prepend(row);
+        
+                contador++;
+            })
+           
+            //console.log(response);
+        }
+
+    })
+
+
 }
 
 

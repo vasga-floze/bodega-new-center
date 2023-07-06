@@ -4,9 +4,16 @@ session_start();
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
 $bodega=$_SESSION['bodega'];
-$fecha=$_SESSION['fecha'];
+//$fecha=$_SESSION['fecha'];
+$fechaActual = date('Y-m-d');
 //$paquete=$_SESSION['PAQUETE'];
-$contenedor=$_SESSION['contenedor'];
+$contenedor='';
+if(isset($_POST["numeroDocumento"])){
+    $contenedor=$_POST["numeroDocumento"];
+}else{
+    $contenedor=$_SESSION['contenedor'];
+}
+
 $descripcion=$_POST['descripcion'];
 $clasificacion=$_POST['clasificacion'];
 $articulo=$_POST['articulo'];
@@ -42,12 +49,13 @@ for ($i=1; $i <=$cantidad; $i++) {
     $IdTipoRegistro=1;
     $letraAleatoria = chr(rand(ord($DesdeLetra), ord($HastaLetra)));
     $letraMayuscula = strtoupper($letraAleatoria);
-    $fechaActual = date('Y-m-d');
+    
     $query =$dbBodega->query("SELECT 
                                 isnull (max(Sesion), 0) AS maximo 
                                 FROM dbo.REGISTRO 
                                 WHERE FechaCreacion=
-                                '".$fechaActual."'AND IdTipoRegistro=2 "
+                                '".$fecha."'AND IdTipoRegistro=2
+                                and DOCUMENTO_INV='".$contenedor."'"
                             );
 
     $sesion=$query->fetch(PDO::FETCH_ASSOC);
