@@ -184,7 +184,7 @@ $('#generar').click(function(){
             +datos.nombre+'</td><td>'
             +datos.cantidad+'</td><td>'
             +datos.peso+'</td><td>'+datos.totalPeso+
-            '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+datos.codigo+')";>Eliminar</a></td></tr>';
+            '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+datos.codigo+')";>Eliminar</a> <a href="#" class="btn btn-warning mt-0" onclick="eliminar('+datos.codigo+')";>Imprimir</a></td></tr>';
             $("#myTable").append(fila);
         
             cant++;
@@ -207,11 +207,6 @@ $('#finalizar').click(function(){
     })
 })
 
-
-function eliminar(art) {
-    console.log();
-    
-}
 
 
 const imprimirTabla=()=>{
@@ -261,7 +256,7 @@ const imprimirTabla=()=>{
                 row += "<td>" + element.cantidad + "</td>";
                 row += "<td>" + element.libras + "</td>";
                 row += "<td>" + contadorTotal + "</td>";
-                row+=  '<td><a href="#" class="btn btn-primary" onclick="eliminarFila(\''+data.CodigoBarra+'\','+contador+')";>Eliminar</a></td>'
+                row+=  '<td><a href="#" class="btn btn-primary" onclick="eliminarFila(\''+element.Articulo+'\','+contador+')";>Eliminar</a> <a href="#" class="btn btn-primary" onclick="imprimirFila(\''+element.Articulo+'\','+contador+')";>Imprimir</a></td>'
                 row += "</tr>";
                
                 $("#myTable").prepend(row);
@@ -274,7 +269,16 @@ const imprimirTabla=()=>{
 
     })
 
+  
 
+
+}
+function eliminarFila(codigoBarra){
+    console.log(codigoBarra);
+}
+
+function imprimirFila() {
+    
 }
 
 

@@ -11,7 +11,7 @@ $contenedor='';
 if(isset($_POST["numeroDocumento"])){
     $contenedor=$_POST["numeroDocumento"];
 }else{
-    $contenedor=$_SESSION['contenedor'];
+    $contenedor=$_POST['contenedor'];
 }
 
 $descripcion=$_POST['descripcion'];

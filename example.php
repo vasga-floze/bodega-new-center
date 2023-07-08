@@ -14,7 +14,8 @@ $image='logo.jpeg';
 /* This code is preparing a SQL query to select data from multiple tables (`DETALLEREGISTRO`,
 `REGISTRO`, and `EXIMP600.consny.ARTICULO`) based on a specific condition
 (`REGISTRO.CodigoBarra='000'`). The selected data includes the concatenation of
-`DETALLEREGISTRO.ArticuloDetalle`, `REGISTRO.CodigoBarra`, and the string `'\t1\n'` as `QR`,
+`DETALLEREGISTRO.ArticuloDetalle`, `REGISTRO.CodigoBarra`, and the string 
+`'\t1\n'` as `QR`,
 `REGISTRO.CodigoBarra`, `DETALLEREGISTRO.ArticuloDetalle`, `ex.descripcion`, and
 `DETALLEREGISTRO.Cantidad`. This query is used to retrieve data for generating QR codes and labels
 in the PDF file. */

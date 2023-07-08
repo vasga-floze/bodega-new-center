@@ -87,6 +87,8 @@ if (!$queryFinalizarIngreso->execute([
  * *DATOS ARREGLO DE LA TABLA
  */
 $contador=0;
+$articulo='';
+$contenedor='';
  foreach ($arregloData as $value) {
     $articulo=$value["articulo"];
     $peso=$value["peso"];
