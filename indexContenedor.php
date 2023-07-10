@@ -8,8 +8,14 @@
         $respuesta=$_SESSION['compania'];
         $fechaActual = date('Y-m-d');
         include('conexiones/conectar.php');
-        //session_destroy();
-
+        
+        $query =$dbBodega->prepare("SELECT NumeroDocumento,Fecha,COUNT(codigobarra) CANTIDAD FROM TRANSACCION
+                                    WHERE IdTipoTransaccion='1' AND Estado='P'
+                                    GROUP BY IdTransaccion,NumeroDocumento,Fecha
+                                    ");
+        $query->execute();
+        $data = $query->fetchAll();
+        
 
     }
 
@@ -34,9 +40,9 @@
 </head>
 
 <body class="sb-nav-fixed">
-   
+
     <div id="layoutSidenav">
-    <?php
+        <?php
             include('menuBootstrap.php');
 
         ?>
@@ -61,7 +67,7 @@
 
                         </div>
 
-                        
+
 
                     </div>
 
@@ -72,14 +78,16 @@
                             Tabla contenedores
                         </div>
                         <div class="card-body">
-                            <table id="datatablesSimple">
+                        <table id="datatablesSimple">
                                 <thead>
                                     <tr>
+                                      
+                                        <th>Numero</th>
+                                        <th>Fecha</th>
+                                        <th>Cantidad</th>
+                                        <th>Acciones</th>
                                         
-                                        <th>NUMERO</th>
-                                        <th>FECHA</th>
-                                        <th>CANTIDAD</th>
-                                        <th>ACCIONES</th>
+
 
                                     </tr>
                                 </thead>
@@ -94,23 +102,17 @@
                                     </tr>
                                 </tfoot>----->
                                 <tbody>
-                                    <?php 
-                                    $query =$dbBodega->prepare("SELECT NumeroDocumento,Fecha,
-                                                                    COUNT(codigobarra) CANTIDAD
-                                                                FROM TRANSACCION
-                                                                WHERE IdTipoTransaccion=1 AND
-                                                                Estado='P'
-                                                                GROUP BY NumeroDocumento,Fecha
-                                                                ");
-                                    $query->execute();
-                                    $data = $query->fetchAll();
-
-                                    foreach($data as $item){
+                                    
+                                    <?php
+                                    foreach($data as $valores){
                                         echo "<tr>";
-                                        echo "<td>".$item["NumeroDocumento"]."</td>";
-                                        echo "<td>".$item["Fecha"]."</td>";
-                                        echo "<td>".$item["CANTIDAD"]."</td>";
-                                        echo "<td><a href='indexNuevoContenedor.php?fecha=".urlencode($item["Fecha"])."&numero=".$item["NumeroDocumento"]."' class='btn btn-primary'>Continuar</td>";
+                                        
+                                        echo "<td>".$valores['NumeroDocumento']."</td>";
+                                        echo "<td>".$valores['Fecha']."</td>";
+                                        echo "<td>".$valores['CANTIDAD']."</td>";
+                                        echo "<td><a href='indexNuevoContenedor.php?fecha=".urlencode($valores["Fecha"])."&numero=".$valores["NumeroDocumento"]."' class='btn btn-primary'>Continuar</td>";
+                                        echo "</tr>";
+                                       
                                     }
                                     ?>
 

@@ -210,6 +210,8 @@ $response["documento"]=$documentoConsecutivoING;
 $response["pesado"]=$paquete;
 $response["contenedor"]=$contenedor;
 $response["fecha"]=$fecha;
+$response["message"]="Registro finalizado correctamente";
+$response["success"]="1";
 
 echo(json_encode($response));
 ?>

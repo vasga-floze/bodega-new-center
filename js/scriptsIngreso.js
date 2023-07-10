@@ -164,10 +164,10 @@ $('#generar').click(function(){
         type: 'POST',
         data:data,
         success: function(response){
-
+            console.log(response);
             let datos=JSON.parse(response);
-            console.log(datos);
-            arregloData.push({
+       
+           arregloData.push({
                 articulo:datos.codigo,
                 peso: datos.peso,
                 nombre:datos.nombre,
@@ -175,7 +175,13 @@ $('#generar').click(function(){
                 totalPeso: datos.totalPeso,
             })
             console.log(arregloData);
-
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1500
+              })
             
            
             var id_row='row'+cant;
@@ -202,7 +208,21 @@ $('#finalizar').click(function(){
             arregloData:JSON.stringify(arregloData)
         },
         success: function(response){
-            console.log(response);
+            let data=JSON.parse(response);
+            let mensaje=data.message;
+            if(data.success==="1"){
+                Swal.fire({
+                    
+                    icon: 'success',
+                    title: mensaje,
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+
+                setTimeout(() => {
+                    window.location.href = "indexContenedor.php";
+                }, 1500);
+            }
         }
     })
 })
@@ -256,7 +276,9 @@ const imprimirTabla=()=>{
                 row += "<td>" + element.cantidad + "</td>";
                 row += "<td>" + element.libras + "</td>";
                 row += "<td>" + contadorTotal + "</td>";
-                row+=  '<td><a href="#" class="btn btn-primary" onclick="eliminarFila(\''+element.Articulo+'\','+contador+')";>Eliminar</a> <a href="#" class="btn btn-primary" onclick="imprimirFila(\''+element.Articulo+'\','+contador+')";>Imprimir</a></td>'
+                row += "<td>" + element.DOCUMENTO_INV + "</td>";
+                row += "<td>" + element.FechaCreacion + "</td>";
+                row+=  '<td><a href="#" class="btn btn-primary" onclick="eliminarFilaBase(\'' + element.Articulo + '\', \'' + element.FechaCreacion + '\', \'' + element.DOCUMENTO_INV + '\', ' + contador + ');">Eliminar</a> <a href="#" class="btn btn-primary" onclick="imprimirFila(\''+element.Articulo+'\',\''+ element.DOCUMENTO_INV + '\',\''+element.FechaCreacion+ '\')";>Imprimir</a></td>'
                 row += "</tr>";
                
                 $("#myTable").prepend(row);
@@ -273,11 +295,50 @@ const imprimirTabla=()=>{
 
 
 }
-function eliminarFila(codigoBarra){
-    console.log(codigoBarra);
+function eliminarFilaBase(codigo,fecha,contenedor,fila){
+    console.log(codigo);
+    console.log(fecha);
+    console.log(contenedor);
+
+    let data="codigo="+codigo+"&fecha="+fecha+"&contenedor="+contenedor;
+
+    $.ajax({
+        url:"controladorEliminarContenedor.php",
+        type:"POST",
+        data: data,
+
+        success:function(response){
+
+        }
+    })
+
+     eliminarLista(fila)
 }
 
-function imprimirFila() {
+function eliminarLista(fila) {
+    $("#row"+fila).remove();
+    var i=0;
+    var pos=0;
+    for(x of arregloData){
+        if(x.id==fila){
+            pos=i;
+        }
+        i++;
+    }
+    arregloData.splice(pos,1);
+    
+}
+
+function imprimirFila(articulo,contenedor,fecha) {
+    // Construir la URL con los parámetros
+    var url = "pdfContenedor.php" +
+        "?articulo=" + encodeURIComponent(articulo) +
+        "&contenedor=" + encodeURIComponent(contenedor) +
+        "&fecha=" + encodeURIComponent(fecha);
+
+    // Redireccionar a la nueva página
+    window.location.href = url;
+
     
 }
 

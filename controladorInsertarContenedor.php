@@ -4,15 +4,26 @@ session_start();
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
 $bodega=$_SESSION['bodega'];
+
+
+$contenedor='';
+if (empty($_POST["numeroDocumento"])) {
+    $contenedor=$_SESSION['contenedor'];
+    
+}else {
+    $contenedor=$_POST["numeroDocumento"];
+}
 //$fecha=$_SESSION['fecha'];
 $fechaActual = date('Y-m-d');
 //$paquete=$_SESSION['PAQUETE'];
-$contenedor='';
-if(isset($_POST["numeroDocumento"])){
+
+/*if (isset($_POST["numeroDocumento"])) {
     $contenedor=$_POST["numeroDocumento"];
-}else{
-    $contenedor=$_POST['contenedor'];
-}
+}*/
+
+    
+
+
 
 $descripcion=$_POST['descripcion'];
 $clasificacion=$_POST['clasificacion'];
@@ -25,7 +36,7 @@ $totalCantidad=$cantidad*$libras;
 
 $response=array();
 
-$response['bodega']=$bodega;
+/*$response['bodega']=$bodega;
 $response['fecha']=$fecha;
 $response['contenedor']=$contenedor;
 $response['descripcion']=$descripcion;
@@ -33,10 +44,11 @@ $response['clasificacion']=$clasificacion;
 $response['articulo']=$articulo;
 $response['libras']=$libras;
 $response['fecha']=$fecha;
-$response['usuario']=$usuario;
+$response['usuario']=$usuario;*/
 
 
-//$contador=10;
+
+
 for ($i=1; $i <=$cantidad; $i++) { 
     $fechaActual= date('m.d.y');
     $fechaComoEntero=strtotime($fechaActual);
@@ -50,17 +62,20 @@ for ($i=1; $i <=$cantidad; $i++) {
     $letraAleatoria = chr(rand(ord($DesdeLetra), ord($HastaLetra)));
     $letraMayuscula = strtoupper($letraAleatoria);
     
-    $query =$dbBodega->query("SELECT 
-                                isnull (max(Sesion), 0) AS maximo 
-                                FROM dbo.REGISTRO 
-                                WHERE FechaCreacion=
-                                '".$fecha."'AND IdTipoRegistro=2
-                                and DOCUMENTO_INV='".$contenedor."'"
-                            );
+    $query = $dbBodega->query("SELECT ISNULL(MAX(Sesion), 0) AS maximo 
+                          FROM dbo.REGISTRO 
+                          WHERE FechaCreacion = '".$fecha."' 
+                          AND IdTipoRegistro = 2 
+                         ");
+                          
+    $sesion = $query->fetch(PDO::FETCH_ASSOC);
+    $devuelve = $sesion['maximo'];
+    
+    
 
-    $sesion=$query->fetch(PDO::FETCH_ASSOC);
+   // $sesion=$query->fetch(PDO::FETCH_ASSOC);
 
-    $devuelve=$sesion['maximo'];
+    //$devuelve=$sesion['maximo'];
     $devuelve=$devuelve+1;
     if($devuelve>=0 && $devuelve<10){
         $numero="00$devuelve";
@@ -69,9 +84,12 @@ for ($i=1; $i <=$cantidad; $i++) {
     }else{
         $numero=$devuelve;
     }
+   
     $codigoBarra =(
             "".$letraMayuscula.""."P".$dia."".$mes."".$numero."".$anio
                 );
+    //$response["codigo"]=$codigoBarra;
+  
     $queryGenerarYguardarCodigo=$dbBodega->prepare(
                                         "INSERT INTO REGISTRO
                                                 (
@@ -133,10 +151,12 @@ for ($i=1; $i <=$cantidad; $i++) {
                                         ])) {
         $errorInfo=$queryGenerarYguardarCodigo->errorInfo();
         $response["mensaje"]="No se pudo registrar " .$errorInfo[2];
+        $response["devuelve"]=$query;
         echo(json_encode($response));
         return;
         
     }
+}
 
     $queryInsertarTransaccion=$dbBodega->prepare("INSERT INTO TRANSACCION
                                                     (
@@ -161,37 +181,29 @@ for ($i=1; $i <=$cantidad; $i++) {
                                                         ?,
                                                         ?
                                                     )");
-    if (!$queryInsertarTransaccion->execute([
-                                            $codigoBarra,
-                                            1,
-                                            $fecha,
-                                            $bodega,
-                                            'E',
-                                            'P',
-                                            $usuario,
-                                            $contenedor
-                                        ])) {
-        $errorInfo=$queryInsertarTransaccion->errorInfo();
-        $response["message"]="No se podido ejecutar la transaccion".$errorInfo[2];
-        echo(json_encode($response));
-        return;
-    }
-
-
-
-    
+if (!$queryInsertarTransaccion->execute([
+                                        $codigoBarra,
+                                        1,
+                                        $fecha,
+                                        $bodega,
+                                        'E',
+                                        'P',
+                                        $usuario,
+                                        $contenedor
+                                    ])) {
+    $errorInfo=$queryInsertarTransaccion->errorInfo();
+    $response["message"]="No se podido ejecutar la transaccion".$errorInfo[2];
+    echo(json_encode($response));
+    return;
 }
-//$response["siguiente"]=$siguienteConsecutivo;
+
 $response["codigo"]=$articulo;
 $response["nombre"]=$descripcion;
 $response["cantidad"]=$cantidad;
 $response["peso"]=$libras;
-$response["totalPeso"]=$totalCantidad;
-$response["mensaje"]="Se pudo ejecutar";
-
+$response["totalPeso"]=$cantidad*$libras;
+$response["contenedor"]=$contenedor;
+$response["mensaje"]="Se pudo insertar";
+$response["success"]="1";
 echo(json_encode($response));
-
-
-
-
 ?>

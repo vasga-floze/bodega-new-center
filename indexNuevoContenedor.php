@@ -210,6 +210,8 @@ if(!isset($_SESSION['usuario'])){
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Peso</th>
                                         <th scope="col">Total Peso</th>
+                                        <th scope="col">Contenedor</th>
+                                        <th scope="col">Fecha</th>
                                     </tr>
                                 </thead>
                             </table>
