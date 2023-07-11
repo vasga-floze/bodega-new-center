@@ -118,6 +118,13 @@ $('#siguiente').click(function(){
                 $('#peso').prop('disabled', false).prop('readonly', false);
                 $('#articulo').prop('disabled', false).prop('readonly', false);
                 $('#generar').prop('disabled', false);
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un error',
+                    text: 'No se puede trabajar el contenedor porque ya existe'
+                    
+                  })
             }
             
 
@@ -129,10 +136,6 @@ let cant=0;
 let arregloData=[]
 let numeroFecha;
 let numeroDocumento;
-
-
-
-
 $('#generar').click(function(){
     let descripcion=document.getElementById('descripcion').value;
     let clasificacion=document.getElementById('clasificacion').value;
@@ -143,7 +146,7 @@ $('#generar').click(function(){
     if( document.getElementById('numeroDocumento')){
          numeroDocumento=document.getElementById('numeroDocumento').value;
     }else{
-        numeroDocumento='';
+        numeroDocumento=document.getElementById('contenedor').value;
     }
     let fecha=document.getElementById('fecha')
     if(fecha){
@@ -151,11 +154,19 @@ $('#generar').click(function(){
     }else{
         numeroFecha=document.getElementById('fechaDocumento').value;
     }
+    let bodega=document.getElementById('bodegaDocumento')
+    if(bodega){
+        bodega=document.getElementById('bodegaDocumento').value;
+    }else{
+
+        bodega=document.getElementById('bodega').value;
+    }
 
     let cantidad=document.getElementById('cantidad').value;
     let data="descripcion="+descripcion+"&clasificacion="+clasificacion+
                "&articulo="+articulo+"&libra="+libra+"&fecha="+numeroFecha+
-               "&cantidad="+cantidad+"&numeroDocumento="+numeroDocumento;
+               "&cantidad="+cantidad+"&numeroDocumento="+numeroDocumento+
+               "&bodega="+bodega;
 
 
     $.ajax({
@@ -176,7 +187,7 @@ $('#generar').click(function(){
             })
             console.log(arregloData);
             Swal.fire({
-                position: 'top-end',
+             
                 icon: 'success',
                 title: 'Your work has been saved',
                 showConfirmButton: false,
@@ -189,8 +200,10 @@ $('#generar').click(function(){
             '<tr id='+id_row+'><td>'+datos.codigo+'</td><td>'
             +datos.nombre+'</td><td>'
             +datos.cantidad+'</td><td>'
-            +datos.peso+'</td><td>'+datos.totalPeso+
-            '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+datos.codigo+')";>Eliminar</a> <a href="#" class="btn btn-warning mt-0" onclick="eliminar('+datos.codigo+')";>Imprimir</a></td></tr>';
+            +datos.peso+'</td><td>'
+            +datos.totalPeso+'</td><td>'
+            +datos.contenedor+'</td><td>'
+            +datos.fecha+'</td><td><a href="#" class="btn btn-primary" onclick="eliminarFilaBase(\'' + datos.codigo + '\', \'' + datos.fecha + '\', \'' + datos.contenedor + '\', ' + cant + ');">Eliminar</a> <a href="#" class="btn btn-warning mt-0" onclick="imprimirFila(\''+datos.codigo+'\',\''+ datos.contenedor + '\',\''+datos.fecha+ '\')";>Imprimir</a></td></tr>';
             $("#myTable").append(fila);
         
             cant++;
@@ -308,12 +321,21 @@ function eliminarFilaBase(codigo,fecha,contenedor,fila){
         data: data,
 
         success:function(response){
+            console.log(response);
+            let data=JSON.parse(response);
+            if(data.success==="1"){
+
+
+                eliminarLista(fila)
+            }
 
         }
     })
 
-     eliminarLista(fila)
-}
+    
+} 
+
+
 
 function eliminarLista(fila) {
     $("#row"+fila).remove();

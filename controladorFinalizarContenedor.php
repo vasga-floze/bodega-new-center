@@ -7,7 +7,7 @@ $paquete=$_SESSION['PAQUETE'];
 $contenedor=$_SESSION['contenedor'];
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
-$base=$_SESSION['BASE'];
+
 $bodega=$_SESSION['bodega'];
 $fecha=$_SESSION['fecha'];
 
@@ -86,7 +86,7 @@ if (!$queryFinalizarIngreso->execute([
 /**
  * *DATOS ARREGLO DE LA TABLA
  */
-$contador=0;
+$contador=1;
 $articulo='';
 $contenedor='';
  foreach ($arregloData as $value) {

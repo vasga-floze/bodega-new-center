@@ -3,16 +3,11 @@ include('conexiones/conectar.php');
 session_start();
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
-$bodega=$_SESSION['bodega'];
+$bodega=$_POST['bodega'];
+$paquete=$_SESSION['PAQUETE'];
 
+$contenedor=$_POST["numeroDocumento"];
 
-$contenedor='';
-if (empty($_POST["numeroDocumento"])) {
-    $contenedor=$_SESSION['contenedor'];
-    
-}else {
-    $contenedor=$_POST["numeroDocumento"];
-}
 //$fecha=$_SESSION['fecha'];
 $fechaActual = date('Y-m-d');
 //$paquete=$_SESSION['PAQUETE'];
@@ -203,6 +198,8 @@ $response["cantidad"]=$cantidad;
 $response["peso"]=$libras;
 $response["totalPeso"]=$cantidad*$libras;
 $response["contenedor"]=$contenedor;
+$response["fecha"]=$fecha;
+$response["paquete"]=$paquete;
 $response["mensaje"]="Se pudo insertar";
 $response["success"]="1";
 echo(json_encode($response));
