@@ -38,7 +38,8 @@ if(!isset($_SESSION['usuario'])){
     <link rel="stylesheet" href="cssmenu/select2.min.css" />
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="cssmenu/select2-bootstrap-5-theme.min.css">
-    <link rel="stylesheet" href="cssmenu/jquery-ui.css">
+    <link rel="stylesheet" href="cssmenu/jquery-ui.js">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="cssmenu/datatables.min.css">
     <!--<link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />-->
@@ -255,7 +256,7 @@ if(!isset($_SESSION['usuario'])){
         </div>
     </div>
     <!---<script src="https://code.jquery.com/jquery-1.10.2.js"></script>---->
-    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
 
 
     </script>
