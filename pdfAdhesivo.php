@@ -43,9 +43,9 @@ if(isset($_GET["descripcion"])){
 		
 		$consulta= json_encode($data);
 		$arr = json_decode($consulta, true);
-		$col_width = 100; // Ancho de cada columna
-		$row_height =120; // Altura de cada fila
-		$x = 5; // Posición inicial x
+		$col_width = 205; // Ancho de cada columna
+		$row_height =220; // Altura de cada fila
+		$x = 2; // Posición inicial x
 		$y = 11; // Posición inicial y
 		$next_y = $y; // Variable para almacenar la posición y de la siguiente celda
 		$current_col = 0; // Columna actual
@@ -72,10 +72,10 @@ if(isset($_GET["descripcion"])){
 			$level='H';
 			$frameSize=1;
 			QRcode::png($val['QR'],$filename,$level,$tamanio,$frameSize);
-			$cantidadPaginasEsperadas=ceil($suma/10);
+			$cantidadPaginasEsperadas=ceil($suma/5);
 			foreach ($data as $key => $value) {
 				$col = $current_col; // Definir la columna actual
-				$row = floor($key / 6); // Calcular la fila actual
+				$row = floor($key / 2); // Calcular la fila actual
 				$imagen='logo.jpeg';
 			//$cantidadPagina++;
 			// Calcular la posición x e y de la celda
@@ -84,15 +84,15 @@ if(isset($_GET["descripcion"])){
 				$html='<style>
 							.descripcion{
 								margin-top: 45px;
-								font-size:5px;
+								font-size:30px;
 							}
 							.codigo{
 								margin-top: 100px;
-								font-size:5px;
+								font-size:30px;
 							}
 							.codigoArticulo{
 								margin-top: 100px;
-								font-size:5px;
+								font-size:30px;
 							}
 							.carisma{
 								margin-top: 75px;
@@ -117,12 +117,12 @@ if(isset($_GET["descripcion"])){
 			// Actualizar la posición y de la siguiente celda
 				$next_y = $cell_y + $row_height;
 			// Verifcar si se llegó al final de la página
-				if ($next_y > $pdf->getPageHeight() - 300) {
+				if ($next_y > $pdf->getPageHeight() - 400) {
 				// Posicionar la siguiente columna a la derecha
 					$current_col++;
 					$next_y = $y;
 				// Verificar si se llegó al final de la última columna
-					if ($current_col >= 2) {
+					if ($current_col >= 1) {
 					//$cantidadPaginasEsperadas = ceil(($total_vinetas) / 30);
 					// Verificar si se ha alcanzado la última página
 						if ($total_paginas+1 != $cantidadPaginasEsperadas ) {

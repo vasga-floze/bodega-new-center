@@ -19,6 +19,17 @@ $(function(){
     });
 });
 
+$("#precio").on('keypress',function(evento){
+    let char =String.fromCharCode(evento.which);
+    if(!/[0-9\.]/.test(char)){
+     evento.preventDefault();
+    }
+ 
+    if(char === "." && input.indexOf(".") !== -1 ){
+     evento.preventDefault();
+    }
+  })
+ 
 let table=$('#myTable').DataTable();
 let fila;
 $("#generar").click(function(){
@@ -37,39 +48,99 @@ $("#generar").click(function(){
         success:function(response){
            let data=JSON.parse(response);
             
-            $('#myTable').DataTable({
+            var tabla=$('#myTable').DataTable({
                 "data": data.data,
+                "footerCallback": function ( row, data, start, end, display ) {
+        
+                    total = this.api()
+                        .column(3)//numero de columna a sumar
+                        //.column(1, {page: 'current'})//para sumar solo la pagina actual
+                        .data()
+                        .reduce(function (a, b) {
+                            return parseFloat(a) + parseFloat(b);
+                        }, 0 );
+                    totalArticulo=this.api()
+                            .column(5)
+                            .data()
+                            .reduce(function(a,b){
+                                return parseFloat(a)+parseFloat(b);
+                            },0);
+                        $("#total").text(total)
+                        $("#totalArticulo").text(totalArticulo)
+                    
+                },
                 "columns": [
                     {"data": "articulo"},
                     {"data": "descripcion"},
                     {"data": "Cantidad"},
                     {"data": "subtotal"},
+                    {"data": "porcentaje"},
+                    
+                    {"data": "totalArticulo"},
+                    {"data": "precioUnitario"},
                     {"defaultContent": "<button class='btn btn-primary calcular'>Calcular</button>"}
                 ],
                 "rowId": "articulo"
             })
+
+          
+
         }
     })
 })
-
+let articulo;
+let subtotal;
+let porcentaje;
+let cantidad;
 $(document).on("click", ".calcular",function(){
-
+    
     fila=$(this).closest("tr");
-    let articulo = fila.find('td:eq(0)').text();
+    articulo = fila.find('td:eq(0)').text();
     let nombre = fila.find('td:eq(1)').text();
-    let cantidad = fila.find('td:eq(2)').text();
-    let subtotal = fila.find('td:eq(3)').text();
-    console.log(cantidad);
-    console.log(subtotal);
-
-    let resultado=parseFloat(cantidad)+parseFloat(subtotal);
+    cantidad = fila.find('td:eq(2)').text();
+    subtotal = fila.find('td:eq(3)').text();
+    porcentaje = fila.find('td:eq(4)').text();
+ 
     let table = $('#myTable').DataTable();
-    table.cell('#' + articulo, 3).data(resultado.toFixed(2)).draw();
-
+    $('#articulo').val(articulo);
+    $('#descripcion').val(nombre);
     $('#cantidad').val(cantidad);
     $('#precio').val(subtotal);
     $('#modalEditar').modal('show')
 })
+
+
+$('#guardar').click(function(){
+
+    let precioUnitario = document.getElementById('precio').value;
+    let gasto=document.getElementById('gasto').value;
+    let table = $('#myTable').DataTable();
+
+    let resultado=parseFloat(precioUnitario)*parseFloat(cantidad);
+    table.cell('#' + articulo, 3).data(resultado.toFixed(2)).draw();
+
+    /*let porcentaje=parseFloat(resultado)/parseFloat(total);
+    table.cell('#' + articulo, 4).data(porcentaje.toFixed(2)).draw();*/
+    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+       // let porcentaje=parseFloat(resultado)/parseFloat(total);
+        let rowData = this.data();
+        console.log(rowData);
+        let subtotalFila=parseFloat(rowData.subtotal);
+        let cantidadFila=parseFloat(rowData.Cantidad);
+        console.log(cantidadFila);
+        let porcentaje=subtotalFila /total;
+        let gastoCalculado=gasto*porcentaje;
+        let articulo = gastoCalculado+subtotalFila; 
+        let precio=articulo/cantidadFila;
+        table.cell(rowIdx, 4).data(porcentaje.toFixed(4)).draw();
+      
+        table.cell(rowIdx, 5).data(articulo.toFixed(2)).draw();
+        table.cell(rowIdx, 6).data(precio.toFixed(6)).draw();
+        
+    });
+})
+
+
 
 $('#cerrar').click(function(){
     $('#modalEditar').modal('hide')

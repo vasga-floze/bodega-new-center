@@ -27,6 +27,9 @@ foreach ($data as $key) {
     $row["descripcion"]=$key["descripcion"];
     $row["Cantidad"]=$key["Cantidad"];
     $row["subtotal"]=0;
+    $row["porcentaje"]=0;
+    $row["totalArticulo"]=0;
+    $row["precioUnitario"]=0;
     $response["data"][]=$row;
 }
 

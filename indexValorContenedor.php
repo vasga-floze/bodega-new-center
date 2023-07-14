@@ -79,6 +79,11 @@ if(!isset($_SESSION['usuario'])){
                             <input type="email" class="form-control" id="contenedor" aria-describedby="emailHelp">
 
                         </div>
+                        <div class="col-xl-3 col-md-4">
+                            <label for="">Gasto</label>
+                            <input type="email" class="form-control" id="gasto" aria-describedby="emailHelp">
+
+                        </div>
 
 
 
@@ -104,6 +109,10 @@ if(!isset($_SESSION['usuario'])){
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Subtotal</th>
+                                        <th scope="col">Porcentaje</th>
+
+                                        <th scope="col">Total articulo</th>
+                                        <th scope="col">Precio unitario</th>
                                         <th scope="col">Acciones</th>
                                         <!---<th scope="col">Precio Unitario</th>
                                         <th scope="col">Subtotal</th>
@@ -112,15 +121,27 @@ if(!isset($_SESSION['usuario'])){
                                         <th scope="col">Total articulo</th>----->
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+
+                                        <th>Total</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th id="total"></th>
+                                        <th></th>
+                                        <th id="totalArticulo"></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
 
 
                     </div>
+
                     <!-- Modal -->
-                    <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog"
+                    <div class="modal fade" data-bs-backdrop="static" id="modalEditar" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLongTitle">Calcular el contenedor</h5>
@@ -129,27 +150,39 @@ if(!isset($_SESSION['usuario'])){
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="container">
-                                        <div class="row-align-items-start">
-                                            <div class="col-4">
-                                                <label for="exampleFormControlInput1" class="form-label">Cantidad</label>
-                                                <input type="email" class="form-control" id="cantidad"
-                                                    placeholder="">
-                                            </div>
-                                            <div class="col-4">
-                                                <label for="exampleFormControlInput1" class="form-label">Precio</label>
-                                                <input type="email" class="form-control" id="precio"
-                                                    placeholder="">
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="exampleFormControlInput1" class="form-label" readonly>Articulo</label>
+                                            <input type="text" class="form-control" id="articulo" readonly>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="exampleFormControlInput1" class="form-label">Descripcion</label>
+                                            <input type="text" class="form-control" id="descripcion" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="exampleFormControlInput1" class="form-label">Cantidad</label>
+                                            <input type="email" class="form-control" id="cantidad" placeholder="" readonly>
+
 
 
                                         </div>
+                                        <div class="col-6">
+                                            <label for="exampleFormControlInput1" class="form-label">Precio</label>
+                                            <input type="email" class="form-control" id="precio" placeholder="">
+                                        </div>
+
                                     </div>
+
+
+
+
                                 </div>
                                 <div class="modal-footer">
                                     <button id="cerrar" type="button" class="btn btn-primary"
                                         data-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                    <button type="button" id="guardar" class="btn btn-primary">Calcular</button>
                                 </div>
                             </div>
                         </div>
