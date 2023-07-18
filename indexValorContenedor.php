@@ -134,8 +134,10 @@ if(!isset($_SESSION['usuario'])){
                                 </tfoot>
                             </table>
                         </div>
-
-
+                    
+                    </div>
+                    <div class="col d-flex flex-row-reverse">
+                        <button class="btn btn-primary" id="finalizar">Finalizar</button>
                     </div>
 
                     <!-- Modal -->

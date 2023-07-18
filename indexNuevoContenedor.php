@@ -173,7 +173,7 @@ if(!isset($_SESSION['usuario'])){
                                 $query->execute();
                                 $data = $query->fetchAll();
                                 foreach ($data as $valores):
-                                    echo '<option value="'.$valores["ARTICULO"].'" data-clasificacion="'.$valores["CLASIFICACION_1"].'">'.$valores["ARTICULO"].'-'.$valores["DESCRIPCION"].'</option>';
+                                    echo '<option value="'.$valores["ARTICULO"].'" data-clasificacion="'.$valores["CLASIFICACION_1"].'" data-descripcion="'.$valores["DESCRIPCION"].'">'.$valores["ARTICULO"].'-'.$valores["DESCRIPCION"].'</option>';
                                 endforeach;
                             
                             ?>
@@ -210,7 +210,7 @@ if(!isset($_SESSION['usuario'])){
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Cantidad</th>
                                         <th scope="col">Peso</th>
-                                        <th scope="col">Total Peso</th>
+                                     
                                         <th scope="col">Contenedor</th>
                                         <th scope="col">Fecha</th>
                                     </tr>

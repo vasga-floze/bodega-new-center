@@ -5,10 +5,10 @@ $fecha = $_POST["fecha"];
 $documento = $_POST["documento"];
 
 $response["data"] = array();
-$consulta = "SELECT articulo, descripcion, count(codigobarra) Cantidad
+$consulta = "SELECT articulo, descripcion, count(codigobarra) Cantidad, BodegaActual
            FROM registro WHERE fechaCreacion='$fecha' AND 
            documento_inv='$documento' AND estado='PROCESO'
-           GROUP BY articulo, descripcion HAVING SUM(isnull(costo,0))=0";
+           GROUP BY articulo, descripcion, BodegaActual";
 
 $resultado = $dbBodega->prepare($consulta);
 
@@ -26,6 +26,7 @@ foreach ($data as $key) {
     $row["articulo"]=$key["articulo"];
     $row["descripcion"]=$key["descripcion"];
     $row["Cantidad"]=$key["Cantidad"];
+    $row["bodega"]=$key["BodegaActual"];
     $row["subtotal"]=0;
     $row["porcentaje"]=0;
     $row["totalArticulo"]=0;

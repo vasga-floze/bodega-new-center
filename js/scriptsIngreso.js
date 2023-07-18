@@ -80,7 +80,8 @@ let input=document.getElementById('peso').value;
     var selectedOption = $('#articulo option:selected');
           
     var clasificacion = selectedOption.data('clasificacion');
-    let descripcion=$('#articulo option:selected').text().split('-')[1].trim();
+    var descripcion=selectedOption.data('descripcion') 
+    //let descripcion=$('#articulo option:selected').text().split('-')[1].trim();
     $('#clasificacion').val(clasificacion);
    
     $('#descripcion').val(descripcion);
@@ -196,8 +197,8 @@ $('#generar').click(function(){
             '<tr id='+id_row+'><td>'+datos.codigo+'</td><td>'
             +datos.nombre+'</td><td>'
             +datos.cantidad+'</td><td>'
-            +datos.peso+'</td><td>'
-            +datos.totalPeso+'</td><td>'
+            +parseFloat(datos.totalPeso).toFixed(2)+'</td><td>'
+           
             +datos.contenedor+'</td><td>'
             +datos.fecha+'</td><td><a href="#" class="btn btn-primary" onclick="eliminarFilaBase(\'' + datos.codigo + '\', \'' + datos.fecha + '\', \'' + datos.contenedor + '\', ' + cant + ');">Eliminar</a> <a href="#" class="btn btn-warning mt-0" onclick="imprimirFila(\''+datos.codigo+'\',\''+ datos.contenedor + '\',\''+datos.fecha+ '\')";>Imprimir</a></td></tr>';
             $("#myTable").append(fila);

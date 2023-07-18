@@ -47,7 +47,7 @@ $("#generar").click(function(){
 
         success:function(response){
            let data=JSON.parse(response);
-            
+            console.log(data);
             var tabla=$('#myTable').DataTable({
                 "data": data.data,
                 "footerCallback": function ( row, data, start, end, display ) {
@@ -92,6 +92,9 @@ let articulo;
 let subtotal;
 let porcentaje;
 let cantidad;
+let subtotalArreglo;
+let rowData;
+let objetoDatos;
 $(document).on("click", ".calcular",function(){
     
     fila=$(this).closest("tr");
@@ -109,9 +112,12 @@ $(document).on("click", ".calcular",function(){
     $('#modalEditar').modal('show')
 })
 
+let dataArray;
 
 $('#guardar').click(function(){
-
+    let tablaActualizada;
+    let fechaCabecera=document.getElementById('fecha').value;
+    let contenedorCabecera=document.getElementById('contenedor').value;
     let precioUnitario = document.getElementById('precio').value;
     let gasto=document.getElementById('gasto').value;
     let table = $('#myTable').DataTable();
@@ -121,23 +127,74 @@ $('#guardar').click(function(){
 
     /*let porcentaje=parseFloat(resultado)/parseFloat(total);
     table.cell('#' + articulo, 4).data(porcentaje.toFixed(2)).draw();*/
+    dataArray=[]
     table.rows().every(function(rowIdx, tableLoop, rowLoop) {
        // let porcentaje=parseFloat(resultado)/parseFloat(total);
-        let rowData = this.data();
+        rowData = this.data();
         console.log(rowData);
         let subtotalFila=parseFloat(rowData.subtotal);
         let cantidadFila=parseFloat(rowData.Cantidad);
-        console.log(cantidadFila);
+        let bodega=rowData.bodega
+        let articuloFila=rowData.articulo;
+        
+     
+        subtotalArreglo=subtotalFila;
+  
+        //console.log(cantidadFila);
+        console.log(parseFloat(rowData.subtotal));
         let porcentaje=subtotalFila /total;
         let gastoCalculado=gasto*porcentaje;
         let articulo = gastoCalculado+subtotalFila; 
         let precio=articulo/cantidadFila;
+        objetoDatos={
+            articulo:articuloFila,
+            subtotalFila:subtotalFila,
+            porcentaje:porcentaje,
+            totalArticulo:articulo,
+            precioUnitario:precio,
+            fecha:fechaCabecera,
+            contenedor:contenedorCabecera,
+            cantidadFila:cantidadFila,
+            bodega:bodega
+            
+        }
+        dataArray.push(objetoDatos);
+        //dataActualizada.push(objetoDatos);
+        
         table.cell(rowIdx, 4).data(porcentaje.toFixed(4)).draw();
       
         table.cell(rowIdx, 5).data(articulo.toFixed(2)).draw();
         table.cell(rowIdx, 6).data(precio.toFixed(6)).draw();
+        tablaActualizada=table.cell(rowIdx,6).data();
+
+        
         
     });
+    
+    console.log(dataArray);
+   // console.log(subtotalFila);
+})
+
+
+$('#finalizar').click(function(){
+
+    if(dataArray.length===0){
+        console.log("No se puede finalizar porque no has calculado ningun"+
+        "articulo de la fila");
+        return;     
+    }
+    $.ajax({
+        url: 'controladorValorContenedor.php',
+        type: 'POST',
+        data: {dataArray:dataArray},
+
+        success:function(response){
+            console.log(response);
+        }
+
+
+    })
+
 })
 
 

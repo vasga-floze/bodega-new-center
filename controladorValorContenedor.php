@@ -1,18 +1,53 @@
 <?php
-include('conexiones/conectar.php');
-session_start();
 
-$arregloData = json_decode($_POST['arregloData'], true);
+session_start();
+include('conexiones/conectar.php');
+$response=array();
 $paquete=$_SESSION['PAQUETE'];
-$contenedor=$_SESSION['contenedor'];
+//$contenedor=$_SESSION['contenedor'];
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
 
-$bodega=$_SESSION['bodega'];
-$fecha=$_SESSION['fecha'];
 
-//RESPONSE
-$response=array();
+if (!isset($_POST['dataArray'])) {
+    $response["status"]="1";
+    $response["message"]="No se ha registrado ningun calculo";
+    return;
+    
+}
+
+$dataArray=$_POST['dataArray'];
+
+foreach ($dataArray as $key ) {
+    $articulo=$key["articulo"];
+    $subtotalFila=$key["subtotalFila"];
+    $porcentaje=$key["porcentaje"];
+    $totalArticulo=$key["totalArticulo"];
+    $precioUnitario=$key["precioUnitario"];
+    $fecha=$key["fecha"];
+    $contenedor=$key["contenedor"];
+    $response["articulo"]=$articulo;
+
+    $queryActualizar=$dbBodega->prepare("DECLARE @COSTO decimal(18,6)='$precioUnitario'
+            DECLARE @CONTENEDOR nvarchar(50)='$contenedor'
+            DECLARE @FECHA date='$fecha'
+            DECLARE @ARTICULO nvarchar(25) ='$articulo'
+    
+         UPDATE REGISTRO set Costo=@COSTO*Libras where CodigoBarra IN
+        (SELECT CodigoBarra FROM TRANSACCION WHERE NumeroDocumento= @CONTENEDOR AND Fecha=@FECHA )
+        AND Articulo=@ARTICULO
+    ");
+
+    if(!$queryActualizar->execute()){
+        $errorInfo->$queryActualizar->errorInfo();
+        $response["message"]="No se ha podido actualizar".$errorInfo[2];
+        echo(json_encode($response));
+        return;
+    }    
+}
+
+
+
 $querySeleccionarConsecutivo=$dbEximp600->prepare("SELECT SIGUIENTE_CONSEC
                                                  
                                                  FROM ".$respuesta."
@@ -34,7 +69,14 @@ function obtener_consecutivoIng($siguienteConsecutivo){
 }
 $documentoConsecutivoING=obtener_consecutivoIng($siguienteConsecutivo);
 
+
+/**
+ * * FINALIZAR INGRESO DOCUMENTO_INV
+ * * 
+ */
+
 $referencia="COMPRA DEL CONTENEDOR " .$contenedor;
+
 $queryFinalizarIngreso=$dbEximp600->prepare("INSERT INTO " .$respuesta.".
                                             
                                             DOCUMENTO_INV
@@ -81,21 +123,23 @@ if (!$queryFinalizarIngreso->execute([
     return;
     
 
-    # code...
-}
-/**
- * *DATOS ARREGLO DE LA TABLA
- */
-$contador=1;
-$articulo='';
-$contenedor='';
- foreach ($arregloData as $value) {
-    $articulo=$value["articulo"];
-    $peso=$value["peso"];
-    $nombre=$value["nombre"];
-    $cantidad=$value["cantidad"];
-    $totalPeso=$value["totalPeso"];
     
+}
+
+//$queryExtraccionDatos=$dbBodega->prepare("SELECT * FROM REGISTRO ")
+$contador=1;
+foreach ($dataArray as $key) {
+    $articulo=$key["articulo"];
+    $subtotalFila=$key["subtotalFila"];
+    $porcentaje=$key["porcentaje"];
+    $totalArticulo=$key["totalArticulo"];
+    $precioUnitario=$key["precioUnitario"];
+    $fecha=$key["fecha"];
+    $contenedor=$key["contenedor"];
+    $cantidadFila=$key["cantidadFila"];
+    $bodega=$key["bodega"];
+    //$response["articulo"]=$articulo;
+
     $queryLineaDoc=$dbEximp600->prepare("INSERT INTO    
                                         ".$respuesta.".LINEA_DOC_INV
                                         (
@@ -105,6 +149,7 @@ $contenedor='';
                                             AJUSTE_CONFIG,
                                             ARTICULO,
                                             BODEGA,
+                                            LOCALIZACION,
                                             TIPO,
                                             SUBTIPO,
                                             SUBSUBTIPO,
@@ -113,11 +158,15 @@ $contenedor='';
                                             COSTO_TOTAL_DOLAR,
                                             PRECIO_TOTAL_LOCAL,
                                             PRECIO_TOTAL_DOLAR,
+                                            COSTO_TOTAL_DOLAR_COMP,
                                             NoteExistsFlag
                                         )VALUES(
                                             ?,
                                             ?,
                                             ?,
+                                            ?,
+                                            ?,
+                           
                                             ?,
                                             ?,
                                             ?,
@@ -131,91 +180,41 @@ $contenedor='';
                                             ?,
                                             ?
                                         )");
-     if(!$queryLineaDoc->execute([
-                                $paquete,
-                                $siguienteConsecutivo,
-                                $contador,
-                                '~OO~',
+    if(!$queryLineaDoc->execute([
+                                 $paquete,
+                                 $siguienteConsecutivo,
+                                 $contador,
+                                 '~OO~',
                                 $articulo,
                                 $bodega,
+                                'ND',
                                 'O',
-                                'O',
-                                'O',
-                                $cantidad,
-                                1,
-                                1,
-                                1,
-                                1,
+                                'D',
+                                'L',
+                                $cantidadFila,
+                                $precioUnitario,
+                                0,
+                                0,
+                                0,
+                                $precioUnitario,
                                 0
-                                ])){
+                            ])){
     $errorInfo=$queryLineaDoc->errorInfo();
     $response["mensaje"]="No se ha podido finalizar el ingreso".$errorInfo[2];
-    echo(json_encode($response));
+    echo(json_encode($response));   
     return;
-    
-    }                                      
+
+    } 
     $contador++;
 }
 
-/**
- * *ACTUALIZAR EL ESTADO DE LOS CODIGOS DE BARRAS CREADOS
- * 
- */
- $queryActualizarEstado=$dbBodega->prepare("UPDATE REGISTRO
-                                            SET Estado=?,Activo=1 
-                                            WHERE Estado='PROCESO' AND
-                                             DOCUMENTO_INV=? AND
-                                             FechaCreacion=? ");
-if (!$queryActualizarEstado->execute(['FINALIZADO',
-                                      $contenedor,
-                                      $fecha])) {
-
-
-    $errorInfo=$queryActualizarEstado->errorInfo();
-    $response["mensaje"]="No se puede actualizar el estado".$errorInfo[2];
-    return;
-}
-
-
-
-
-
-
-$queryEditarTransaccion=$dbBodega->prepare("UPDATE TRANSACCION SET Estado='F',
-                                            Documento_Inv=? WHERE Estado='P'
-                                            AND NumeroDocumento=?");
-if (!$queryEditarTransaccion->execute([$documentoConsecutivoING,
-                                       $contenedor])) {
-
-    $errorInfo=$queryActualizarEstado->errorInfo();
-    $response["mensaje"]="No se puede actualizar el estado
-                            transaccion".$errorInfo[2];
-    return;
-}
-
-
-
-
-
-$queryEditarConsecutivo=$dbEximp600->prepare("UPDATE ".$respuesta.".CONSECUTIVO_CI
-                                                SET SIGUIENTE_CONSEC=? 
-                                            WHERE CONSECUTIVO='COMPRA'");
-
-
-if (!$queryEditarConsecutivo->execute([$documentoConsecutivoING])) {
-    $errorInfo=$queryEditarConsecutivo->errorInfo();
-    $response["mensaje"]="No se puede editar el consecutivo".$errorInfo[2];
-    return;
-}
-
-
-
-$response["documento"]=$documentoConsecutivoING;
-$response["pesado"]=$paquete;
-$response["contenedor"]=$contenedor;
-$response["fecha"]=$fecha;
-$response["message"]="Registro finalizado correctamente";
-$response["success"]="1";
-
+$response["message"]="Se actualizo el registro";
 echo(json_encode($response));
+
+
+
+
+
+
+
 ?>
