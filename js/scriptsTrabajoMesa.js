@@ -19,7 +19,7 @@ $(function() {
     });
  });
  $(document).ready(function () {
-    $('#tabledScroll').DataTable({
+    $('#').DataTable({
       "scrollY": "40vh",
       "scrollCollapse": true,
     });
@@ -30,7 +30,8 @@ $(function() {
     placeholder: 'Seleccione la bodega',
 } );
 
-
+let cant=0;
+let captura=[]
 $('#agregar').click(function(){
 
     ///console.log("Agregar el articulo");
@@ -46,47 +47,45 @@ $('#agregar').click(function(){
         data: data,
 
         success:function(response){
-            console.log(response);
+            let data=JSON.parse(response);
+            let success=data.success
+            let message=data.message
+            let descripcion=data.descripcion
+            let articulo=data.articulo
+            let libras=data.libras
+            let costo=data.costo
+            const sum = Number(libras);
+            let objetoSuma={
+                suma:sum
+            }
+
+            captura.push(objetoSuma);
+
+            const sumLibras = captura.reduce((previous, current) => {
+                return previous + Number(current.suma);
+            }, 0);
+
+
+            console.log(sumLibras);
+            document.getElementById('totalLibras').innerHTML=`TOTAL DE LIBRAS: ${sumLibras}`
+
+            if (success==="1") {
+                
+                let id_row='row'+cant;
+                let fila=
+                '<tr id='+id_row+'><td>'+articulo+'</td><td>'
+                +descripcion+'</td><td>'+libras+
+                '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+cant+')";>Eliminar</a></td></tr>'
+           
+                
+                $("#tablaContenedores").append(fila);
+                cant++
+            }else{
+                console.log(message);
+            }
         }
 
 
     })
 
-})
-
-
-$(document).ready(function(){
-    const datos=[
-        {articulo:'Producto A', libras:10},
-        {articulo:'Producto B', libras:5},
-        {articulo: 'Producto C', libras:7},
-        {articulo:'Producto A', libras:10},
-        {articulo:'Producto B', libras:5},
-        {articulo: 'Producto C', libras:7},
-        {articulo:'Producto A', libras:10},
-        {articulo:'Producto B', libras:5},
-        {articulo: 'Producto C', libras:7},
-        {articulo:'Producto A', libras:10},
-        {articulo:'Producto B', libras:5},
-        {articulo: 'Producto C', libras:7},
-        {articulo:'Producto A', libras:10},
-        {articulo:'Producto B', libras:5},
-        {articulo: 'Producto C', libras:7},
-        {articulo:'Producto A', libras:10},
-        {articulo:'Producto B', libras:5},
-        {articulo: 'Producto C', libras:7}
-    ]
-
-    const tabla=document.getElementById('tabledScroll').getElementsByTagName('tbody')[0];
-    for(const dato of datos){
-        const fila = tabla.insertRow();
-
-
-        const celdaArticulo=fila.insertCell();
-        const celdaLibras=fila.insertCell();
-
-
-        celdaArticulo.textContent=dato.articulo
-        celdaLibras.textContent=dato.libras
-    }
 })

@@ -2326,7 +2326,11 @@ progress {
   background-color: #dde0e3;
 }
 
-
+#layer1{
+  width: auto;
+  height: 300px;
+  overflow: scroll;
+}
 .form-control-plaintext {
   display: block;
   width: 100%;

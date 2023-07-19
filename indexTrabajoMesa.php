@@ -107,35 +107,32 @@ if(!isset($_SESSION['usuario'])){
                             <button id="agregar" type="submit" class="btn btn-primary">Agregar</button>
                         </div>
                     </div>
+                    <span id="totalLibras" class="badge bg-warning text-dark mt-4" style="font-size: 20px"></span>
 
                     <div class="card mb-4 mt-4">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
                             Tabla informacion contenedores
                         </div>
-                        <div class="card-body">
-                            <table id="tabledScroll" class="table table-striped table-bordered table-sm" cellspacing="0"
+                        <div id="layer1" class="card-body">
+                            <table id="tablaContenedores" class="table table-bordered" cellspacing="0"
                                 style="width:100%">
                                 <thead>
                                     <tr>
                                         <th class="th-sm">Articulo
                                         </th>
+                                        <th class="th-sm">Descripcion
+                                        </th>
                                         <th class="th-sm">Libras
+                                        </th>
+                                        <th class="th-sm">Acciones
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Articulo
-                                        </th>
-                                        <th>Libras
-                                        </th>
-
-                                    </tr>
-                                </tfoot>
+                                
                             </table>
                         </div>
 

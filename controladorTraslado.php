@@ -1,6 +1,5 @@
 <?php
 include('conexiones/conectar.php');
-
 session_start();
 $datos=isset($_POST["datos"])?$_POST["datos"]:'';
 $datosDecodificados=json_decode($datos,true);
