@@ -1,3 +1,23 @@
+window.addEventListener('DOMContentLoaded', event => {
+
+    // Toggle the side navigation
+    const sidebarToggle = document.body.querySelector('#sidebarToggle');
+    if (sidebarToggle) {
+        // Uncomment Below to persist sidebar toggle between refreshes
+        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+        //     document.body.classList.toggle('sb-sidenav-toggled');
+        // }
+        sidebarToggle.addEventListener('click', event => {
+            event.preventDefault();
+            document.body.classList.toggle('sb-sidenav-toggled');
+            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+        });
+    }
+
+});
+
+
+
 $(document).ready(function(){
 
     $('#cantidad').prop('disabled', true).prop('readonly', true);
@@ -180,7 +200,8 @@ $('#generar').click(function(){
                 peso: datos.peso,
                 nombre:datos.nombre,
                 cantidad:datos.cantidad,
-                totalPeso: datos.totalPeso,
+                contenedor:datos.contenedor
+                
             })
             console.log(arregloData);
             Swal.fire({
@@ -197,10 +218,10 @@ $('#generar').click(function(){
             '<tr id='+id_row+'><td>'+datos.codigo+'</td><td>'
             +datos.nombre+'</td><td>'
             +datos.cantidad+'</td><td>'
-            +parseFloat(datos.totalPeso).toFixed(2)+'</td><td>'
-           
             +datos.contenedor+'</td><td>'
-            +datos.fecha+'</td><td><a href="#" class="btn btn-primary" onclick="eliminarFilaBase(\'' + datos.codigo + '\', \'' + datos.fecha + '\', \'' + datos.contenedor + '\', ' + cant + ');">Eliminar</a> <a href="#" class="btn btn-warning mt-0" onclick="imprimirFila(\''+datos.codigo+'\',\''+ datos.contenedor + '\',\''+datos.fecha+ '\')";>Imprimir</a></td></tr>';
+           
+            +datos.fecha+'</td><td>'
+            '<a href="#" class="btn btn-primary" onclick="eliminarFilaBase(\'' + datos.codigo + '\', \'' + datos.fecha + '\', \'' + datos.contenedor + '\', ' + cant + ');">Eliminar</a> <a href="#" class="btn btn-warning mt-0" onclick="imprimirFila(\''+datos.codigo+'\',\''+ datos.contenedor + '\',\''+datos.fecha+ '\')";>Imprimir</a></td></tr>';
             $("#myTable").append(fila);
         
             cant++;
@@ -210,31 +231,8 @@ $('#generar').click(function(){
 
 })
 
-$('#finalizar').click(function(){
-    $.ajax({
-        url:'controladorFinalizarContenedor.php',
-        type:'POST',
-        data: {
-            arregloData:JSON.stringify(arregloData)
-        },
-        success: function(response){
-            let data=JSON.parse(response);
-            let mensaje=data.message;
-            if(data.success==="1"){
-                Swal.fire({
-                    
-                    icon: 'success',
-                    title: mensaje,
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-
-                setTimeout(() => {
-                    window.location.href = "indexContenedor.php";
-                }, 1500);
-            }
-        }
-    })
+$('#salida').click(function(){
+    console.log("No puedes finalizar");
 })
 
 
@@ -285,9 +283,9 @@ const imprimirTabla=()=>{
                 row += "<td>" + element.Descripcion + "</td>";
                 row += "<td>" + element.cantidad + "</td>";
                 row += "<td>" + element.libras + "</td>";
-                row += "<td>" + contadorTotal + "</td>";
-                row += "<td>" + element.DOCUMENTO_INV + "</td>";
+                row += "<td>" + numeroDocumento+ "</td>";
                 row += "<td>" + element.FechaCreacion + "</td>";
+                
                 row+=  '<td><a href="#" class="btn btn-primary" onclick="eliminarFilaBase(\'' + element.Articulo + '\', \'' + element.FechaCreacion + '\', \'' + element.DOCUMENTO_INV + '\', ' + contador + ');">Eliminar</a> <a href="#" class="btn btn-primary" onclick="imprimirFila(\''+element.Articulo+'\',\''+ element.DOCUMENTO_INV + '\',\''+element.FechaCreacion+ '\')";>Imprimir</a></td>'
                 row += "</tr>";
                

@@ -125,6 +125,8 @@ if(!isset($_SESSION['usuario'])){
                                         </th>
                                         <th class="th-sm">Libras
                                         </th>
+                                        <th class="th-sm">Codigo Barra
+                                        </th>
                                         <th class="th-sm">Acciones
                                         </th>
                                     </tr>

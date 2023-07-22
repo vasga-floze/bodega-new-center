@@ -1,3 +1,24 @@
+window.addEventListener('DOMContentLoaded', event => {
+
+    // Toggle the side navigation
+    const sidebarToggle = document.body.querySelector('#sidebarToggle');
+    if (sidebarToggle) {
+        // Uncomment Below to persist sidebar toggle between refreshes
+        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
+        //     document.body.classList.toggle('sb-sidenav-toggled');
+        // }
+        sidebarToggle.addEventListener('click', event => {
+            event.preventDefault();
+            document.body.classList.toggle('sb-sidenav-toggled');
+            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+        });
+    }
+
+});
+
+
+
+
 $(function(){
     $("#fecha").datepicker({
         closeText: 'Cerrar',
@@ -49,18 +70,19 @@ $("#generar").click(function(){
            let data=JSON.parse(response);
             console.log(data);
             var tabla=$('#myTable').DataTable({
+                "bPaginate":false,
                 "data": data.data,
                 "footerCallback": function ( row, data, start, end, display ) {
         
                     total = this.api()
-                        .column(3)//numero de columna a sumar
+                        .column(4)//numero de columna a sumar
                         //.column(1, {page: 'current'})//para sumar solo la pagina actual
                         .data()
                         .reduce(function (a, b) {
                             return parseFloat(a) + parseFloat(b);
                         }, 0 );
                     totalArticulo=this.api()
-                            .column(5)
+                            .column(6)
                             .data()
                             .reduce(function(a,b){
                                 return parseFloat(a)+parseFloat(b);
@@ -70,7 +92,9 @@ $("#generar").click(function(){
                     
                 },
                 "columns": [
+                    {"data": "nombreArticulo"},
                     {"data": "articulo"},
+                    
                     {"data": "descripcion"},
                     {"data": "Cantidad"},
                     {"data": "subtotal"},
@@ -89,6 +113,7 @@ $("#generar").click(function(){
     })
 })
 let articulo;
+let idArticulo
 let subtotal;
 let porcentaje;
 let cantidad;
@@ -98,11 +123,12 @@ let objetoDatos;
 $(document).on("click", ".calcular",function(){
     
     fila=$(this).closest("tr");
-    articulo = fila.find('td:eq(0)').text();
-    let nombre = fila.find('td:eq(1)').text();
-    cantidad = fila.find('td:eq(2)').text();
-    subtotal = fila.find('td:eq(3)').text();
-    porcentaje = fila.find('td:eq(4)').text();
+    nombreArticulo = fila.find('td:eq(0)').text();
+    articulo=fila.find('td:eq(1)').text();
+    let nombre = fila.find('td:eq(2)').text();
+    cantidad = fila.find('td:eq(3)').text();
+    subtotal = fila.find('td:eq(4)').text();
+    porcentaje = fila.find('td:eq(5)').text();
  
     let table = $('#myTable').DataTable();
     $('#articulo').val(articulo);
@@ -123,10 +149,12 @@ $('#guardar').click(function(){
     let table = $('#myTable').DataTable();
 
     let resultado=parseFloat(precioUnitario)*parseFloat(cantidad);
-    table.cell('#' + articulo, 3).data(resultado.toFixed(2)).draw();
+    table.cell('#' + articulo, 4).data(resultado.toFixed(2)).draw();
 
     /*let porcentaje=parseFloat(resultado)/parseFloat(total);
     table.cell('#' + articulo, 4).data(porcentaje.toFixed(2)).draw();*/
+
+
     dataArray=[]
     table.rows().every(function(rowIdx, tableLoop, rowLoop) {
        // let porcentaje=parseFloat(resultado)/parseFloat(total);
@@ -135,19 +163,20 @@ $('#guardar').click(function(){
         let subtotalFila=parseFloat(rowData.subtotal);
         let cantidadFila=parseFloat(rowData.Cantidad);
         let bodega=rowData.bodega
-        let articuloFila=rowData.articulo;
+        let articuloFila=rowData.articulo
+        let nombreArticulo=rowData.nombreArticulo
         
      
         subtotalArreglo=subtotalFila;
   
         //console.log(cantidadFila);
-        console.log(parseFloat(rowData.subtotal));
+        //console.log(parseFloat(rowData.subtotal));
         let porcentaje=subtotalFila /total;
         let gastoCalculado=gasto*porcentaje;
         let articulo = gastoCalculado+subtotalFila; 
         let precio=articulo/cantidadFila;
         objetoDatos={
-            articulo:articuloFila,
+            articulo:nombreArticulo,
             subtotalFila:subtotalFila,
             porcentaje:porcentaje,
             totalArticulo:articulo,
@@ -158,13 +187,13 @@ $('#guardar').click(function(){
             bodega:bodega
             
         }
+        console.log(rowIdx);
         dataArray.push(objetoDatos);
         //dataActualizada.push(objetoDatos);
-        
-        table.cell(rowIdx, 4).data(porcentaje.toFixed(4)).draw();
+        table.cell(rowIdx, 5).data(porcentaje.toFixed(4)).draw();
       
-        table.cell(rowIdx, 5).data(articulo.toFixed(2)).draw();
-        table.cell(rowIdx, 6).data(precio.toFixed(6)).draw();
+        table.cell(rowIdx, 6).data(articulo.toFixed(2)).draw();
+        table.cell(rowIdx, 7).data(precio.toFixed(6)).draw();
         tablaActualizada=table.cell(rowIdx,6).data();
 
         

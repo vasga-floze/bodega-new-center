@@ -77,8 +77,6 @@
 
                         </nav>
                     </div>
-                    
-
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2"
                         aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fas fa-right-left"></i></div>
@@ -106,6 +104,25 @@
 
                         </nav>
                     </div>
+
+                    <div class="sb-sidenav-menu-heading">TRABAJOS</div>
+                    <a class="nav-link" href="indexTrabajoMesa.php">
+                        <div class="sb-nav-link-icon"><i class="fab fa-dropbox"></i></div>
+                        Separacion
+                    </a>
+                    <a class="nav-link" href=''>
+                        <div class="sb-nav-link-icon"><i class="fab fa-dropbox"></i></div>
+                        Barriles a cajas
+                    </a>
+                    <a class="nav-link" href=''>
+                        <div class="sb-nav-link-icon"><i class="fab fa-dropbox"></i></div>
+                        Barriles a cajas
+                    </a>
+
+                    
+
+
+                  
                     <div class="sb-sidenav-menu-heading">INGRESO</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapse"
                         aria-expanded="false" aria-controls="collapseLayouts">
@@ -113,8 +130,7 @@
                         Contenedor
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
-                    <div class="collapse" id="collapse" aria-labelledby="headingOne"
-                        data-bs-parent="#sidenavAccordion">
+                    <div class="collapse" id="collapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="indexContenedor.php">Nuevo</a>
                         </nav>
@@ -124,11 +140,13 @@
                         <div class="sb-nav-link-icon"><i class="fab fa-dropbox"></i></div>
                         Desglose
                     </a>
+
                     <div class="sb-sidenav-menu-heading">SALIR DEL SISTEMA</div>
                     <a class="nav-link" href="salir.php">
                         <div class="sb-nav-link-icon"><i class="fas fa-right-from-bracket"></i></div>
                         Salir
                     </a>
+
 
 
 

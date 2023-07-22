@@ -38,7 +38,7 @@ if(!isset($_SESSION['usuario'])){
     <link rel="stylesheet" href="cssmenu/select2.min.css" />
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="cssmenu/select2-bootstrap-5-theme.min.css">
-    <link rel="stylesheet" href="cssmenu/jquery-ui.js">
+
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="cssmenu/datatables.min.css">
     <!--<link rel="stylesheet"
@@ -193,7 +193,10 @@ if(!isset($_SESSION['usuario'])){
                         </div>
                         <div class="col-xl-3 col-md-4 mt-5">
                             <button type="button" id="generar" class="btn btn-success">Generar</button>
+                            <button type="button" id="salir" class="btn btn-primary">Salir</button>
+                            
                         </div>
+                        
                     </div>
 
 
@@ -220,10 +223,7 @@ if(!isset($_SESSION['usuario'])){
 
 
                     </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button id="finalizar" class="btn btn-primary me-md-2" type="button">Finalizar</button>
-
-                    </div>
+                   
                     <div class="row justify-content-end">
                         <div class="col-1">
 
@@ -266,7 +266,7 @@ if(!isset($_SESSION['usuario'])){
     <script src="js/select2.min.js"></script>
     <script type="text/javascript" src="js/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script type="text/javascript" src="cssmenu/jquery-ui.js"></script>
     <script src="js/scriptsIngreso.js"></script>
 
 

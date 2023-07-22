@@ -32,6 +32,9 @@ $(function() {
 
 let cant=0;
 let captura=[]
+const suma=0;
+let objetoSuma={}
+
 $('#agregar').click(function(){
 
     ///console.log("Agregar el articulo");
@@ -48,25 +51,42 @@ $('#agregar').click(function(){
 
         success:function(response){
             let data=JSON.parse(response);
+            console.log(data);
             let success=data.success
             let message=data.message
             let descripcion=data.descripcion
             let articulo=data.articulo
             let libras=data.libras
+            let codigoBarra=data.codigoBarra
+            
+            if(success !=="1"){
+                console.log(message);
+                return;
+
+            }
+
+            //console.log(libras);
+            if(libras===undefined){
+                libras=0;
+            }
             let costo=data.costo
             const sum = Number(libras);
-            let objetoSuma={
+            console.log(sum);
+            
+            objetoSuma={
+                id:cant,
                 suma:sum
             }
 
             captura.push(objetoSuma);
-
-            const sumLibras = captura.reduce((previous, current) => {
+            const sumLibras=captura.reduce((previous, current) => {
                 return previous + Number(current.suma);
             }, 0);
+           
 
 
             console.log(sumLibras);
+            console.log(captura);
             document.getElementById('totalLibras').innerHTML=`TOTAL DE LIBRAS: ${sumLibras}`
 
             if (success==="1") {
@@ -74,8 +94,8 @@ $('#agregar').click(function(){
                 let id_row='row'+cant;
                 let fila=
                 '<tr id='+id_row+'><td>'+articulo+'</td><td>'
-                +descripcion+'</td><td>'+libras+
-                '</td><td><a href="#" class="btn btn-primary" onclick="eliminar('+cant+')";>Eliminar</a></td></tr>'
+                +descripcion+'</td><td>'+libras+'</td><td>'+codigoBarra+'</td>'+
+                '<td><a href="#" class="btn btn-primary" onclick="eliminar('+cant+',\'' + codigoBarra + '\')";>Eliminar</a></td></tr>'
            
                 
                 $("#tablaContenedores").append(fila);
@@ -89,3 +109,46 @@ $('#agregar').click(function(){
     })
 
 })
+
+
+function eliminar(fila,codigo) {
+    let dataUrl="codigo="+codigo;
+    $.ajax({
+        url:'controladorEliminarMesa.php',
+        type:'POST',
+        data:dataUrl,
+        success: function(response){
+            let responseData=JSON.parse(response)
+            let success=responseData.success
+            let message=responseData.message
+            if(success !=="1"){
+                console.log(message);
+                return;
+            }
+
+            $("#row"+fila).remove();
+            var i=0;
+            var pos=0;
+            for(x of captura){
+                if(x.id==fila){
+                    pos=i;
+                }
+                i++;
+            }
+            captura.splice(pos,1);
+            sumaTotalLibras()
+        }
+
+
+    })
+}
+
+function sumaTotalLibras(){
+    console.log("Entro a la funcion");
+    console.log(captura);
+    const sumLibras=captura.reduce((previous, current) => {
+        return previous + Number(current.suma);
+    }, 0);
+    document.getElementById('totalLibras').innerHTML=`TOTAL DE LIBRAS: ${sumLibras}`
+
+}

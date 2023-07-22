@@ -5,10 +5,12 @@ $fecha = $_POST["fecha"];
 $documento = $_POST["documento"];
 
 $response["data"] = array();
-$consulta = "SELECT articulo, descripcion, count(codigobarra) Cantidad, BodegaActual
-           FROM registro WHERE fechaCreacion='$fecha' AND 
-           documento_inv='$documento' AND estado='PROCESO'
-           GROUP BY articulo, descripcion, BodegaActual";
+$consulta = "SELECT ROW_NUMBER() OVER(
+    ORDER BY articulo) AS RowNum, 
+     articulo, descripcion, sum(Libras) Cantidad, BodegaActual
+        FROM registro WHERE fechaCreacion='$fecha' AND 
+        documento_inv='$documento' AND estado='PROCESO'
+        GROUP BY articulo, descripcion, BodegaActual,libras";
 
 $resultado = $dbBodega->prepare($consulta);
 
@@ -23,7 +25,8 @@ $data = $resultado->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($data as $key) {
     $row=array();
-    $row["articulo"]=$key["articulo"];
+    $row["nombreArticulo"]=$key["articulo"];
+    $row["articulo"]=$key["RowNum"];
     $row["descripcion"]=$key["descripcion"];
     $row["Cantidad"]=$key["Cantidad"];
     $row["bodega"]=$key["BodegaActual"];

@@ -32,7 +32,7 @@ if(!isset($_SESSION['usuario'])){
     <link rel="stylesheet" href="cssmenu/select2.min.css" />
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="cssmenu/select2-bootstrap-5-theme.min.css">
-    <link rel="stylesheet" href="cssmenu/jquery-ui.js">
+    <!--<link rel="stylesheet" href="cssmenu/jquery-ui.js">--->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="cssmenu/datatables.min.css">
     <!--<link rel="stylesheet"
@@ -105,6 +105,7 @@ if(!isset($_SESSION['usuario'])){
                             <table id="myTable" class="display" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th scope="col">Nombre</th>
                                         <th scope="col">Articulo</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Cantidad</th>
@@ -127,7 +128,9 @@ if(!isset($_SESSION['usuario'])){
                                         <th>Total</th>
                                         <th></th>
                                         <th></th>
+                                        <th></th>
                                         <th id="total"></th>
+                                        <th></th>
                                         <th></th>
                                         <th id="totalArticulo"></th>
                                     </tr>
@@ -226,13 +229,14 @@ if(!isset($_SESSION['usuario'])){
 
 
     </script>
+    <script src="cssmenu/jquery-ui.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
     <script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="js/select2.min.js"></script>
     <script type="text/javascript" src="js/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="js/scriptsValorIngreso.js"></script>
 
 

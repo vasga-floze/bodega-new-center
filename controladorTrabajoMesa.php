@@ -39,7 +39,7 @@ $queryVerificaTansaccion=$dbBodega->prepare(
         
     FROM REGISTRO AS R INNER JOIN TRANSACCION AS T
         ON R.CodigoBarra=T.CodigoBarra
-    WHERE R.CodigoBarra='$codigo' AND T.IdTipoTransaccion=5 AND t.Estado='P'"
+    WHERE R.CodigoBarra='$codigo' AND T.IdTipoTransaccion=5 AND T.Estado='P'"
                                             );
 
 $queryVerificaTansaccion->execute();
@@ -63,12 +63,10 @@ $querySeleccionarRegistro->execute();
 $datos=$querySeleccionarRegistro->fetchAll();
 
 foreach ($datos as $key) {
-
     $articulo=$key["Articulo"];
     $descripcion=$key["Descripcion"];
     $libras=$key["Libras"];
     $costo=$key["Costo"];
-
 }
 
 $queryInsertTransaccion=$dbBodega->prepare("INSERT INTO TRANSACCION
@@ -127,6 +125,8 @@ $response["descripcion"]=$descripcion;
 $response["articulo"]=$articulo;
 $response["libras"]=$libras;
 $response["Costo"]=$costo;
+$response["codigoBarra"]=$codigo;
+$response["costo"]=$costo;
 echo(json_encode($response));
 
 

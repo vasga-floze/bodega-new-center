@@ -40,6 +40,7 @@ foreach ($dataArray as $key ) {
 
     if(!$queryActualizar->execute()){
         $errorInfo->$queryActualizar->errorInfo();
+        $response["success"]="2";
         $response["message"]="No se ha podido actualizar".$errorInfo[2];
         echo(json_encode($response));
         return;
@@ -119,6 +120,7 @@ if (!$queryFinalizarIngreso->execute([
                                     ])) {
     $errorInfo=$queryFinalizarIngreso->errorInfo();
     $response["mensaje"]="No se ha podido finalizar el ingreso".$errorInfo[2];
+    $response["success"]="2";
     echo(json_encode($response));
     return;
     
@@ -185,8 +187,8 @@ foreach ($dataArray as $key) {
                                  $siguienteConsecutivo,
                                  $contador,
                                  '~OO~',
-                                $articulo,
-                                $bodega,
+                                 $articulo,
+                                 $bodega,
                                 'ND',
                                 'O',
                                 'D',
@@ -200,6 +202,7 @@ foreach ($dataArray as $key) {
                                 0
                             ])){
     $errorInfo=$queryLineaDoc->errorInfo();
+    $response["success"]="2";
     $response["mensaje"]="No se ha podido finalizar el ingreso".$errorInfo[2];
     echo(json_encode($response));   
     return;
@@ -208,7 +211,42 @@ foreach ($dataArray as $key) {
     $contador++;
 }
 
-$response["message"]="Se actualizo el registro";
+
+/**
+ * *EDITAR TRANSACCION
+ */
+/*$queryEditarTransaccion=$dbBodega->prepare("UPDATE TRANSACCION SET Estado='F',
+                                            Documento_Inv=? WHERE Estado='P'
+                                            AND NumeroDocumento=?");
+if (!$queryEditarTransaccion->execute([$documentoConsecutivoING,
+                                       $contenedor])) {
+
+    $errorInfo=$queryActualizarEstado->errorInfo();
+    $response["mensaje"]="No se puede actualizar el estado
+                            transaccion".$errorInfo[2];
+    return;
+}
+
+
+/**
+ * *EDITAR CONSECUTIVO_CI
+ */
+/*$queryEditarConsecutivo=$dbEximp600->prepare("UPDATE ".$respuesta.".CONSECUTIVO_CI
+                                                SET SIGUIENTE_CONSEC=? 
+                                            WHERE CONSECUTIVO='COMPRA'");
+
+
+if (!$queryEditarConsecutivo->execute([$documentoConsecutivoING])) {
+    $errorInfo=$queryEditarConsecutivo->errorInfo();
+    $response["mensaje"]="No se puede editar el consecutivo".$errorInfo[2];
+    return;
+}
+*/
+
+
+$response["sucess"]="1";
+$response["message"]="Se actualizaron los costos";
+$response["documentoActualizado"]=$documentoConsecutivoING;
 echo(json_encode($response));
 
 
