@@ -138,7 +138,7 @@ $(document).on("click", ".calcular",function(){
     $('#modalEditar').modal('show')
 })
 
-let dataArray;
+let dataArray=[];
 
 $('#guardar').click(function(){
     let tablaActualizada;
@@ -159,7 +159,7 @@ $('#guardar').click(function(){
     table.rows().every(function(rowIdx, tableLoop, rowLoop) {
        // let porcentaje=parseFloat(resultado)/parseFloat(total);
         rowData = this.data();
-        console.log(rowData);
+        //console.log(rowData);
         let subtotalFila=parseFloat(rowData.subtotal);
         let cantidadFila=parseFloat(rowData.Cantidad);
         let bodega=rowData.bodega
@@ -187,7 +187,7 @@ $('#guardar').click(function(){
             bodega:bodega
             
         }
-        console.log(rowIdx);
+        //console.log(rowIdx);
         dataArray.push(objetoDatos);
         //dataActualizada.push(objetoDatos);
         table.cell(rowIdx, 5).data(porcentaje.toFixed(4)).draw();
@@ -206,19 +206,41 @@ $('#guardar').click(function(){
 
 
 $('#finalizar').click(function(){
+    if (dataArray.length===0) {
+        console.log("No se puede finalizar porque no has calculado ningun dato");
 
-    if(dataArray.length===0){
-        console.log("No se puede finalizar porque no has calculado ningun"+
-        "articulo de la fila");
-        return;     
+        return;
+        
     }
+    
     $.ajax({
         url: 'controladorValorContenedor.php',
         type: 'POST',
         data: {dataArray:dataArray},
 
         success:function(response){
-            console.log(response);
+            const respuesta=JSON.parse(response);
+            console.log(respuesta);
+            if(respuesta.success==="1"){
+                Swal.fire({
+                    
+                    icon: 'success',
+                    title: respuesta.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+
+                  setTimeout(() => {
+                    window.location.reload()
+                  }, 1500);
+               
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: respuesta.message
+                  })
+            }
         }
 
 

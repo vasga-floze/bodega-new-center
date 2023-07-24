@@ -215,7 +215,7 @@ foreach ($dataArray as $key) {
 /**
  * *EDITAR TRANSACCION
  */
-/*$queryEditarTransaccion=$dbBodega->prepare("UPDATE TRANSACCION SET Estado='F',
+$queryEditarTransaccion=$dbBodega->prepare("UPDATE TRANSACCION SET Estado='F',
                                             Documento_Inv=? WHERE Estado='P'
                                             AND NumeroDocumento=?");
 if (!$queryEditarTransaccion->execute([$documentoConsecutivoING,
@@ -231,7 +231,7 @@ if (!$queryEditarTransaccion->execute([$documentoConsecutivoING,
 /**
  * *EDITAR CONSECUTIVO_CI
  */
-/*$queryEditarConsecutivo=$dbEximp600->prepare("UPDATE ".$respuesta.".CONSECUTIVO_CI
+$queryEditarConsecutivo=$dbEximp600->prepare("UPDATE ".$respuesta.".CONSECUTIVO_CI
                                                 SET SIGUIENTE_CONSEC=? 
                                             WHERE CONSECUTIVO='COMPRA'");
 
@@ -241,10 +241,10 @@ if (!$queryEditarConsecutivo->execute([$documentoConsecutivoING])) {
     $response["mensaje"]="No se puede editar el consecutivo".$errorInfo[2];
     return;
 }
-*/
 
 
-$response["sucess"]="1";
+
+$response["success"]="1";
 $response["message"]="Se actualizaron los costos";
 $response["documentoActualizado"]=$documentoConsecutivoING;
 echo(json_encode($response));

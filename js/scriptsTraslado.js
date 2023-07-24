@@ -456,7 +456,7 @@ const imprimirTabla = (dataObj) => {
     let contador=1;
     console.log(parseo);
     if(get ===''){
-        console.log("no se puede llenar la tabla");
+        alert("jsdfjklsdjklfjsdklf")
         return;
     }
     
