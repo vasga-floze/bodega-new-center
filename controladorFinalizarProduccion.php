@@ -129,6 +129,7 @@
                                                 '0'])){
                 $errorInfo = $query1->errorInfo();
                 echo "Error en la ejecución de la consulta Linea Documento: " . $errorInfo[2];
+                return;
 
             }
             $queryTransaccion=$dbBodega->prepare("INSERT INTO TRANSACCION (

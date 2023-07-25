@@ -59,11 +59,15 @@ $('#agregar').click(function(){
             let libras=data.libras
             let codigoBarra=data.codigoBarra
             
-            if(success !=="1"){
-                console.log(message);
+            /*if(success !=="1"){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un error',
+                    text: message
+                  })
                 return;
 
-            }
+            }*/
 
             //console.log(libras);
             if(libras===undefined){
@@ -72,21 +76,26 @@ $('#agregar').click(function(){
             let costo=data.costo
             const sum = Number(libras);
             console.log(sum);
-            
+            const costoConvert=Number(costo);
             objetoSuma={
                 id:cant,
-                suma:sum
+                suma:sum,
+                sumaCosto:costoConvert
             }
 
             captura.push(objetoSuma);
             const sumLibras=captura.reduce((previous, current) => {
                 return previous + Number(current.suma);
             }, 0);
+
+            const cumCosto=captura.reduce((previous, current) =>{
+                return previous + Number(current.sumaCosto)
+            },0)
            
+            document.getElementById("inputCumCosto").value=cumCosto
 
-
-            console.log(sumLibras);
-            console.log(captura);
+           // console.log(sumLibras);
+           // console.log(captura);
             document.getElementById('totalLibras').innerHTML=`TOTAL DE LIBRAS: ${sumLibras}`
 
             if (success==="1") {
@@ -101,7 +110,12 @@ $('#agregar').click(function(){
                 $("#tablaContenedores").append(fila);
                 cant++
             }else{
-                console.log(message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hubo un error',
+                    text: message
+                })
+                
             }
         }
 

@@ -20,13 +20,10 @@ $('#btnIngresar').click(function(){
         return;
     }
 
-    if(compania.length===0){
-        toastr["error"]("Debes de seleccionar una empresa");
-        return;
-    }
+  
 
     //console.log("usuario"+usuario+"password"+ password);
-    let ruta="usuario="+usuario+"&password="+password+"&compania="+compania;
+    let ruta="usuario="+usuario+"&password="+password
     $.ajax({
         url:'controladorLogin.php',
         type:'POST',
@@ -34,6 +31,7 @@ $('#btnIngresar').click(function(){
     }).done(function(res){
 
        console.log(res);
+       console.log(ruta);
         //let data=JSON.parse(res);
         if(res==1){
 
@@ -41,7 +39,7 @@ $('#btnIngresar').click(function(){
                 //position: 'top-end',
                 icon: 'success',
                 title: 'Registro exitoso',
-                text: res,
+            
                 showConfirmButton: false,
                 timer: 1500
               }).then(()=>{

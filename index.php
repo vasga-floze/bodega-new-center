@@ -64,23 +64,7 @@
 								
 							</div>
 							
-							<div id="" class="mb-3">
-								<label class="mb-3" for="exampleInputEmail1" class="form-label">Empresa</label>
-								<select id="respuesta" name="compania" id="compania" class="form-select" aria-label="Default select example">
-									<option selected value="">Seleccione la empresa</option>
-									
-									<?php
-										//$db=connectERP();
-										$query =$dbEximp600->prepare("SELECT CONJUNTO FROM dbo.conjunto");
-										$query->execute();
-										$data = $query->fetchAll();
-										foreach ($data as $valores):
-											echo '<option value="'.$valores["CONJUNTO"].'">'.$valores["CONJUNTO"].'</option>';
-										endforeach;
-									?>
-									
-								</select>
-							</div>
+							
 							<button  id="btnIngresar" class="btn btn-primary">Entrar</button>
 						
 						

@@ -2,12 +2,10 @@
 require_once('TCPDF/examples/tcpdf_include.php');
 require('phpqrcode/qrlib.php');
 class MyTCPDF extends TCPDF {
-    public function getBufferContents() {
-        return $this->getBuffer();
-    }
+   
 }
-$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-$pdfBuffer = new MyTCPDF();
+$pdf = new TCPDF('P', 'mm', array(50.9, 70.8), true, 'UTF-8', false);
+
 $pdf->AddPage();
 $pdf->SetFont('Helvetica', '', 6);
 $image='logo.jpeg';
@@ -41,12 +39,13 @@ if(isset($_GET["descripcion"])){
 		$query->execute();
 		$data = $query->fetchAll(\PDO::FETCH_ASSOC);
 		
+
 		$consulta= json_encode($data);
 		$arr = json_decode($consulta, true);
-		$col_width = 205; // Ancho de cada columna
-		$row_height =220; // Altura de cada fila
+		$col_width = 48; // Ancho de cada columna
+		$row_height =-5.9; // Altura de cada fila
 		$x = 2; // Posición inicial x
-		$y = 11; // Posición inicial y
+		$y = 0; // Posición inicial y
 		$next_y = $y; // Variable para almacenar la posición y de la siguiente celda
 		$current_col = 0; // Columna actual
 		$total_paginas=0;
@@ -83,41 +82,41 @@ if(isset($_GET["descripcion"])){
 				$cell_y = $next_y;
 				$html='<style>
 							.descripcion{
-								margin-top: 45px;
-								font-size:30px;
+								margin-top: 0px;
+								font-size:8px;
 							}
 							.codigo{
-								margin-top: 100px;
-								font-size:30px;
+								margin-top: 0px;
+								font-size:8px;
 							}
 							.codigoArticulo{
-								margin-top: 100px;
-								font-size:30px;
+								margin-top: 1px;
+								font-size:8px;
 							}
 							.carisma{
-								margin-top: 75px;
+								margin-top: 0px;
 								
 							}
 						</style>';
-				$html .= '<div class="container"><br><br><br><br>';
+				$html .= '<div class="container">';
 				$html .=  '<div class="descripcion">'.$descripcion.'</div>';
 				$html .= '</div>';
-				$html .= '<img src="'.$filename. '" height="90" alt="Código QR">';
+				$html .= '<img src="'.$filename. '" height="40" alt="Código QR">';
 				$html .=  '<p class="codigo">'.$codigoBarra.'</p>';
 				$html .=  '<p class="codigoArticulo">'.$codigoArticulo.'</p>';
 				$html .= '<div class="carisma">
-							<img  src="'.$imagen. '" height="90" alt="Código QR"><br>
+							<img  src="'.$imagen. '" height="30" width="150" alt="Código QR">
 						</div>';
 				$total_vinetas++;
 			//$cantidadPagina=ceil($total_vinetas/30);
 			// Agregar el valor a la celda
 				$pdf->SetXY($cell_x, $cell_y);
 			//$pdf->WriteHTMLCell($col_width, $row_height, $content, 1, 'C');
-				$pdf->writeHTMLCell($col_width,$row_height, '', '', $html, 1, 1, 0, true, 'C', true);
+				$pdf->writeHTMLCell($col_width,$row_height, '', '', $html, 0, 0, 0, false, 'C', false);
 			// Actualizar la posición y de la siguiente celda
 				$next_y = $cell_y + $row_height;
 			// Verifcar si se llegó al final de la página
-				if ($next_y > $pdf->getPageHeight() - 400) {
+				if ($next_y > $pdf->getPageHeight() - 300) {
 				// Posicionar la siguiente columna a la derecha
 					$current_col++;
 					$next_y = $y;

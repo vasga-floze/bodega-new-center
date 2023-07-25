@@ -140,6 +140,7 @@ if(!isset($_SESSION['usuario'])){
 
 
                     </div>
+                    <input type="text" id="inputCumCosto" readonly>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button id="finalizar" class="btn btn-primary me-md-2" type="button">Finalizar</button>
 

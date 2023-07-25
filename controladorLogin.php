@@ -3,8 +3,8 @@ include('conexiones/conectarLogin.php');
 session_start();
 $usuario=$_POST['usuario'];
 $password=$_POST['password'];
-$compania=$_POST['compania'];
-$_SESSION['compania']=$compania;
+
+
 //$usuarioTienda=isset($_SESSION["usuarioTienda"])? $_SESSION["usuarioTienda"]:'';
 $bandera=true;
 
@@ -16,19 +16,15 @@ if(conectarLogin($usuario,$password)){
     $_SESSION['password']=$password;
     $dbEximp600 = new PDO("sqlsrv:server=".SERVIDOR.";database=".DATABASE_EXIMP,USUARIO,PASSWORD);
     $query=$dbEximp600->prepare(
-        "SELECT USUARIOBODEGA.BODEGA, 
-                ".$compania.".BODEGA.NOMBRE, 
-                USUARIOBODEGA.HAMACHI, 
-                USUARIOBODEGA.BASE,
-                USUARIOBODEGA.PAQUETE
-        FROM USUARIOBODEGA 
-        INNER JOIN
-            ".$compania.".BODEGA ON USUARIOBODEGA.BODEGA = 
-            ".$compania.".BODEGA.BODEGA
-        WHERE (USUARIOBODEGA.TIPO = 'TIENDA' 
-        AND USUARIO='$usuario') 
-        and hamachi is not null
-        ORDER BY 1
+        "SELECT BODEGA, 
+                HAMACHI, 
+                BASE, 
+                PAQUETE, 
+                ESQUEMA, 
+                TIPO
+        FROM USUARIOBODEGA
+        WHERE (USUARIO = '$usuario') AND (HAMACHI IS NOT NULL)
+        ORDER BY BODEGA
     ");
 
         $query->execute();
@@ -45,18 +41,20 @@ if(conectarLogin($usuario,$password)){
         *@param hamachi contiene la IP del arreglo de la consulta a la tienda
         *@param base contiene la base a la que se va a conectar
         */  
-        if (!empty($response)) {
+     
             foreach ($response as $key) {
                 $bodega=$key["BODEGA"];
                 $hamachi=$key["HAMACHI"];
                 $base=$key["BASE"];
                 $bodega=$key["BODEGA"];
                 $paqueteInventario=$key["PAQUETE"];
+                $esquema=$key["ESQUEMA"];
                 # code...
             }
             $_SESSION['BASE']=$base;
             $_SESSION['PAQUETE']=$paqueteInventario;
-        }
+            $_SESSION['compania']=$esquema;
+            //$esquemaInformacion=$_SESSION['compania'];            
 
         echo($bandera);
     //header("location:pruebaLogin.php");

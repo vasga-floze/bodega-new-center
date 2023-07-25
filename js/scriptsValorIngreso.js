@@ -230,9 +230,9 @@ $('#finalizar').click(function(){
                     timer: 1500
                   })
 
-                  setTimeout(() => {
+                  /*setTimeout(() => {
                     window.location.reload()
-                  }, 1500);
+                  }, 1500);*/
                
             }else{
                 Swal.fire({

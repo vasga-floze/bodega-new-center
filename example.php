@@ -131,8 +131,8 @@ if(isset($_GET["descripcion"])){
 	}
 	
 }else{
-	include('conexiones/conectar.php');
-session_start();
+include('conexiones/conectar.php');
+
 $codigoBarra=$_SESSION['cod'];
 $datos = $_SESSION['datos']; 
 $query =$dbBodega->prepare(

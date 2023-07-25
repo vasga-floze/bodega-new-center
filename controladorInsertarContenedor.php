@@ -137,7 +137,7 @@ for ($i=1; $i <=$cantidad; $i++) {
                                         $bodega,
                                         $usuario,
                                         'PROCESO',
-                                        0,
+                                        1,
                                         $fecha,
                                         $numero,
                                         2,
