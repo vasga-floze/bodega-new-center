@@ -81,13 +81,18 @@ if(isset($_GET["descripcion"])){
 		foreach ($data as $key => $value) {
 			$col = $current_col; // Definir la columna actual
 			$row = floor($key / 7); // Calcular la fila actual
-			$imagen='logo-cany.jpeg';
-			if ($destino=="carisma") {
-				$imagen='logo.jpeg';
+			$imagen='logo.jpeg';
+			if ($destino=="cany") {
+				$imagen='logo-cany.jpeg';
 				# code...
 			}else if($destino=="boutique"){
 				$imagen='boutique.jpg';
+			}else if($destino=="nys"){
+				$imagen='logo.jpeg';
+			}else if($destino=="nyc"){
+				$imagen='logo.jpeg';
 			}
+			
 				//
 		//$cantidadPagina++;
 		// Calcular la posición x e y de la celda
@@ -197,9 +202,9 @@ foreach ($arr as $val ) {
 	foreach ($data as $key => $value) {
     	$col = $current_col; // Definir la columna actual
     	$row = floor($key / 7);
-		$imagen='logo-cany.jpeg';
-		if ($destino=="carisma") {
-			$imagen='logo.jpeg';
+		$imagen='logo.jpeg';
+		if ($destino=="cany") {
+			$imagen='logo-cany.jpeg';
 			# code...
 		}else if($destino=="boutique"){
 			$imagen='boutique.jpg';
