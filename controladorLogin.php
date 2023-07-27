@@ -14,7 +14,7 @@ $bandera=true;
 if(conectarLogin($usuario,$password)){
     $_SESSION['usuario']=$usuario;
     $_SESSION['password']=$password;
-    $dbEximp600 = new PDO("sqlsrv:server=".SERVIDOR.";database=".DATABASE_EXIMP,USUARIO,PASSWORD);
+    $dbEximp600 = new PDO("sqlsrv:server=".SERVIDOR.";database=".SOFTLAND,USUARIO,PASSWORD);
     $query=$dbEximp600->prepare(
         "SELECT BODEGA, 
                 HAMACHI, 

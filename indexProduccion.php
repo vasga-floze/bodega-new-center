@@ -29,7 +29,7 @@
     <!--<link rel="stylesheet" href="plugins/toastr/toastr.min.css"> -->
     <!-- Or for RTL support -->
 
-    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
     <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
    
 </head>
@@ -93,9 +93,9 @@
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Fecha Produccion</label>
                                         <input id="fechaProduccion"
-                                            value="<?php echo(isset($fechaActual))?$fechaActual:'';?>"
-                                            class="form-control mb-3" id="inputEmail" type="date" placeholder=""
-                                            disabled />
+                                            value=""
+                                            class="form-control mb-3" id="inputEmail" type="text" placeholder=""
+                                            />
 
                                     </div>
 
@@ -183,7 +183,7 @@
 
                                             <?php
                                                 //$db=connectERP();
-                                                $query =$dbEximp600->prepare("SELECT BODEGA, NOMBRE FROM " .$respuesta. ".BODEGA WHERE bodega LIKE'%00'");
+                                                $query =$dbEximp600->prepare("SELECT BODEGA, NOMBRE FROM " .$respuesta. ".BODEGA WHERE bodega LIKE'%00' ORDER BY BODEGA  DESC");
                                                 $query->execute();
                                                 $data = $query->fetchAll();
                                                 foreach ($data as $valores):
@@ -213,6 +213,20 @@
                                         </select>
 
                                     </div>
+
+                                    <div class="col-6 mt-4">
+                                        <label class="mb-3" for="inputEmail ">Dirigido a</label>
+                                        <select id="dirigido" class="form-select" aria-label="Default select example" disabled>
+                                            <option selected></option>
+                                            <option value="carisma">Carisma</option>
+                                            <option value="cany">Cany shop</option>
+                                            <option value="boutique">La boutique</option>
+                                            <option value="nys">NYS(SM1)</option>
+                                            <option value="nyc">NYC(ST1)</option>
+
+                                        </select>
+                                    </div>
+
 
                                     <div class="col-6 mt-4">
                                         <label class="mb-3" for="inputEmail ">Observaciones</label>
@@ -278,7 +292,8 @@
         </div>
     </div>
     <div id="modal-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 100; display: none;"></div>
-    <script src="js/scripts.js"></script>                                      
+    <script src="js/scripts.js"></script>  
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>                                    
     <script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="plugins/toastr/toastr.min.js"></script>
    

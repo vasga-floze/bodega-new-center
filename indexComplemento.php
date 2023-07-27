@@ -52,7 +52,7 @@
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css"> 
     <!-- Or for RTL support -->
 
-  
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
     <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
     <script src="js/select2.full.min.js"></script>
    
@@ -200,7 +200,7 @@
                                         <input class="form-control mb-3" id="codigoDetalle" name=""
                                         type="text" placeholder="" hidden/>
                                         <input class="form-control mb-3" id="precioDetalle" name="precioDetalle"
-                                            type="number" placeholder="" value="ROPA"  />
+                                            type="number" placeholder="" value="ROPA" hidden  />
                                         <input class="form-control mb-3" id="detalleBandera" name="detalleBandera"
                                         type="text" placeholder="" value="" hidden /> 
 
@@ -365,6 +365,7 @@
     
     <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>  
     <script src="js/datatables-simple-demo.js"></script>
     <script src="js/toastr.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -33,7 +33,7 @@ $('#btnIngresar').click(function(){
        console.log(res);
        console.log(ruta);
         //let data=JSON.parse(res);
-        if(res==1){
+       if(res=="1"){
 
             Swal.fire({
                 //position: 'top-end',

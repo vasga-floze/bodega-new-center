@@ -68,7 +68,7 @@ if(!$editar == 'EDITAR'){
         echo("No se pudo ejecutar".$errorInfo[2]);
         return;
         }
-        echo("Se edito correctamente");
+        echo("Editado exitosamente");
 }
 
 

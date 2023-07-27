@@ -79,7 +79,7 @@ if(isset($_GET["descripcion"])){
 		foreach ($data as $key => $value) {
 			$col = $current_col; // Definir la columna actual
 			$row = floor($key / 7); // Calcular la fila actual
-			$imagen='logo.jpeg';
+			$imagen='logo-cany.jpeg';
 		//$cantidadPagina++;
 		// Calcular la posición x e y de la celda
 			$cell_x = $x + ($col * $col_width);
@@ -96,7 +96,7 @@ if(isset($_GET["descripcion"])){
 			$html .=  '<br>'.$codigoBarra.'';
 			$html .=  '<br>'.$codigoArticulo.'<br>';
 			$html .= '<div class="carisma">
-					<img  src="'.$imagen. '" height="50" alt="Código QR"><br>
+					<img  src="'.$imagen. '" height="50" width="170" alt="Código QR"><br>
 				</div>';
 			
 			$total_vinetas++;
@@ -186,7 +186,7 @@ foreach ($arr as $val ) {
 	foreach ($data as $key => $value) {
     	$col = $current_col; // Definir la columna actual
     	$row = floor($key / 7); // Calcular la fila actual
-		$imagen='logo.jpeg';
+		$imagen='logo-cany.jpeg';
 	//$cantidadPagina++;
     // Calcular la posición x e y de la celda
     	$cell_x = $x + ($col * $col_width);
@@ -194,6 +194,9 @@ foreach ($arr as $val ) {
 		$html='<style>
 					.descripcion{
 						margin-top: 45px;
+					}
+					.carisma {
+						margin-right:100px;
 					}
 				</style>';
 		$html .= '<div class="container"><br><br><br><br>';
@@ -203,7 +206,7 @@ foreach ($arr as $val ) {
 		$html .=  '<br>'.$codigoBarra.'';
 		$html .=  '<br>'.$codigoArticulo.'<br>';
 		$html .= '<div class="carisma">
-					<img  src="'.$imagen. '" height="50" alt="Código QR"><br>
+					<img  src="'.$imagen. '" height="100" width="300" alt="Código QR"><br>
 				</div>';
 		$total_vinetas++;
 	//$cantidadPagina=ceil($total_vinetas/30);

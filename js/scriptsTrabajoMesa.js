@@ -74,9 +74,16 @@ $('#agregar').click(function(){
                 libras=0;
             }
             let costo=data.costo
+            if (isNaN(costo)) {
+                costo=0
+                
+            }
             const sum = Number(libras);
             console.log(sum);
             const costoConvert=Number(costo);
+
+            
+            console.log("Este es el costo de:" + costoConvert);
             objetoSuma={
                 id:cant,
                 suma:sum,
@@ -105,8 +112,6 @@ $('#agregar').click(function(){
                 '<tr id='+id_row+'><td>'+articulo+'</td><td>'
                 +descripcion+'</td><td>'+libras+'</td><td>'+codigoBarra+'</td>'+
                 '<td><a href="#" class="btn btn-primary" onclick="eliminar('+cant+',\'' + codigoBarra + '\')";>Eliminar</a></td></tr>'
-           
-                
                 $("#tablaContenedores").append(fila);
                 cant++
             }else{
@@ -123,8 +128,6 @@ $('#agregar').click(function(){
     })
 
 })
-
-
 function eliminar(fila,codigo) {
     let dataUrl="codigo="+codigo;
     $.ajax({
@@ -151,6 +154,7 @@ function eliminar(fila,codigo) {
             }
             captura.splice(pos,1);
             sumaTotalLibras()
+            sumaTotalCosto()
         }
 
 
@@ -165,4 +169,13 @@ function sumaTotalLibras(){
     }, 0);
     document.getElementById('totalLibras').innerHTML=`TOTAL DE LIBRAS: ${sumLibras}`
 
+}
+
+
+const sumaTotalCosto=()=>{
+
+    const sumCosto=captura.reduce((previous,current) =>{
+        return previous + Number(current.sumaCosto)
+    },0)
+    document.getElementById("inputCumCosto").value=sumCosto
 }

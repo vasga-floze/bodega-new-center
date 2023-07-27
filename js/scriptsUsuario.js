@@ -221,9 +221,10 @@ $('#editar').click(function(){
     }
     console.log(usuario);
     console.log(nombre);
+    console.log(activo);
     let data="usuario="+usuario+"&nombre="+nombre+"&digita="+digita+
               "&produce="+produce+"&empaca="+empaca+"&editar="+editar+
-              "&id="+id+"&activo"+activo;
+              "&id="+id+"&activo="+activo;
     $.ajax({
         url:'controladorUsuario.php',
         type:'POST',
