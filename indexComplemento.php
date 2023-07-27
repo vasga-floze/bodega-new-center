@@ -122,7 +122,7 @@
                                         </select>
 
                                     </div>
-                                    <div class="col-6 ">
+                                    <div class="col-4">
                                         <label class="mb-3" for="inputEmail ">Descripcion</label>
                                         <input class="form-control mb-3" id="descripcion" name="descripcion" type="text"
                                             placeholder="" disabled />
@@ -134,6 +134,18 @@
 
 
 
+                                    </div>
+                                    <div class="col-2">
+                                        <label class="mb-3" for="inputEmail ">Dirigido a</label>
+                                        <select id="dirigido" class="form-select" aria-label="Default select example" >
+                                            <option selected></option>
+                                            <option value="carisma">Carisma</option>
+                                            <option value="cany">Cany shop</option>
+                                            <option value="boutique">La boutique</option>
+                                            <option value="nys">NYS(SM1)</option>
+                                            <option value="nyc">NYC(ST1)</option>
+
+                                        </select>
                                     </div>
                                     <div class="col-4">
 
@@ -208,6 +220,7 @@
 
 
                                     </div>
+                                    
                                     
                                     <div class="row">
                                         <div class="col-4">

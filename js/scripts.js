@@ -946,6 +946,8 @@ function agregar(){
 
 
     if (!existe) {
+
+        let dirigido=document.getElementById('dirigido').value;
          //LLENA LOS DATOS AL ARREGLO
         data.push(
             {
@@ -955,7 +957,8 @@ function agregar(){
                 "cantidad":cantidadDetalle,
                 "precio": precioDetalle,
                 "detalleBandera":detalleBandera,
-                "cantidadTotal":cantidadTotal
+                "cantidadTotal":cantidadTotal,
+                "dirigido":dirigido
             }
         );
         var id_row='row'+cant;
@@ -996,6 +999,7 @@ function guardar(){
       }, 0);
 
     console.log(sum);
+    let dirigido=document.getElementById('dirigido').value;
     
     
     let cantidadSession=document.getElementById('unidadesSession').value;
@@ -1005,7 +1009,7 @@ function guardar(){
         $.ajax({
             type: "POST",
             url: "controladorComplemento.php",
-            data: "json="+json,
+            data: "json="+json+"&dirigido="+dirigido,
             success:function(res){
             console.log(res);
             $(document).ready(function(){
@@ -1239,12 +1243,13 @@ buttonFinalizar.addEventListener('click',function(){
 function clickear(){
     $(document).ready(function(){
         var descripcion=document.getElementById('descripcion').value;
+        let dirigido=document.getElementById('dirigido').value;
         //var ropa=document.getElementById('ropa').value;
         var codigo=document.getElementById('codigo').value;
         var detalleBandera=document.getElementById('detalleBandera').value;
         var ruta="descripcion="+descripcion+
                 "&codigo="+codigo+
-                "&detalleBandera="+detalleBandera;
+                "&detalleBandera="+detalleBandera+"&dirigido="+dirigido;
         console.log(ruta);
         if(descripcion.length==0){
             toastr["error"]("Tienes que seleccionar un paquete o buscar un paquete","Ocurrio un error");

@@ -3,6 +3,7 @@ require_once('TCPDF/examples/tcpdf_include.php');
 require('phpqrcode/qrlib.php');
 session_start();
 $respuesta=$_SESSION['compania'];
+
 //echo ($respuesta);
 class MyTCPDF extends TCPDF {
     public function getBufferContents() {
@@ -33,7 +34,7 @@ if(isset($_GET["descripcion"])){
 		$query =$dbBodega->prepare("SELECT  CONCAT(
 			DETALLEREGISTRO.ArticuloDetalle,'\t',REGISTRO.CodigoBarra,'\t1\n') QR,
 			REGISTRO.CodigoBarra, DETALLEREGISTRO.ArticuloDetalle, ex.descripcion,  
-			DETALLEREGISTRO.Cantidad
+			DETALLEREGISTRO.Cantidad,REGISTRO.EmpresaDestino
 		FROM  REGISTRO INNER JOIN
 								 DETALLEREGISTRO ON REGISTRO.IdRegistro = DETALLEREGISTRO.IdRegistro
 												INNER JOIN
@@ -66,6 +67,7 @@ if(isset($_GET["descripcion"])){
 		$descripcion=$val['descripcion'];
 		$codigoBarra=$val['CodigoBarra'];
 		$codigoArticulo=$val['ArticuloDetalle'];
+		$destino=$val['EmpresaDestino'];
 		$data = range(1, $cantidad);
 		$dir='temp/';
 		if(!file_exists($dir))
@@ -80,6 +82,13 @@ if(isset($_GET["descripcion"])){
 			$col = $current_col; // Definir la columna actual
 			$row = floor($key / 7); // Calcular la fila actual
 			$imagen='logo-cany.jpeg';
+			if ($destino=="carisma") {
+				$imagen='logo.jpeg';
+				# code...
+			}else if($destino=="boutique"){
+				$imagen='boutique.jpg';
+			}
+				//
 		//$cantidadPagina++;
 		// Calcular la posición x e y de la celda
 			$cell_x = $x + ($col * $col_width);
@@ -139,6 +148,7 @@ $query =$dbBodega->prepare(
 	"SELECT CONCAT(
 		DETALLEREGISTRO.ArticuloDetalle,'\t',REGISTRO.CodigoBarra,'\t1\n') QR,
 		REGISTRO.CodigoBarra, 
+		REGISTRO.EmpresaDestino,
 		DETALLEREGISTRO.ArticuloDetalle, 
 		ex.descripcion,DETALLEREGISTRO.Cantidad
    	FROM DETALLEREGISTRO INNER JOIN
@@ -173,6 +183,7 @@ foreach ($arr as $val ) {
 	$descripcion=$val['descripcion'];
 	$codigoBarra=$val['CodigoBarra'];
 	$codigoArticulo=$val['ArticuloDetalle'];
+	$destino=$val['EmpresaDestino'];
 	$data = range(1, $cantidad);
 	$dir='temp/';
 	if(!file_exists($dir))
@@ -185,8 +196,19 @@ foreach ($arr as $val ) {
 	$cantidadPaginasEsperadas=ceil($suma/30);
 	foreach ($data as $key => $value) {
     	$col = $current_col; // Definir la columna actual
-    	$row = floor($key / 7); // Calcular la fila actual
+    	$row = floor($key / 7);
 		$imagen='logo-cany.jpeg';
+		if ($destino=="carisma") {
+			$imagen='logo.jpeg';
+			# code...
+		}else if($destino=="boutique"){
+			$imagen='boutique.jpg';
+		}else if($destino=="nys"){
+			$imagen='logo.jpeg';
+		}else if($destino=="nyc"){
+			$imagen='logo.jpeg';
+		}
+		
 	//$cantidadPagina++;
     // Calcular la posición x e y de la celda
     	$cell_x = $x + ($col * $col_width);
