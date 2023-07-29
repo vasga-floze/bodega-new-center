@@ -83,13 +83,13 @@ $query2=$dbBodega->prepare("INSERT INTO TRANSACCION (CodigoBarra,
                                                                            ?,
                                                                            ?)");
 
-if(!$query2->execute([$codigoBarra,3,$fechaOrigen,$bodegaOr,'S',$usuario,$documento])){
+if(!$query2->execute([$codigoBarra,7,$fechaOrigen,$bodegaOr,'S',$usuario,$documento])){
     echo "Error en la consulta" .$query2->errorInfo()[2];
     return;
 }
 $query3=$dbBodega->prepare("INSERT INTO TRANSACCION (CodigoBarra, IdTipoTransaccion,Fecha,Bodega,Naturaleza,UsuarioCreacion,Documento_Inv) VALUES (?,?,?,?,?,?,?)");
 
-if(!$query3->execute([$codigoBarra,3,$fechaOrigen,$bodegaDes,'E',$usuario,$documento])){
+if(!$query3->execute([$codigoBarra,8,$fechaOrigen,$bodegaDes,'E',$usuario,$documento])){
     echo "Error en la consulta" .$query3->errorInfo()[2];
     return;
 }

@@ -189,13 +189,13 @@
                     </div>
 
 
-                    <div class="card mb-4 mt-4">
+                    <div class="card mb-4 mt-4" style="width: 80rem;">
                         <div class="card-header">
                             <i class="fas fa-table me-1"></i>
                             Tabla consulta produccion
                         </div>
                         <div class="card-body">
-                            <table id="myTable" class="display" style="width:100%">
+                            <table id="myTable" class="display" style="width:30%">
 
                             </table>
                         </div>

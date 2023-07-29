@@ -82,7 +82,7 @@ $(function() {
                     {"title":"UsuarioCreacion","data":"UsuarioCreacion"},
                     {"title":"Estado","data":"Estado"},
                     {"title":"FechaCreacion","data":"FechaCreacion"},
-                    
+                    {"title":"Viñeta direccion", "data":"EmpresaDestino"},
                     {"defaultContent":"<button class='mt-3 btn btn-primary editar'>Editar</button>"},
                     {"defaultContent":"<button class='btn btn-danger eliminar'>Eliminar</button>"}
 
@@ -98,6 +98,7 @@ $(function() {
                 let libras=dataRow.Libras;
                 let codigoBarra=dataRow.CodigoBarra;
                 let estado=dataRow.Estado;
+                let dirigido=dataRow.EmpresaDestino;
 
                 if(estado==='ELIMINADO' || estado==='FINALIZADO'){
                     Swal.fire({
@@ -110,7 +111,12 @@ $(function() {
                     return;
                 }
             
-                let url='indexEditarProduccion.php?articulo='+encodeURIComponent(articulo)+'&descripcion='+encodeURIComponent(descripcion)+"&clasificacion="+encodeURIComponent(clasificacion)+"&libras="+encodeURIComponent(libras)+"&codigoBarra="+encodeURIComponent(codigoBarra);
+                let url='indexEditarProduccion.php?articulo='+encodeURIComponent(articulo)+
+                '&descripcion='+encodeURIComponent(descripcion)+
+                "&clasificacion="+encodeURIComponent(clasificacion)+
+                "&libras="+encodeURIComponent(libras)+
+                "&codigoBarra="+encodeURIComponent(codigoBarra)+
+                "&dirigido="+encodeURIComponent(dirigido);
                 //let url='editar.php?articulo='+encodeURIComponent(articulo);
             
                 window.location.href=url;
@@ -243,37 +249,40 @@ $(function() {
     let clasificacion=document.getElementById('clasificacion').value;
     let libras=document.getElementById('libras').value;
     let codigoBarra=document.getElementById('codigoBarra').value;
-
-    var ruta="articulo="+articulo+"&descripcion="+descripcion+"&clasificacion="+clasificacion+"&libras="+libras+"&codigoBarra="+codigoBarra;
+    let dirigido = document.getElementById('dirigido').value;
+    var ruta="articulo="+articulo+"&descripcion="+descripcion+"&clasificacion="+clasificacion+"&libras="+libras+"&codigoBarra="+codigoBarra+"&dirigido="+dirigido;
     $.ajax({
         url: 'controladorEditarProduccion.php',
         type: 'POST',
         data: ruta,
     })
     .done(function(res){
-        if(res==1){
-            Swal.fire({
-                //position: 'top-end',
-                icon: 'success',
-                title: 'Registro editado con exito',
-                showConfirmButton: false,
-                timer: 1500
-              }).then(()=>{
-                setTimeout(()=>{
-                    window.location.replace("indexConsultaComplemento.php");
-                },100);
-            })
 
-        }else{
-            console.log("No se puede editar");
+        let response = JSON.parse(res);
+        let success=response.success;
+        let message=response.message;
+        if (success==="0") {
             Swal.fire({
                 icon: 'error',
-                title: 'Oops...',
-                text: 'El registro no puede ser editado porque no coincide la clasificacion porque '+
-                      'la clasificacion del articulo editado no coinciden con la base de datos',
-                
-              })     
+                title: 'Ocurrio un error',
+                text: message
+              })
+
+            return;
+            
         }
+        Swal.fire({
+           
+            icon: 'success',
+            title: message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+
+        setTimeout(() => {
+            window.location.replace("indexConsultaComplemento.php");
+        }, 1500);
+
     })
     .fail(function(){
     })

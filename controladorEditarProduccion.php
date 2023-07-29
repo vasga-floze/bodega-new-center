@@ -7,43 +7,57 @@
     $respuesta=$_SESSION['compania'];
     $libras=$_POST["libras"];
     $codigoBarra=$_POST['codigoBarra'];
+    $dirigido=$_POST['dirigido'];
     $bandera='';
     
+    $response=array();
 
     $query =$dbEximp600->prepare("SELECT ARTICULO, DESCRIPCION, CLASIFICACION_2 from ".$respuesta.".ARTICULO where ARTICULO='$articulo'");
     $query->execute();
     $data = $query->fetchAll();
 
 
+    //
     foreach($data as $value){
         $clasificacionBase=$value["CLASIFICACION_2"];
         $descripcionBase=$value["DESCRIPCION"];
     }
 
-    if($clasificacion != $clasificacionBase){
-        $bandera='0';
-        echo($bandera);
 
-    }else{
-        $bandera='1';
-        try{
-            $query= "UPDATE dbo.REGISTRO SET Articulo=?, Descripcion=?, Clasificacion=?,Libras=? WHERE CodigoBarra=?";
-             $stmt=$dbBodega->prepare($query);
-             $stmt->execute([$articulo,$descripcionBase,$clasificacion,$libras,$codigoBarra]);
-     
-             //echo("dia".$dia."mes".$mes."anio".$anio);
-            // echo(".$query.");
-            //$query->execute([$unidades,$libras,$ubicacion,$fecha,$empacado,$empaque,$usuario,$producido,$bodega,$observaciones]);
-            echo("1");
-          
-             
-        }catch(PDOException $e){
-            echo "Error".$e->getMessage()."<br/>";
-        }
+
+    if($clasificacion != $clasificacionBase){
+
+        $response["success"]="0";
+        $response["message"]="No se puede editar";
+        echo(json_encode($response));
+        return;
     }
 
-  
+    $query= "UPDATE dbo.REGISTRO SET Articulo=?, 
+                                Descripcion=?, 
+                                Clasificacion=?,
+                                Libras=?,
+                                EmpresaDestino=? WHERE CodigoBarra=?";
 
-   
+
+    $stmt=$dbBodega->prepare($query);
+    if(!$stmt->execute([ $articulo,
+                        $descripcionBase,
+                        $clasificacion,
+                        $libras,
+                        $dirigido,
+                        $codigoBarra ])){
+        $errorInfo=$stmt->errorInfo();
+        $response["success"]="0";
+        $response["message"]="No se puede editar la produccion".$errorInfo[2];
+        echo(json_encode($response));
+        return;
+
+    }
+
+    $response["success"]="1";
+    $response["message"]="Editado correctamente";
+    echo(json_encode($response));
+
 
 ?>
