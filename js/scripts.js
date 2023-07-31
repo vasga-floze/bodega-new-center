@@ -286,6 +286,7 @@ $('#ropa').click(function() {
                 +"&observaciones="+inputs.observaciones
                 +"&tipoRegistro="+inputs.tipo
                 +"&bandera="+bandera;
+            console.log(inputs);
             $.ajax({
                 url: 'controladorProduccion.php',
                 type: 'POST',
@@ -298,7 +299,7 @@ $('#ropa').click(function() {
 
                     //console.log(res);
                 }else{
-                    console.log("REGISTRO INVALIDO");
+                    console.log(res);
                 }
             })
             .fail(function(){
@@ -307,7 +308,9 @@ $('#ropa').click(function() {
             });
         
     } else {
-    console.log("El botón no ha sido presionado");
+
+        console.log(inputs);
+    //console.log("El botón no ha sido presionado");
     }
 
 });
@@ -586,29 +589,17 @@ function guardarInputs(){
         valoresInputs.tipo=document.getElementById('tipoRegistro').value;
     //var empaque=$('#empaque').val();
         valoresInputs.empacado=$('#empacado').val();
+        if(valoresInputs.unidades===""){
+            valoresInputs.unidades="0"
+        }
+        if(valoresInputs.empacado=== null){
+            valoresInputs.empacado='ninguno'
+        }
+
+
         valoresInputs.producido=$('#producido').val();
-    if(valoresInputs.unidades.length===0){
-        toastr["error"]("No puedes dejar el campo unidades vacio","Ocurrio un error");
-        $("#unidades").focus();
-    }else if(valoresInputs.libras.length===0){
-        toastr["error"]("No puedes dejar el campo libras vacio","Ocurrio un error");
-        $("#libras").focus();
-    }else if(valoresInputs.ubicacion.length===0){
-        toastr["error"]("No puedes dejar el select ubicacion vacio","Ocurrio un error");
-        $('#ubicacion').select2('open').focus();
-    }else if(valoresInputs.empaque.length===0){
-        toastr["error"]("No puedes dejar el select tipo empaque vacio","Ocurrio un error");
-        $('#empaque').select2('open').focus();
-    
-    }else if(valoresInputs.empacado.length===0){
-        toastr["error"]("No puedes dejar el select empacado por vacio","Ocurrio un error");
-        $('#empacado').select2('open').focus();
-    }else if(valoresInputs.producido.length===0){
-        toastr["error"]("No puedes dejar el select producido por vacio","Ocurrio un error");
-        $('#producido').select2('open').focus();
-    }else{
         return valoresInputs;
-    }
+    
 
 };
  // Verificar si el botón ha sido presionado

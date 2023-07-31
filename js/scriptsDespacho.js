@@ -707,13 +707,6 @@ $("#finalizar").click(function(){
     
    }
 
-   
-
-   
-   
-
-   
-
     let objetoDatos={
         fechaHoraTemporal:fechaHoraTemporal,
         bodegaOrigen: bodegaOrigen,

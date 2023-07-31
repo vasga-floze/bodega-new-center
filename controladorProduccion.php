@@ -16,12 +16,13 @@
                 );
     $_SESSION["cod"]=$codigoBarra;
     $estado="PROCESO";
+    $unidades=isset($_POST['unidades'])?$_POST['unidades']:'';
     
     //$resultado = $dividendo / $divisor;
     error_reporting(E_ALL & ~E_NOTICE);
     include('conexiones/conectar.php');
-    if(!empty($_POST['unidades'])){
-        $unidades=$_POST['unidades'];
+    if(!empty($_POST['ubicacion'])){
+        
         $libras=$_POST['libras'];
         $ubicacion=$_POST['ubicacion'];
         $fecha=$_POST['fecha'];

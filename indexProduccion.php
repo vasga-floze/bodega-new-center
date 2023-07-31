@@ -56,7 +56,7 @@
 
                                     <div class="col-6 ">
                                         <label class="mb-3" for="inputEmail ">Unidad</label>
-                                        <input class="form-control mb-3" id="unidades" type="number" placeholder="Digite las unidades en numeros" />
+                                        <input class="form-control mb-3" id="unidades" type="text" placeholder="Digite las unidades en numeros" />
 
                                     </div>
                                     <div class="col-6 ">

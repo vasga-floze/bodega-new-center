@@ -3,7 +3,7 @@ session_start();
 include('conexiones/conectar.php');
 $respuesta=$_SESSION['compania'];
 $usuario=$_SESSION['usuario'];
-$traslado='TRASLADO';
+$traslado='INGRESO';
 $traslado2='VENTA';
 
 $bodegaOrigenPOST=$_POST['bodegaOrigen'];
@@ -39,8 +39,10 @@ $trasladoBodega='DESPACHO DE BODEGA '.$bodegaOrigenPOST.' A '.$bodegaDestinoPOST
 $queryConsecutivo=$dbEximp600->prepare("SELECT CONSECUTIVO, SIGUIENTE_CONSEC FROM ".$respuesta.".CONSECUTIVO_CI WHERE CONSECUTIVO='VENTA'");
 
 
+
+
 /**
- * *TRAER EL CONSECUTIVO DE VENTA
+ * *TRAER EL CONSECUTIVO DE INGRESO
  */
 $queryConsecutivoIngreso=$dbEximp600->prepare("SELECT CONSECUTIVO, SIGUIENTE_CONSEC FROM ".$respuesta.".CONSECUTIVO_CI WHERE CONSECUTIVO='INGRESO'");
 
@@ -59,11 +61,12 @@ $queryConsecutivo->execute();
 
  $queryConsecutivoIngreso->execute();
 
- $dataQueryConsecutivoIngreso=$queryConsecutivoIngreso->fetchAll();
 
-
-
+$dataQueryConsecutivoIngreso=$queryConsecutivoIngreso->fetchAll();
 $dataQueryConsecutivo=$queryConsecutivo->fetchAll();
+
+
+
 $dataQueryPaquete=$queryPaquete->fetchAll();
 foreach ($dataQueryConsecutivo as $key) {
     $doc_consecutivo_ci=$key['CONSECUTIVO'];
@@ -93,19 +96,10 @@ function obtener_documento_ingreso($dataQueryConsecutivoIngreso){
     return $documento;
 }
 
-
-
-
-
-
 function obtener_documento($dataQueryConsecutivo){
     foreach ($dataQueryConsecutivo as $key) {
         $documento=$key['SIGUIENTE_CONSEC'];
-        
-        
-        # code...
     }
-
     return $documento;
 }
 
@@ -114,13 +108,29 @@ function obtener_documento($dataQueryConsecutivo){
  */
 $documento_consecutivo_ingreso=obtener_documento_ingreso($dataQueryConsecutivoIngreso);
 $documento_consecutivo=obtener_documento($dataQueryConsecutivo);
+
+
+
 function obtener_consecutivo($documento_consecutivo){
     $consecutivo=preg_replace_callback('/\d+/',function($matches){
         return sprintf('%0'.strlen($matches[0]). 'd', intval($matches[0])+1);
     },$documento_consecutivo);
     return $consecutivo;
 }
+
+
+function obtener_consecutivo_ingreso($documento_consecutivo_ingreso){
+    $consecutivo=preg_replace_callback('/\d+/',function($matches){
+        return sprintf('%0'.strlen($matches[0]). 'd', intval($matches[0])+1);
+
+    },$documento_consecutivo_ingreso);
+
+    return $consecutivo;
+}
+
+
 $consecutivo_elemento=obtener_consecutivo($documento_consecutivo);
+$consecutivo_elemento_ingreso=obtener_consecutivo_ingreso($documento_consecutivo_ingreso);
 
 $_SESSION['documentoInventarioPdf']=$documento_consecutivo;
 
@@ -207,7 +217,7 @@ $query= ("INSERT INTO ".$respuesta.".DOCUMENTO_INV (
 )");
 $stmt=$dbEximp600->prepare($query);
 $stmt->bindParam(":paqueteInventario",$paqueteInventario);
-$stmt->bindParam(":doc_consecutivo_ci",$documento_consecutivo);
+$stmt->bindParam(":doc_consecutivo_ci",$documento_consecutivo_ingreso);
 $stmt->bindParam(":traslado",$traslado2);
 $stmt->bindParam(":trasladoBodega",$trasladoBodega);
 $stmt->bindParam(":fechaOrigen",$fechaOrigen);
@@ -269,7 +279,7 @@ foreach ($datosDecodificados as $key) {
             $query->execute([$paqueteInventario,
                             $documento_consecutivo,
                             $contador,
-                            $ajusteConfig,
+                            $ajusteConfigVenta,
                             $articulo,
                             $bodegaOrigen,
                             $tipoVenta,
@@ -325,9 +335,9 @@ foreach ($datosDecodificados as $key) {
                                 NoteExistsFlag) 
                                 VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             $query->execute([$paqueteInventario,
-                            $documento_consecutivo,
+                            $documento_consecutivo_ingreso,
                             $contador,
-                            $ajusteConfig,
+                            $ajusteConfigIngreso,
                             $articulo,
                             $bodegaOrigen,
                             $tipoIngreso,
@@ -367,7 +377,7 @@ if($actualizarConsecutivo->execute([$consecutivo_elemento])){
 
  $queryActualizar= "UPDATE ".$respuesta.".consecutivo_ci SET SIGUIENTE_CONSEC=? WHERE consecutivo='INGRESO' ";
  $actualizarConsecutivo=$dbEximp600->prepare($queryActualizar);
- if($actualizarConsecutivo->execute([$consecutivo_elemento])){
+ if($actualizarConsecutivo->execute([$consecutivo_elemento_ingreso])){
      $response["message"]="Registro exitoso";
  }else{
      $error = $actualizarConsecutivo->errorInfo();
