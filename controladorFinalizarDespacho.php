@@ -79,12 +79,12 @@ foreach ($dataQueryConsecutivo as $key) {
 
 foreach ($dataQueryConsecutivoIngreso as $key) {
     $doc_consecutivo_ci_ingreso=$key['CONSECUTIVO'];
-    # code...
+    
 }
 
 foreach ($dataQueryPaquete as $key) {
     $paqueteInventario=$key['PAQUETE'];
-    # code...
+   
 }
 
 
@@ -102,6 +102,8 @@ function obtener_documento($dataQueryConsecutivo){
     }
     return $documento;
 }
+
+
 
 /**
  * *OBTENER EL SIGUIENTE DOCUMENTO INGRESO
@@ -170,7 +172,7 @@ $query= ("INSERT INTO ".$respuesta.".DOCUMENTO_INV (
         )");
 $stmt=$dbEximp600->prepare($query);
 $stmt->bindParam(":paqueteInventario",$paqueteInventario);
-$stmt->bindParam(":doc_consecutivo_ci",$documento_consecutivo);
+$stmt->bindParam(":doc_consecutivo_ci",$documento_consecutivo_ingreso);
 $stmt->bindParam(":traslado",$traslado);
 $stmt->bindParam(":trasladoBodega",$trasladoBodega);
 $stmt->bindParam(":fechaOrigen",$fechaOrigen);
@@ -217,7 +219,7 @@ $query= ("INSERT INTO ".$respuesta.".DOCUMENTO_INV (
 )");
 $stmt=$dbEximp600->prepare($query);
 $stmt->bindParam(":paqueteInventario",$paqueteInventario);
-$stmt->bindParam(":doc_consecutivo_ci",$documento_consecutivo_ingreso);
+$stmt->bindParam(":doc_consecutivo_ci",$documento_consecutivo);
 $stmt->bindParam(":traslado",$traslado2);
 $stmt->bindParam(":trasladoBodega",$trasladoBodega);
 $stmt->bindParam(":fechaOrigen",$fechaOrigen);

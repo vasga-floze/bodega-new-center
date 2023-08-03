@@ -24,6 +24,8 @@ $(document).ready(function(){
 
 const cargarTrasladosPendientes=()=>{
 
+    console.log("Hola mundo");
+   /* console.log("HOLA MUNDO");
     let documento= document.getElementById("fechaHoraTemporal").value;
 
     let data="documento="+documento;
@@ -39,7 +41,7 @@ const cargarTrasladosPendientes=()=>{
         error:function (xhr,status,error){
 
         }
-    })
+    })*/
 }
 
 $( '#bodegaOrigen' ).select2( {

@@ -20,10 +20,11 @@ window.addEventListener('DOMContentLoaded', event => {
 
 $(document).ready(function(){
    cargarTrasladosPendientes();
+   
 })
 
 const cargarTrasladosPendientes=()=>{
-
+    console.log("Hola mundo");
     let documento= document.getElementById("fechaHoraTemporal").value;
 
     let data="documento="+documento;

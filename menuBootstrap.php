@@ -80,13 +80,17 @@
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts2"
                         aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fas fa-right-left"></i></div>
-                        Traslados
+                        Traslados y Despacho
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="indexPrincipalTraslado.php">Nuevo</a>
+                            <a class="nav-link" href="indexPrincipalTraslado.php">Nuevo traslado</a>
+
+                        </nav>
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="indexDespacho.php">Nuevo despacho</a>
 
                         </nav>
                     </div>
