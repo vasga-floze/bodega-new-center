@@ -33,6 +33,10 @@
         return;
     }
 
+    
+
+
+
 
     $queryInsertarDocumentoInv=(" INSERT INTO ".$respuesta.".DOCUMENTO_INV(
                                                             PAQUETE_INVENTARIO,
@@ -113,7 +117,7 @@
             if(!$queryLineaDocumento->execute([ $paquete,
                                                 $documentoInventario,
                                                 $contador,
-                                                'AJP',
+                                                '~OO~',
                                                 $articulo,
                                                 $bodegaCreacion,
                                                 'O',
@@ -127,7 +131,7 @@
                                                 '0',
                                                 '0',
                                                 '0'])){
-                $errorInfo = $query1->errorInfo();
+                $errorInfo = $queryLineaDocumento->errorInfo();
                 echo "Error en la ejecución de la consulta Linea Documento: " . $errorInfo[2];
                 return;
 
@@ -178,13 +182,15 @@
      */
 
     
-    $queryActualizarConsecutivo="UPDATE ".$respuesta.".consecutivo_ci SET SIGUIENTE_CONSEC=? WHERE consecutivo=?";
-    $queryActualizarConsecutivoEjecutar=$dbEximp600->prepare($queryActualizarConsecutivo);
-    if(!$queryActualizarConsecutivoEjecutar->execute([$documentoConsecutivo,'PRODUCCION'])){
-        $errorInfo = $queryActualizarConsecutivoEjecutar->errorInfo();
-        echo "Error en la ejecución de la consulta editar registro: " . $errorInfo[2];
+    $queryActualizar= "UPDATE ".$respuesta.".consecutivo_ci SET SIGUIENTE_CONSEC=? WHERE consecutivo='PRODUCCION' ";
+    $actualizarConsecutivo=$dbEximp600->prepare($queryActualizar);
+    if($actualizarConsecutivo->execute([$documentoConsecutivo])){
+        echo "Registro exitoso";
+    }else{
+        $error = $actualizarConsecutivo->errorInfo();
+        echo "Registro salio mal ".$error[2];
         return;
-
+        //echo("Registro salio mal". $error[2]);
     }
     echo("Se pudo ejecutar");
 

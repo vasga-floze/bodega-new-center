@@ -211,9 +211,11 @@ $(function() {
                     data: url,
                 })
                 .done(function(res){
+
+                    console.log(res);
                     //console.log(res);
                     //console.log(res);
-                    if(!res==="Se pudo ejecutar"){
+                   /* if(!res==="Se pudo ejecutar"){
                         Swal.fire({
                             icon: 'error',
                             title: 'Ocurrio un error',
@@ -231,7 +233,7 @@ $(function() {
                     setTimeout(function() {
                         window.location.href='indexConsultaComplemento.php';
                     }, 1500);
-
+*/
                     
                 })
                 .fail(function(jqXHR, textStatus, errorThrown){
