@@ -212,7 +212,31 @@ $(function() {
                 })
                 .done(function(res){
 
-                    console.log(res);
+                    let data=JSON.parse(res);
+                    let message=data.message
+                    let success=data.sucess
+
+                    if(success=="1"){
+                        Swal.fire({
+                           
+                            icon: 'success',
+                            title: message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+
+                        setTimeout(() => {
+                            window.location.href='indexConsultaComplemento.php';
+                        }, 1500);
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: message,
+                            footer: '<a href="">Why do I have this issue?</a>'
+                          })
+                    }
+                    
                     //console.log(res);
                     //console.log(res);
                    /* if(!res==="Se pudo ejecutar"){

@@ -134,7 +134,7 @@
                                     MAX(CASE WHEN Naturaleza = 'S' THEN Bodega END) AS 'BODEGA ORIGEN', 
                                        COUNT(CodigoBarra)/2 CANTIDAD
                                 FROM TRANSACCION
-                                WHERE (IdTipoTransaccion = 7) AND (Estado IS NULL) AND UsuarioCreacion='$usuario'
+                                WHERE (IdTipoTransaccion = 7) OR (IdTipoTransaccion=3) AND (Estado IS NULL) AND UsuarioCreacion='$usuario'
                                 GROUP BY Documento_Inv
                                 ");
                                     $query->execute();

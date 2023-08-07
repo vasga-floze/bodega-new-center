@@ -28,15 +28,12 @@
     $i=0;
     $noteExistsFlag=0;
     $elementosDecodificados=json_decode($elementos,true);
+
+    $response=array();
     if(empty($elementosDecodificados)){
         echo("Elementos vacios");
         return;
     }
-
-    
-
-
-
 
     $queryInsertarDocumentoInv=(" INSERT INTO ".$respuesta.".DOCUMENTO_INV(
                                                             PAQUETE_INVENTARIO,
@@ -66,7 +63,7 @@
                                                             )");
     $stmt=$dbEximp600->prepare($queryInsertarDocumentoInv);
     $stmt->bindParam(":paquete",$paquete);
-    $stmt->bindParam(":documentoInventario",$documentoInventario);
+    $stmt->bindParam(":documentoInventario",$documentoConsecutivo);
     $stmt->bindParam(":consecutivo",$consecutivo);
     $stmt->bindParam(":referencia",$referencia);
     $stmt->bindParam(":fecha",$fecha);
@@ -79,7 +76,9 @@
 
     if(!$stmt->execute()){
         $errorInfo=$stmt->errorInfo();
-        echo "Error en insertar documento inv". $errorInfo[2];
+        $response["message"]="Error al insertar el documento inv" .$errorInfo[2];
+        $response["success"]="2";
+        echo json_encode($response);
         return;
     }   
 
@@ -91,31 +90,31 @@
      */
     $contador=0;
     foreach ($elementosDecodificados as $key) {
-                    $articulo=$key['Articulo'];
-                    $bodegaCreacion=$key['BodegaCreacion'];
-                    $codigoBarra=$key['CodigoBarra'];
-                    $fechaObjeto=$key['FechaCreacion'];
-                    $usuario=$key['UsuarioCreacion'];
-                    $queryLineaDocumento=$dbEximp600->prepare("INSERT INTO ".$respuesta.".LINEA_DOC_INV (
-                                                                                            PAQUETE_INVENTARIO,
-                                                                                            DOCUMENTO_INV,
-                                                                                            LINEA_DOC_INV,
-                                                                                            AJUSTE_CONFIG,
-                                                                                            ARTICULO,
-                                                                                            BODEGA,
-                                                                                            TIPO,
-                                                                                            SUBTIPO,
-                                                                                            SUBSUBTIPO,
-                                                                                            CANTIDAD,
-                                                                                            COSTO_TOTAL_LOCAL,
-                                                                                            COSTO_TOTAL_DOLAR,
-                                                                                            PRECIO_TOTAL_LOCAL,
-                                                                                            PRECIO_TOTAL_DOLAR,
-                                                                                            NoteExistsFlag,
-                                                                                            COSTO_TOTAL_LOCAL_COMP,
-                                                                                            COSTO_TOTAL_DOLAR_COMP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            $articulo=$key['Articulo'];
+            $bodegaCreacion=$key['BodegaCreacion'];
+            $codigoBarra=$key['CodigoBarra'];
+            $fechaObjeto=$key['FechaCreacion'];
+            $usuario=$key['UsuarioCreacion'];
+            $queryLineaDocumento=$dbEximp600->prepare("INSERT INTO ".$respuesta.".LINEA_DOC_INV (
+                                                                                    PAQUETE_INVENTARIO,
+                                                                                    DOCUMENTO_INV,
+                                                                                    LINEA_DOC_INV,
+                                                                                    AJUSTE_CONFIG,
+                                                                                    ARTICULO,
+                                                                                    BODEGA,
+                                                                                    TIPO,
+                                                                                    SUBTIPO,
+                                                                                    SUBSUBTIPO,
+                                                                                    CANTIDAD,
+                                                                                    COSTO_TOTAL_LOCAL,
+                                                                                    COSTO_TOTAL_DOLAR,
+                                                                                    PRECIO_TOTAL_LOCAL,
+                                                                                    PRECIO_TOTAL_DOLAR,
+                                                                                    NoteExistsFlag,
+                                                                                    COSTO_TOTAL_LOCAL_COMP,
+                                                                                    COSTO_TOTAL_DOLAR_COMP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             if(!$queryLineaDocumento->execute([ $paquete,
-                                                $documentoInventario,
+                                                $documentoConsecutivo,
                                                 $contador,
                                                 '~OO~',
                                                 $articulo,
@@ -155,7 +154,9 @@
                                             'F',
                                             $documentoInventario])){
                 $errorInfo = $queryTransaccion->errorInfo();
-                echo "Error en la ejecución de la consulta Transaccion: " . $errorInfo[2];
+                $response["message"]="Error en la ejecucion de la consulta trasnsaccion" .$errorInfo[2];
+                $response["success"]="2";
+                echo json_encode($response);
                 return;
             }
             $queryActualizarRegistro= "UPDATE dbo.REGISTRO 
@@ -172,7 +173,9 @@
                                                             '1',
                                                             $codigoBarra])){
                 $errorInfo = $queryActualizarRegistroEjecutar->errorInfo();
-                echo "Error en la ejecución de la consulta editar registro: " . $errorInfo[2];
+                $response["success"]="2";
+                $response["message"]="Error en la ejecucion de la consulta editar registro" . $errorInfo[2];
+                echo json_encode($response);
                 return;
             }
             $contador++;                
@@ -185,14 +188,21 @@
     $queryActualizar= "UPDATE ".$respuesta.".consecutivo_ci SET SIGUIENTE_CONSEC=? WHERE consecutivo='PRODUCCION' ";
     $actualizarConsecutivo=$dbEximp600->prepare($queryActualizar);
     if($actualizarConsecutivo->execute([$documentoConsecutivo])){
-        echo "Registro exitoso";
+        $response["sucess"]="1";
+        $response["message"]="Registro exitoso";
+        echo json_encode($response);
     }else{
         $error = $actualizarConsecutivo->errorInfo();
-        echo "Registro salio mal ".$error[2];
+
+        $response["success"]="2";
+        $response["message"]="Registro salio mal en la edicion de consecutivo ci";
+        //echo "Registro salio mal ".$error[2];
+        echo json_encode($response);
+
         return;
         //echo("Registro salio mal". $error[2]);
     }
-    echo("Se pudo ejecutar");
+    
 
 
 ?>
