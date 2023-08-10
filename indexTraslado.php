@@ -231,7 +231,7 @@
 
                                         <?php else: ?>
                                         <input type="text" class="form-control" id="bodegaInputDestino"
-                                            value="<?php echo($bodegaDestinocodigo)?>" >
+                                            value="<?php echo($bodegaDestinocodigo)?>">
                                         <?php endif;?>
                                         <input type="text" class="form-control" id="bodegaLocal"
                                             value="<?php echo($bodegaDestinocodigo)?>">

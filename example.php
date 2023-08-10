@@ -4,6 +4,7 @@ require('phpqrcode/qrlib.php');
 session_start();
 $respuesta=$_SESSION['compania'];
 
+
 //echo ($respuesta);
 class MyTCPDF extends TCPDF {
     public function getBufferContents() {
@@ -29,7 +30,7 @@ if(isset($_GET["descripcion"])){
 	if($bandera=="DESCRIPCION"){
 	
 		$codigo=$_GET["codigo"];
-		$codigoArticulo=$_GET["codigoArticulo"];
+		//$codigoArticulo=$_GET["codigoArticulo"];
 		include('conexiones/conectar.php');
 		$query =$dbBodega->prepare("SELECT  CONCAT(
 			DETALLEREGISTRO.ArticuloDetalle,'\t',REGISTRO.CodigoBarra,'\t1\n') QR,
@@ -38,7 +39,7 @@ if(isset($_GET["descripcion"])){
 		FROM  REGISTRO INNER JOIN
 								 DETALLEREGISTRO ON REGISTRO.IdRegistro = DETALLEREGISTRO.IdRegistro
 												INNER JOIN
-												EXIMP600.".$respuesta.".articulo ex On detalleregistro.ArticuloDetalle=ex.articulo
+												SOFTLAND.".$respuesta.".articulo ex On detalleregistro.ArticuloDetalle=ex.articulo
 		WHERE        REGISTRO.CodigoBarra ='$codigo'");
 		//echo ($query);
 		$query->execute();
@@ -69,16 +70,21 @@ if(isset($_GET["descripcion"])){
 		$codigoArticulo=$val['ArticuloDetalle'];
 		$destino=$val['EmpresaDestino'];
 		$data = range(1, $cantidad);
+		
+		$cantidadPaginasEsperadas=ceil($suma/30);
+		foreach ($data as $key => $value) {
 		$dir='temp/';
 		if(!file_exists($dir))
 			mkdir($dir);
-		$filename = $dir.$codigoBarra.'test.png';
+		$filename = $dir.$codigoBarra.'_'.$codigoArticulo.'test.png';
 		$tamanio=8;
 		$level='H';
 		$frameSize=1;
-		QRcode::png($val['QR'],$filename,$level,$tamanio,$frameSize);
-		$cantidadPaginasEsperadas=ceil($suma/30);
-		foreach ($data as $key => $value) {
+		$qrData=$val['QR'];
+		//echo $filename;
+	
+		
+			QRcode::png($qrData,$filename,$level,$tamanio,$frameSize);
 			$col = $current_col; // Definir la columna actual
 			$row = floor($key / 7); // Calcular la fila actual
 			$imagen='logo.jpeg';
@@ -159,7 +165,7 @@ $query =$dbBodega->prepare(
    	FROM DETALLEREGISTRO INNER JOIN
     REGISTRO ON DETALLEREGISTRO.IdRegistro = REGISTRO.IdRegistro
     inner join
-    EXIMP600.".$respuesta.".ARTICULO ex on detalleregistro.articulodetalle=ex.articulo
+    SOFTLAND.".$respuesta.".ARTICULO ex on detalleregistro.articulodetalle=ex.articulo
     where REGISTRO.CodigoBarra='".$codigoBarra."'
 	"
 );
@@ -190,16 +196,21 @@ foreach ($arr as $val ) {
 	$codigoArticulo=$val['ArticuloDetalle'];
 	$destino=$val['EmpresaDestino'];
 	$data = range(1, $cantidad);
-	$dir='temp/';
-	if(!file_exists($dir))
-		mkdir($dir);
-	$filename = $dir.$val['descripcion'].'test.png';
-	$tamanio=8;
-	$level='H';
-	$frameSize=1;
-	QRcode::png($val['QR'],$filename,$level,$tamanio,$frameSize);
+	
 	$cantidadPaginasEsperadas=ceil($suma/30);
 	foreach ($data as $key => $value) {
+		$dir='temp/';
+		if(!file_exists($dir))
+			mkdir($dir);
+		$filename = $dir.$codigoBarra.'_'.$codigoArticulo.'test.png';
+		$tamanio=8;
+		$level='H';
+		$frameSize=1;
+		$qrData=$val['QR'];
+		//echo $filename;
+	
+		
+		QRcode::png($qrData,$filename,$level,$tamanio,$frameSize);
     	$col = $current_col; // Definir la columna actual
     	$row = floor($key / 7);
 		$imagen='logo.jpeg';

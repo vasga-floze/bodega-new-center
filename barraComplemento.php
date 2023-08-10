@@ -139,7 +139,7 @@ foreach ($data as $valores){
     $pdf->Cell(60,30,$valores['CodigoBarra'], 1,0, 'C');
     $x = $pdf->GetX();
     $pdf->SetFont('Times','B',15);
-    $pdf->Multicell(130,7.5,"\n".$fechaActual."\n".utf_decode($valores['Descripcion'])."\nUbicacion: ".$valores['Ubicacion'], 1,0);
+    $pdf->Multicell(130,7.5,"\n".$fechaActual."\n".utf8_decode($valores['Descripcion'])."\nUbicacion: ".$valores['Ubicacion'], 1,0);
     $pdf->Code128(15,200,$valores['CodigoBarra'],50,25);
     $x = $pdf->GetX();
     $pdf->Cell(60,60,'', 1,0);
@@ -147,7 +147,7 @@ foreach ($data as $valores){
     $pdf->Cell(130,60,$valores["Articulo"], 1,0,'C');
     $pdf->Ln(60);
     $pdf->SetFont('Times','B',10);
-    $pdf->MultiCell(190, 10, utf_decode($valores['Observaciones']), 1, 'C', false);
+    $pdf->MultiCell(190, 10, utf8_decode($valores['Observaciones']), 1, 'C', false);
     
     
 }
