@@ -5,7 +5,7 @@ $documentoInventario=$_GET['fechaTemporal'];
 $query =$dbBodega->prepare("SELECT        REGISTRO.Articulo, REGISTRO.Descripcion, COUNT(TRANSACCION.CodigoBarra)/2 AS Cantidad, SUM(REGISTRO.Libras)/2 AS Libras
 FROM            TRANSACCION INNER JOIN
                          REGISTRO ON TRANSACCION.CodigoBarra = REGISTRO.CodigoBarra
-WHERE       transaccion.Documento_Inv='$documentoInventario' and (TRANSACCION.IdTipoTransaccion = 3) OR(TRANSACCION.IdTipoTransaccion=7)
+WHERE       transaccion.Documento_Inv='$documentoInventario' AND (TRANSACCION.IdTipoTransaccion=7)
 GROUP BY  REGISTRO.Articulo, REGISTRO.Descripcion
 ");
 $query->execute();

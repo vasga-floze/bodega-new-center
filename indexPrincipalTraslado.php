@@ -111,6 +111,7 @@
                                         <th>CANTIDAD</th>
                                        
                                         <th>DOCUMENTO INV</th>
+                                        <th>TIPOTRANSACCION</th>
                                         <th>ACCIONES</th>
                                        
 
@@ -129,13 +130,13 @@
                                 <tbody>
                                     <?php 
                                     $query =$dbBodega->prepare("SELECT
-                                    Documento_Inv,
+                                    Documento_Inv,IdTipoTransaccion,
                                     MAX(CASE WHEN Naturaleza = 'E' THEN Bodega END) AS 'BODEGA DESTINO',
                                     MAX(CASE WHEN Naturaleza = 'S' THEN Bodega END) AS 'BODEGA ORIGEN', 
                                        COUNT(CodigoBarra)/2 CANTIDAD
                                 FROM TRANSACCION
                                 WHERE (IdTipoTransaccion = 7) OR (IdTipoTransaccion=3) AND (Estado IS NULL) AND UsuarioCreacion='$usuario'
-                                GROUP BY Documento_Inv
+                                GROUP BY Documento_Inv,IdTipoTransaccion
                                 ");
                                     $query->execute();
                                     $data = $query->fetchAll();
@@ -147,8 +148,14 @@
                                         echo "<td>".$item["BODEGA ORIGEN"]."</td>";
                                         echo "<td>".$item["CANTIDAD"]."</td>";
                                         echo "<td>".$item["Documento_Inv"]."</td>";
-                                        echo "<td><a class='btn btn-success mt-0 continuarBtn' href='indexTraslado.php?doc=".$item["Documento_Inv"]."&pendiente=pendiente' role='button'>Continuar</a>&nbsp;<a class='btn btn-danger mt-0' href='' role='button'>Eliminar</a></td>";
+                                        echo "<td>".$item["IdTipoTransaccion"]."</td>";
+
                                         
+                                        if ($item["IdTipoTransaccion"] == 7) {
+                                            echo "<td><a class='btn btn-success mt-0 continuarBtn' href='indexDespacho.php?doc=".$item["Documento_Inv"]."&pendiente=pendiente' role='button'>Continuar</a>&nbsp;<a class='btn btn-danger mt-0' href='' role='button'>Eliminar</a></td>";
+                                        } else {
+                                            echo "<td><a class='btn btn-success mt-0 continuarBtn' href='indexTraslado.php?doc=".$item["Documento_Inv"]."&pendiente=pendiente' role='button'>Continuar</a>&nbsp;<a class='btn btn-danger mt-0' href='' role='button'>Eliminar</a></td>";
+                                        }
                                         echo "</tr>";
                                     }
                                     ?>

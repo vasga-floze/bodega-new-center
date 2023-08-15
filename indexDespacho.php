@@ -46,7 +46,7 @@
     ");
     $query->execute();
     $data = $query->fetchAll();
-    var_dump($data);
+    //var_dump($data);
     $bodegaOrigen='';
     $bodegaDestino='';
     $bodegaOrigenNombre='';

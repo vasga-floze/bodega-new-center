@@ -60,6 +60,7 @@
     <link rel="stylesheet" href="cssmenu/select2-bootstrap-5-theme.min.css">
     <link rel="stylesheet" href="cssmenu/select2.min.css" />
     <!-- Or for RTL support -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="cssmenu/select2-bootstrap-5-theme.min.css">
     <link rel="stylesheet" href="cssmenu/jquery-ui.css">
     <link rel="stylesheet" href="cssmenu/datatables.min.css">

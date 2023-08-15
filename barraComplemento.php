@@ -42,7 +42,7 @@ $pdf->AddFont('NovaMono','','NovaMono-Regular.php');
 
 // Instanciation of inherited class
 if(isset($_GET["descripcion"])){
-    $urlCodigoBarra=$_GET["codigo"];
+    $urlCodigoBarra='VP110800223';
     $fechaActual = date('Y-m-d');
     $query =$dbBodega->prepare(
         "SELECT REGISTRO.CodigoBarra, REGISTRO.Articulo, REGISTRO.Descripcion, REGISTRO.Observaciones,UBICACION.Ubicacion Ubicacion
@@ -98,7 +98,7 @@ if(isset($_GET["descripcion"])){
     session_start();
 
 
-    $codigoBarra=$_SESSION['cod'];
+    $codigoBarra='VP110800223';
     $fechaActual = date('Y-m-d');
 
 $query =$dbBodega->prepare(

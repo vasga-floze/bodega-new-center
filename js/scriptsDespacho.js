@@ -25,7 +25,7 @@ $(document).ready(function(){
 const cargarTrasladosPendientes=()=>{
 
     console.log("Hola mundo");
-   /* console.log("HOLA MUNDO");
+    console.log("HOLA MUNDO");
     let documento= document.getElementById("fechaHoraTemporal").value;
 
     let data="documento="+documento;
@@ -41,7 +41,7 @@ const cargarTrasladosPendientes=()=>{
         error:function (xhr,status,error){
 
         }
-    })*/
+    })
 }
 
 $( '#bodegaOrigen' ).select2( {
@@ -118,7 +118,7 @@ $(".btn-info").click(function(){
     let data="fechaTemporal="+fechaHoraTemporal;
     let filas='';
     $.ajax({
-        url: 'getConsultaResumenTraslado.php',
+        url: 'getConsultaResumenDespacho.php',
         type: 'GET',
         data: data,
         success: function (response) {
@@ -728,7 +728,7 @@ $("#finalizar").click(function(){
             let documento=data.documentoConsecutivo;
             if(data.message === "Registro exitoso"){
                 //console.log(data);
-                window.location.href="pdfTraslado.php?documento="+documento;
+                window.location.href="pdfDespacho.php?documento="+documento;
             }
            //console.log(response);
         },
